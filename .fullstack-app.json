@@ -1,0 +1,57 @@
+{
+  "generatorVersion": "4.0.0",
+  "projectName": "AppForge",
+  "paths": {
+    "backend": null,
+    "frontend": "."
+  },
+  "backend": {
+    "enabled": false,
+    "architecture": null,
+    "orm": null,
+    "database": null,
+    "mapping": null,
+    "authentication": null,
+    "realtime": null
+  },
+  "frontend": {
+    "enabled": true,
+    "library": "react",
+    "framework": "vite",
+    "language": "typescript",
+    "styling": "tailwind",
+    "state": "zustand",
+    "httpClient": "axios",
+    "forms": "react-hook-form-zod",
+    "componentSystem": "shadcn",
+    "localization": true,
+    "realtime": "none"
+  },
+  "packageManager": "npm",
+  "modules": {
+    "auth": {
+      "enabled": false
+    },
+    "users": {
+      "enabled": false
+    },
+    "permissions": {
+      "enabled": false
+    },
+    "audit": {
+      "enabled": false
+    },
+    "notifications": {
+      "enabled": false
+    },
+    "localization": {
+      "enabled": false
+    },
+    "richText": {
+      "enabled": false
+    },
+    "dashboard": {
+      "enabled": false
+    }
+  }
+}
