@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, type ReactNode } from "react";
 import { Check, Copy, Terminal } from "lucide-react";
 import { toast } from "sonner";
 
@@ -8,6 +8,114 @@ export interface CodeBlockProps {
   filename?: string;
   showLineNumbers?: boolean;
   className?: string;
+}
+
+function highlightJsonLine(line: string): ReactNode {
+  const nodes: ReactNode[] = [];
+  const re =
+    /("(?:\\.|[^"\\])*")(\s*:)?|(-?\d+\.?\d*)|\b(true|false|null)\b/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  let key = 0;
+
+  while ((match = re.exec(line)) !== null) {
+    if (match.index > lastIndex) {
+      nodes.push(
+        <span key={key++} className="text-zinc-500">
+          {line.slice(lastIndex, match.index)}
+        </span>,
+      );
+    }
+    if (match[1] && match[2]) {
+      nodes.push(
+        <span key={key++} className="text-indigo-300">
+          {match[1]}
+        </span>,
+      );
+      nodes.push(
+        <span key={key++} className="text-zinc-500">
+          {match[2]}
+        </span>,
+      );
+    } else if (match[1]) {
+      nodes.push(
+        <span key={key++} className="text-sky-300">
+          {match[1]}
+        </span>,
+      );
+    } else if (match[3]) {
+      nodes.push(
+        <span key={key++} className="text-amber-300">
+          {match[3]}
+        </span>,
+      );
+    } else if (match[4]) {
+      nodes.push(
+        <span key={key++} className="text-purple-300">
+          {match[4]}
+        </span>,
+      );
+    }
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < line.length) {
+    nodes.push(
+      <span key={key++} className="text-zinc-500">
+        {line.slice(lastIndex)}
+      </span>,
+    );
+  }
+
+  return nodes.length ? nodes : <span className="text-zinc-500">{line}</span>;
+}
+
+function highlightBashLine(line: string): ReactNode {
+  const nodes: ReactNode[] = [];
+  const re = /(npx|generate-fullstack-app)|(--[a-zA-Z0-9-]+)|("[^"]*"|'[^']*')/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  let key = 0;
+
+  while ((match = re.exec(line)) !== null) {
+    if (match.index > lastIndex) {
+      nodes.push(
+        <span key={key++} className="text-zinc-200">
+          {line.slice(lastIndex, match.index)}
+        </span>,
+      );
+    }
+    if (match[1]) {
+      nodes.push(
+        <span key={key++} className="text-indigo-300">
+          {match[1]}
+        </span>,
+      );
+    } else if (match[2]) {
+      nodes.push(
+        <span key={key++} className="text-sky-300">
+          {match[2]}
+        </span>,
+      );
+    } else if (match[3]) {
+      nodes.push(
+        <span key={key++} className="text-emerald-300">
+          {match[3]}
+        </span>,
+      );
+    }
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < line.length) {
+    nodes.push(
+      <span key={key++} className="text-zinc-200">
+        {line.slice(lastIndex)}
+      </span>,
+    );
+  }
+
+  return nodes.length ? nodes : <span className="text-zinc-200">{line}</span>;
 }
 
 export const CodeBlock: React.FC<CodeBlockProps> = ({
@@ -34,10 +142,9 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 
   return (
     <div
-      className={`group relative rounded-xl border border-zinc-800/90 bg-[#0c0d14] overflow-hidden shadow-2xl transition-all ${className}`}
+      className={`group relative overflow-hidden rounded-xl border border-white/8 bg-[#0a0c14] shadow-[0_16px_40px_-24px_rgba(0,0,0,0.9)] transition-all ${className}`}
     >
-      {/* Header bar */}
-      <div className="flex items-center justify-between border-b border-zinc-800/80 bg-[#12141d]/80 px-4 py-2.5">
+      <div className="flex items-center justify-between border-b border-white/8 bg-[#12151f]/90 px-4 py-2.5">
         <div className="flex items-center gap-2">
           <div className="flex gap-1.5">
             <div className="h-2.5 w-2.5 rounded-full bg-red-500/60" />
@@ -45,7 +152,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
             <div className="h-2.5 w-2.5 rounded-full bg-emerald-500/60" />
           </div>
           {filename ? (
-            <span className="ml-2 font-mono text-xs text-zinc-400 font-medium">
+            <span className="ml-2 font-mono text-xs font-medium text-zinc-400">
               {filename}
             </span>
           ) : (
@@ -59,7 +166,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
         <button
           onClick={handleCopy}
           type="button"
-          className="flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-mono text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-200 cursor-pointer"
+          className="flex cursor-pointer items-center gap-1.5 rounded-md px-2.5 py-1 font-mono text-xs text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-200"
           title="Copy code"
         >
           {copied ? (
@@ -76,17 +183,22 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
         </button>
       </div>
 
-      {/* Code body */}
-      <div className="overflow-x-auto p-4 font-mono text-sm leading-relaxed text-zinc-200">
+      <div className="overflow-x-auto p-4 font-mono text-sm leading-6 text-zinc-200">
         <pre className="flex flex-col gap-0.5">
           {lines.map((line, idx) => (
-            <div key={idx} className="flex">
+            <div key={idx} className="flex min-h-[1.5rem]">
               {showLineNumbers && (
-                <span className="mr-4 inline-block w-6 select-none text-right text-xs text-zinc-600 font-mono">
+                <span className="mr-4 inline-block w-6 select-none text-right font-mono text-xs text-zinc-600">
                   {idx + 1}
                 </span>
               )}
-              <span className="flex-1 whitespace-pre">{line}</span>
+              <span className="flex-1 whitespace-pre">
+                {language === "json"
+                  ? highlightJsonLine(line)
+                  : language === "bash"
+                    ? highlightBashLine(line)
+                    : line}
+              </span>
             </div>
           ))}
         </pre>

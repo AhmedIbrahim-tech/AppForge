@@ -24,7 +24,7 @@ export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-zinc-800/80 bg-[#090a0f]/80 backdrop-blur-xl transition-all">
+    <header className="sticky top-0 z-50 w-full border-b border-white/8 bg-[#090a0f]/75 backdrop-blur-xl transition-all">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo */}
         <Link to="/" className="group flex items-center gap-3">
@@ -38,7 +38,7 @@ export const Navbar: React.FC = () => {
               AppForge
             </span>
             <span className="hidden rounded-full border border-zinc-700/60 bg-zinc-800/60 px-2 py-0.5 font-mono text-[10px] font-medium text-zinc-400 sm:inline-block">
-              create-fullstack-app
+              generate-fullstack-app
             </span>
           </div>
         </Link>
@@ -86,7 +86,7 @@ export const Navbar: React.FC = () => {
         {/* Action buttons */}
         <div className="hidden items-center gap-3 md:flex">
           <a
-            href="https://github.com/AhmedIbrahim-tech/create-fullstack-app"
+            href="https://github.com/AhmedIbrahim-tech/generate-fullstack-app"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/80 px-3.5 py-2 text-xs font-semibold text-zinc-300 transition-all hover:border-zinc-700 hover:bg-zinc-850 hover:text-white"
@@ -165,7 +165,7 @@ export const Navbar: React.FC = () => {
             </a>
             <div className="mt-3 flex flex-col gap-3 pt-3 border-t border-zinc-800">
               <a
-                href="https://github.com/AhmedIbrahim-tech/create-fullstack-app"
+                href="https://github.com/AhmedIbrahim-tech/generate-fullstack-app"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900 p-2.5 text-xs font-semibold text-zinc-200"

@@ -11,7 +11,7 @@ export const HowItWorks: React.FC = () => {
       title: "Choose your stack",
       description:
         "Select your architectural scope (Full Stack, Backend Only, or Frontend Only), data access layer (EF Core or Dapper), database, and client framework.",
-      snippet: "# Option A: Interactive CLI prompt\nnpx create-fullstack-app MyStore\n\n# Option B: Declarative manifest run\nnpx create-fullstack-app MyStore --type fullstack --db postgresql",
+      snippet: "# Option A: Interactive CLI prompt\nnpx generate-fullstack-app MyStore\n\n# Option B: Declarative manifest run\nnpx generate-fullstack-app MyStore --type fullstack --db postgresql",
     },
     {
       step: "02",

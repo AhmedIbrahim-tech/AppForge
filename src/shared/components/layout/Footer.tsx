@@ -44,14 +44,14 @@ export const Footer: React.FC = () => {
             <p className="mt-4 max-w-md text-sm leading-relaxed text-zinc-400">
               The web platform and developer home for the{" "}
               <code className="rounded bg-zinc-900 px-1.5 py-0.5 font-mono text-xs text-indigo-300">
-                create-fullstack-app
+                generate-fullstack-app
               </code>{" "}
               ecosystem. Configurable architecture, manifest-driven generation,
               and fullstack feature scaffolding without runtime lock-in.
             </p>
             <div className="mt-6 flex items-center gap-3">
               <a
-                href="https://github.com/AhmedIbrahim-tech/create-fullstack-app"
+                href="https://github.com/AhmedIbrahim-tech/generate-fullstack-app"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900/80 text-zinc-400 transition-colors hover:border-zinc-700 hover:text-white"
@@ -128,7 +128,7 @@ export const Footer: React.FC = () => {
             <ul className="mt-4 space-y-2.5 text-sm">
               <li>
                 <a
-                  href="https://github.com/AhmedIbrahim-tech/create-fullstack-app"
+                  href="https://github.com/AhmedIbrahim-tech/generate-fullstack-app"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 transition-colors hover:text-zinc-200"
@@ -150,7 +150,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <a
-                  href="https://github.com/AhmedIbrahim-tech/create-fullstack-app#readme"
+                  href="https://github.com/AhmedIbrahim-tech/generate-fullstack-app#readme"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-zinc-400 hover:text-zinc-200"
@@ -163,7 +163,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <a
-                  href="https://github.com/AhmedIbrahim-tech/create-fullstack-app/blob/main/LICENSE"
+                  href="https://github.com/AhmedIbrahim-tech/generate-fullstack-app/blob/main/LICENSE"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 transition-colors hover:text-zinc-200"

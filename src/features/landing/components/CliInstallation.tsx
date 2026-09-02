@@ -6,8 +6,8 @@ import { CodeBlock } from "@/shared/components/ui/CodeBlock";
 
 export const CliInstallation: React.FC = () => {
   const [copiedInstall, setCopiedInstall] = useState(false);
-  const installCmd = "npm install -g github:AhmedIbrahim-tech/create-fullstack-app";
-  const usageCmd = "create-fullstack-app MyApp";
+  const installCmd = "npm install -g github:AhmedIbrahim-tech/generate-fullstack-app";
+  const usageCmd = "generate-fullstack-app MyApp";
 
   const handleCopyInstall = async () => {
     try {
@@ -60,7 +60,7 @@ export const CliInstallation: React.FC = () => {
               />
 
               <p className="text-xs text-zinc-400 leading-relaxed">
-                Installing globally makes the <code className="text-sky-300 font-mono">create-fullstack-app</code> command available anywhere in your command line environment.
+                Installing globally makes the <code className="text-sky-300 font-mono">generate-fullstack-app</code> command available anywhere in your command line environment.
               </p>
 
               <div className="pt-2 flex flex-wrap items-center gap-3">

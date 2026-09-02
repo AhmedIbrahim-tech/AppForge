@@ -1,12 +1,12 @@
 # AppForge — Production-Ready Apps. Your Stack. Your Architecture.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/AhmedIbrahim-tech/create-fullstack-app/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/AhmedIbrahim-tech/generate-fullstack-app/blob/main/LICENSE)
 [![.NET Version](https://img.shields.io/badge/.NET-10-purple.svg)](https://dotnet.microsoft.com/)
 [![React Version](https://img.shields.io/badge/React-19-61dafb.svg)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178c6.svg)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-6.0-646cff.svg)](https://vitejs.dev/)
 
-AppForge is the web platform and developer-facing studio for the [`create-fullstack-app`](https://github.com/AhmedIbrahim-tech/create-fullstack-app) ecosystem. It empowers developers to configure, scaffold, and evolve production-grade **Full Stack**, **Backend-Only**, or **Frontend-Only** applications built on Clean Architecture principles without runtime lock-in.
+AppForge is the web platform and developer-facing studio for the [`generate-fullstack-app`](https://github.com/AhmedIbrahim-tech/generate-fullstack-app) ecosystem. It empowers developers to configure, scaffold, and evolve production-grade **Full Stack**, **Backend-Only**, or **Frontend-Only** applications built on Clean Architecture principles without runtime lock-in.
 
 ---
 
@@ -39,7 +39,7 @@ Configure your architecture interactively in the browser and inspect the generat
 Install the official AppForge CLI globally via npm directly from GitHub:
 
 ```bash
-npm install -g github:AhmedIbrahim-tech/create-fullstack-app
+npm install -g github:AhmedIbrahim-tech/generate-fullstack-app
 ```
 
 ### 2. Scaffold a New Project
@@ -48,10 +48,10 @@ Initialize a new full-stack application interactively or via CLI flags:
 
 ```bash
 # Interactive mode
-create-fullstack-app MyEcommerceApp
+generate-fullstack-app MyEcommerceApp
 
 # Declarative flag mode (.NET 10 + Clean Architecture + React + Tailwind)
-npx create-fullstack-app MyEcommerceApp --type fullstack --dotnet 10 --orm efcore --db postgresql
+npx generate-fullstack-app MyEcommerceApp --type fullstack --dotnet 10 --orm efcore --db postgresql
 ```
 
 ### 3. Generate Vertical Features On-Demand
@@ -118,6 +118,6 @@ npm run build
 
 ## Ecosystem & Links
 
-- 🐙 **GitHub Repository**: [create-fullstack-app](https://github.com/AhmedIbrahim-tech/create-fullstack-app)
+- 🐙 **GitHub Repository**: [generate-fullstack-app](https://github.com/AhmedIbrahim-tech/generate-fullstack-app)
 - 👤 **Author**: [Ahmed Ibrahim](https://www.linkedin.com/in/ahmedeprahim/)
-- 📄 **License**: [MIT License](https://github.com/AhmedIbrahim-tech/create-fullstack-app/blob/main/LICENSE)
+- 📄 **License**: [MIT License](https://github.com/AhmedIbrahim-tech/generate-fullstack-app/blob/main/LICENSE)

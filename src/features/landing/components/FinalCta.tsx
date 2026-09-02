@@ -17,7 +17,7 @@ function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export const FinalCta: React.FC = () => {
   const [copied, setCopied] = useState(false);
-  const command = "npx create-fullstack-app my-app";
+  const command = "npx generate-fullstack-app my-app";
 
   const handleCopy = async () => {
     try {
@@ -90,7 +90,7 @@ export const FinalCta: React.FC = () => {
           </a>
 
           <a
-            href="https://github.com/AhmedIbrahim-tech/create-fullstack-app"
+            href="https://github.com/AhmedIbrahim-tech/generate-fullstack-app"
             target="_blank"
             rel="noopener noreferrer"
           >
