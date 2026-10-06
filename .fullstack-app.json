@@ -1,6 +1,6 @@
 {
   "generatorVersion": "4.0.0",
-  "projectName": "AppForge",
+  "projectName": "flatron",
   "paths": {
     "backend": null,
     "frontend": "."

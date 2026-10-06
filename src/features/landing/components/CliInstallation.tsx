@@ -1,122 +1,156 @@
 import React, { useState } from "react";
-import { Terminal, Check, Copy, Download, ArrowRight } from "lucide-react";
+import { Check, Copy, Terminal } from "lucide-react";
 import { toast } from "sonner";
-import { Badge } from "@/shared/components/ui/Badge";
-import { CodeBlock } from "@/shared/components/ui/CodeBlock";
+
+type CliTab = "npx" | "npm" | "pnpm" | "help";
+
+interface CliOption {
+  id: CliTab;
+  label: string;
+  command: string;
+  description: string;
+}
+
+const CLI_OPTIONS: CliOption[] = [
+  {
+    id: "npx",
+    label: "npx",
+    command: "npx flatron MyApp",
+    description: "Run directly with npx without installing globally.",
+  },
+  {
+    id: "npm",
+    label: "npm global",
+    command: "npm install -g flatron\nflatron MyApp",
+    description: "Install globally to have the flatron command available everywhere.",
+  },
+  {
+    id: "pnpm",
+    label: "pnpm dlx",
+    command: "pnpm dlx flatron MyApp",
+    description: "Run via pnpm dlx with instant execution.",
+  },
+  {
+    id: "help",
+    label: "--help",
+    command: "npx flatron --help",
+    description: "View all supported CLI flags and configuration options.",
+  },
+];
 
 export const CliInstallation: React.FC = () => {
-  const [copiedInstall, setCopiedInstall] = useState(false);
-  const installCmd = "npm install -g github:AhmedIbrahim-tech/generate-fullstack-app";
-  const usageCmd = "generate-fullstack-app MyApp";
+  const [activeTab, setActiveTab] = useState<CliTab>("npx");
+  const [copied, setCopied] = useState(false);
 
-  const handleCopyInstall = async () => {
+  const currentOption =
+    CLI_OPTIONS.find((opt) => opt.id === activeTab) || CLI_OPTIONS[0];
+
+  const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(installCmd);
-      setCopiedInstall(true);
-      toast.success("Install command copied to clipboard!");
-      setTimeout(() => setCopiedInstall(false), 2000);
+      await navigator.clipboard.writeText(currentOption.command);
+      setCopied(true);
+      toast.success("Command copied to clipboard!");
+      setTimeout(() => setCopied(false), 2000);
     } catch {
       toast.error("Failed to copy command");
     }
   };
 
   return (
-    <section id="cli-install" className="relative py-20 border-t border-zinc-850 bg-[#080910]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="cli-install" className="relative py-16 sm:py-20 border-t border-white/[0.06] bg-[#08090e]">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto">
-          <Badge variant="sky" dot size="md">
-            Global Tooling
-          </Badge>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Install AppForge CLI
+        <div className="text-center max-w-2xl mx-auto">
+          <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+            Quick Installation
           </h2>
-          <p className="mt-3 text-base text-zinc-400">
-            Install the official CLI tool globally to scaffold full-stack applications and on-demand
-            vertical feature slices directly from your terminal.
+          <p className="mt-2 text-sm text-zinc-400">
+            Initialize your project directly from the terminal or install Flatron globally.
           </p>
         </div>
 
-        {/* Installation Grid */}
-        <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-12 items-center">
-          {/* Left Column: Command & Details */}
-          <div className="space-y-6 lg:col-span-7">
-            <div className="rounded-2xl border border-zinc-800/90 bg-[#0e1019] p-6 shadow-2xl space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Download className="h-4 w-4 text-sky-400" />
-                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-zinc-300">
-                    Global Installation Command
-                  </span>
-                </div>
-                <Badge variant="sky" size="sm">npm / Node.js</Badge>
-              </div>
+        {/* Tabbed CLI Command Box */}
+        <div className="mt-8 overflow-hidden rounded-2xl border border-white/10 bg-[#0c0e17] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)]">
+          {/* Tabs bar */}
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/8 bg-[#101320] px-4 py-2.5">
+            <div className="flex items-center gap-1.5 overflow-x-auto">
+              {CLI_OPTIONS.map((tab) => {
+                const isActive = tab.id === activeTab;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => {
+                      setActiveTab(tab.id);
+                      setCopied(false);
+                    }}
+                    className={`rounded-lg px-3 py-1.5 font-mono text-xs font-medium transition-all duration-150 cursor-pointer ${
+                      isActive
+                        ? "bg-indigo-500/20 text-indigo-300 ring-1 ring-indigo-400/40"
+                        : "text-zinc-400 hover:bg-white/5 hover:text-zinc-200"
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </div>
 
-              {/* Install Code Block with Copy Button */}
-              <CodeBlock
-                code={installCmd}
-                language="bash"
-                filename="terminal"
-              />
+            <button
+              onClick={handleCopy}
+              type="button"
+              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 font-mono text-xs font-medium text-zinc-300 transition-all hover:bg-white/10 hover:text-white cursor-pointer active:scale-95"
+              title="Copy CLI command"
+            >
+              {copied ? (
+                <>
+                  <Check className="h-3.5 w-3.5 text-emerald-400" />
+                  <span className="text-emerald-400">Copied</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="h-3.5 w-3.5 text-zinc-400" />
+                  <span>Copy</span>
+                </>
+              )}
+            </button>
+          </div>
 
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Installing globally makes the <code className="text-sky-300 font-mono">generate-fullstack-app</code> command available anywhere in your command line environment.
-              </p>
-
-              <div className="pt-2 flex flex-wrap items-center gap-3">
-                <button
-                  type="button"
-                  onClick={handleCopyInstall}
-                  className="inline-flex items-center gap-2 rounded-xl bg-sky-500/10 border border-sky-500/30 px-4 py-2 text-xs font-mono font-semibold text-sky-300 hover:bg-sky-500/20 hover:text-white transition-all cursor-pointer"
-                >
-                  {copiedInstall ? (
-                    <>
-                      <Check className="h-4 w-4 text-emerald-400" />
-                      <span>Copied Install Command</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-4 w-4" />
-                      <span>Copy Install Command</span>
-                    </>
-                  )}
-                </button>
+          {/* Terminal Command View */}
+          <div className="p-5 font-mono">
+            <div className="flex items-start gap-3">
+              <Terminal className="mt-1 h-4 w-4 shrink-0 text-indigo-400" />
+              <div className="flex-1 overflow-x-auto">
+                <pre className="text-sm font-medium leading-relaxed text-zinc-100 whitespace-pre">
+                  {currentOption.command}
+                </pre>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Quick Usage Example */}
-          <div className="lg:col-span-5 space-y-4">
-            <div className="rounded-2xl border border-zinc-800/90 bg-[#0e1019] p-6 shadow-2xl space-y-4">
-              <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
-                <div className="flex items-center gap-2">
-                  <Terminal className="h-4 w-4 text-indigo-400" />
-                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-zinc-300">
-                    Usage Example
-                  </span>
-                </div>
-                <Badge variant="indigo" size="sm">CLI Execution</Badge>
-              </div>
-
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Once installed, initialize new projects instantly with interactive prompts or flag options:
-              </p>
-
-              <CodeBlock
-                code={usageCmd}
-                language="bash"
-                filename="terminal"
-              />
-
-              <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/50 p-3 text-xs text-zinc-400 font-mono space-y-1">
-                <div className="text-zinc-300 font-semibold flex items-center gap-1.5">
-                  <ArrowRight className="h-3.5 w-3.5 text-indigo-400" />
-                  <span>Output Preview:</span>
-                </div>
-                <div className="text-emerald-400">✔ Interactive prompts loaded</div>
-                <div className="text-zinc-400">✔ Scaffolding MyApp...</div>
-                <div className="text-zinc-400">✔ Generated .fullstack-app.json manifest</div>
-              </div>
+          {/* Description footer with quick links */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.06] bg-[#090b12] px-5 py-3 text-xs text-zinc-500">
+            <span>{currentOption.description}</span>
+            <div className="flex items-center gap-3 font-medium">
+              <a
+                href="https://www.npmjs.com/package/flatron"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-zinc-400 hover:text-white transition-colors flex items-center gap-1"
+              >
+                <span>npm</span>
+                <span className="text-zinc-600">↗</span>
+              </a>
+              <span className="text-zinc-700">•</span>
+              <a
+                href="https://github.com/AhmedIbrahim-tech/flatron"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-zinc-400 hover:text-white transition-colors flex items-center gap-1"
+              >
+                <span>GitHub</span>
+                <span className="text-zinc-600">↗</span>
+              </a>
             </div>
           </div>
         </div>

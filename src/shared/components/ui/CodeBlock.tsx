@@ -61,7 +61,7 @@ function highlightJsonLine(line: string): ReactNode {
 
   if (lastIndex < line.length) {
     nodes.push(
-      <span key={key++} className="text-zinc-500">
+      <span key={key} className="text-zinc-500">
         {line.slice(lastIndex)}
       </span>,
     );
@@ -72,7 +72,7 @@ function highlightJsonLine(line: string): ReactNode {
 
 function highlightBashLine(line: string): ReactNode {
   const nodes: ReactNode[] = [];
-  const re = /(npx|generate-fullstack-app)|(--[a-zA-Z0-9-]+)|("[^"]*"|'[^']*')/g;
+  const re = /(npx|npm|pnpm|bun|flatron|dlx)|(--[a-zA-Z0-9-]+)|("[^"]*"|'[^']*')/g;
   let lastIndex = 0;
   let match: RegExpExecArray | null;
   let key = 0;
@@ -109,7 +109,7 @@ function highlightBashLine(line: string): ReactNode {
 
   if (lastIndex < line.length) {
     nodes.push(
-      <span key={key++} className="text-zinc-200">
+      <span key={key} className="text-zinc-200">
         {line.slice(lastIndex)}
       </span>,
     );

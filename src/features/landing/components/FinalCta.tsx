@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { ArrowRight, Terminal, Check, Copy } from "lucide-react";
+import { Terminal, Copy, Check, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@/shared/components/ui/Button";
 
 function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -17,7 +16,7 @@ function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export const FinalCta: React.FC = () => {
   const [copied, setCopied] = useState(false);
-  const command = "npx generate-fullstack-app my-app";
+  const command = "npx flatron my-app";
 
   const handleCopy = async () => {
     try {
@@ -31,76 +30,59 @@ export const FinalCta: React.FC = () => {
   };
 
   return (
-    <section className="relative overflow-hidden py-24 border-t border-zinc-850 bg-[#08090e]">
-      {/* Background glow effects */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-72 w-[600px] rounded-full bg-indigo-600/15 blur-3xl pointer-events-none" />
+    <section className="relative overflow-hidden border-t border-white/[0.06] bg-[#07080d] py-16 sm:py-20">
+      <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-20" />
+      <div className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 h-64 bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,0.12),transparent_70%)]" />
 
-      <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-5xl font-sans max-w-3xl mx-auto leading-tight">
-          Stop rebuilding the foundation.{" "}
-          <span className="block mt-1 bg-gradient-to-r from-indigo-400 via-purple-300 to-sky-300 bg-clip-text text-transparent">
-            Start building the product.
-          </span>
+      <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+        <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl">
+          Start Building with Flatron
         </h2>
-
-        <p className="mt-5 max-w-2xl mx-auto text-base text-zinc-400 sm:text-lg">
-          Generate production-grade Clean Architecture with .NET and modern frontend
-          in seconds. 100% open-source under MIT License.
+        <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-zinc-400">
+          Scaffold your clean architecture stack, build domain business features, and extend with modular capabilities. Run the CLI directly or configure visually in your browser.
         </p>
 
-        {/* Quick Command Box */}
-        <div className="mt-8 flex justify-center">
-          <div className="inline-flex items-center gap-3 rounded-2xl border border-zinc-800 bg-[#0e1019] p-2 pr-3 shadow-xl backdrop-blur-md">
-            <div className="flex items-center gap-2 pl-3">
-              <Terminal className="h-4 w-4 text-indigo-400" />
-              <code className="font-mono text-sm text-zinc-200">{command}</code>
+        {/* Quick Command & Actions */}
+        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          {/* CLI Snippet */}
+          <div className="flex w-full sm:w-auto items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#0c0e18] px-4 py-2.5 font-mono text-xs text-zinc-300 shadow-inner">
+            <div className="flex items-center gap-2">
+              <Terminal className="h-3.5 w-3.5 text-cyan-400" />
+              <span className="text-zinc-500">$</span>
+              <span className="text-white font-medium">{command}</span>
             </div>
             <button
-              onClick={handleCopy}
               type="button"
-              className="flex items-center gap-1.5 rounded-lg bg-zinc-800 px-3 py-1.5 text-xs font-mono text-zinc-300 hover:bg-zinc-700 hover:text-white transition-all cursor-pointer"
+              onClick={handleCopy}
+              className="ml-2 rounded p-1 text-zinc-400 transition-colors hover:bg-white/10 hover:text-white cursor-pointer"
+              aria-label="Copy CLI command"
             >
               {copied ? (
-                <>
-                  <Check className="h-3.5 w-3.5 text-emerald-400" />
-                  <span className="text-emerald-400">Copied</span>
-                </>
+                <Check className="h-3.5 w-3.5 text-emerald-400" />
               ) : (
-                <>
-                  <Copy className="h-3.5 w-3.5" />
-                  <span>Copy</span>
-                </>
+                <Copy className="h-3.5 w-3.5" />
               )}
             </button>
           </div>
-        </div>
 
-        {/* Buttons */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <a href="/#builder">
-            <Button
-              size="lg"
-              variant="gradient"
-              icon={<ArrowRight className="h-4 w-4" />}
-              iconPosition="right"
-            >
-              Start Building
-            </Button>
+          {/* Builder Button */}
+          <a
+            href="#builder"
+            className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2.5 text-xs font-semibold text-white shadow-[0_0_24px_-6px_rgba(99,102,241,0.5)] transition-all hover:opacity-95 cursor-pointer"
+          >
+            <span>Configure in Visual Builder</span>
+            <ArrowRight className="h-3.5 w-3.5" />
           </a>
 
+          {/* GitHub Link */}
           <a
-            href="https://github.com/AhmedIbrahim-tech/generate-fullstack-app"
+            href="https://github.com/AhmedIbrahim-tech/flatron"
             target="_blank"
             rel="noopener noreferrer"
+            className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-zinc-300 transition-colors hover:bg-white/10 hover:text-white"
           >
-            <Button
-              size="lg"
-              variant="outline"
-              icon={<GithubIcon className="h-4 w-4" />}
-            >
-              View on GitHub
-            </Button>
+            <GithubIcon className="h-3.5 w-3.5 text-zinc-400" />
+            <span>GitHub</span>
           </a>
         </div>
       </div>

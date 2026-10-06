@@ -56,6 +56,7 @@ export function ConfirmDialog({
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useConfirmDialog() {
   const [state, setState] = useState<{
     open: boolean;

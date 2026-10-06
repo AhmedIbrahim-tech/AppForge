@@ -5,11 +5,11 @@ export type BuilderAccent = "indigo" | "cyan" | "purple";
 
 const accentSelected: Record<BuilderAccent, string> = {
   indigo:
-    "border-indigo-400/80 bg-indigo-500/10 text-white shadow-[0_0_24px_-8px_rgba(99,102,241,0.55)] ring-1 ring-indigo-400/35",
+    "border-indigo-400/80 bg-indigo-500/10 text-white ring-1 ring-indigo-400/30",
   cyan:
-    "border-cyan-400/80 bg-cyan-500/10 text-white shadow-[0_0_24px_-8px_rgba(34,211,238,0.45)] ring-1 ring-cyan-400/35",
+    "border-cyan-400/80 bg-cyan-500/10 text-white ring-1 ring-cyan-400/30",
   purple:
-    "border-purple-400/80 bg-purple-500/10 text-white shadow-[0_0_24px_-8px_rgba(168,85,247,0.5)] ring-1 ring-purple-400/35",
+    "border-purple-400/80 bg-purple-500/10 text-white ring-1 ring-purple-400/30",
 };
 
 const accentCheck: Record<BuilderAccent, string> = {
@@ -55,7 +55,7 @@ export function OptionCard({
       type={type}
       disabled={disabled}
       aria-pressed={selected}
-      className={`group w-full rounded-2xl border transition-all duration-200 ease-out cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-white/8 disabled:hover:bg-white/[0.03] ${
+      className={`group w-full rounded-2xl border transition-all duration-200 ease-out cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-white/8 disabled:hover:bg-white/[0.03] ${
         selected ? accentSelected[accent] : accentIdle
       } ${
         isTile

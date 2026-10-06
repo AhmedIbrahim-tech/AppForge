@@ -1,23 +1,32 @@
 import type {
-  FrontendFramework,
-  FrontendTooling,
-  FrontendState,
-  FrontendUi,
-  FrontendStyling,
   FrontendConfiguration,
   BackendConfiguration,
   StackConfiguration,
   ValidationResult,
+  FrontendFramework,
+  FrontendTooling,
+  FrontendState,
+  FrontendHttpClient,
+  FrontendForms,
+  FrontendUi,
+  FrontendStyling,
 } from "./types";
-import { isValidDotnetVersion } from "./dotnet-versions";
+import {
+  validateCompleteStack as validateStackFromCapabilities,
+  reconcileFrontendOnFrameworkChange,
+} from "./capabilities";
 
 export interface FrameworkMatrix {
   tooling: readonly FrontendTooling[];
   state: readonly FrontendState[];
+  httpClient: readonly FrontendHttpClient[];
+  forms: readonly FrontendForms[];
   ui: readonly FrontendUi[];
   styling: readonly FrontendStyling[];
   defaultTooling: FrontendTooling;
   defaultState: FrontendState;
+  defaultHttpClient: FrontendHttpClient;
+  defaultForms: FrontendForms;
   defaultUi: FrontendUi;
   defaultStyling: FrontendStyling;
 }
@@ -25,21 +34,29 @@ export interface FrameworkMatrix {
 export const FRONTEND_CAPABILITY_MATRIX: Record<FrontendFramework, FrameworkMatrix> = {
   React: {
     tooling: ["Vite", "Next.js"],
-    state: ["Redux Toolkit", "Zustand", "None"],
-    ui: ["shadcn/ui", "Material UI", "Ant Design"],
+    state: ["Zustand", "Redux Toolkit", "None"],
+    httpClient: ["Axios", "Fetch"],
+    forms: ["React Hook Form + Zod", "None"],
+    ui: ["shadcn/ui", "Material UI", "Ant Design", "None"],
     styling: ["Tailwind CSS", "Bootstrap"],
     defaultTooling: "Vite",
     defaultState: "Zustand",
+    defaultHttpClient: "Axios",
+    defaultForms: "React Hook Form + Zod",
     defaultUi: "shadcn/ui",
     defaultStyling: "Tailwind CSS",
   },
   Angular: {
     tooling: ["Angular CLI"],
     state: ["NgRx", "None"],
-    ui: ["Angular Material", "Ant Design Angular", "Bootstrap"],
+    httpClient: ["Angular Http"],
+    forms: ["Angular Reactive Forms", "None"],
+    ui: ["Angular Material", "Ant Design Angular", "None"],
     styling: ["Tailwind CSS", "Bootstrap"],
     defaultTooling: "Angular CLI",
     defaultState: "NgRx",
+    defaultHttpClient: "Angular Http",
+    defaultForms: "Angular Reactive Forms",
     defaultUi: "Angular Material",
     defaultStyling: "Tailwind CSS",
   },
@@ -57,8 +74,7 @@ export function validateProjectName(name: string): ValidationResult {
     };
   }
 
-  // Alphanumeric, hyphens, underscores, dots
-  const validRegex = /^[a-zA-Z0-9_\-\.]+$/;
+  const validRegex = /^[a-zA-Z0-9_.-]+$/;
   if (!validRegex.test(trimmed)) {
     return {
       isValid: false,
@@ -83,23 +99,24 @@ export function validateBackendStack(
   const backend = "backend" in config ? config.backend : config;
   const projectType = "projectType" in config ? config.projectType : "backend";
 
-  // If project is frontend-only, backend rules do not block
   if (projectType === "frontend") {
     return { isValid: true, errors: [] };
   }
 
   const errors: string[] = [];
 
-  // Validate .NET Version
-  if (!isValidDotnetVersion(backend.dotnetVersion)) {
-    errors.push(
-      `Invalid .NET version '${backend.dotnetVersion}'. Supported versions are .NET 8, .NET 9, and .NET 10.`,
-    );
+  // Validate Presentation in Fullstack
+  if (projectType === "fullstack" && backend.presentation !== "Controllers") {
+    errors.push("Full Stack architecture requires 'Controllers' presentation.");
   }
 
   // Validate ORM
-  if (backend.orm !== "EF Core" && backend.orm !== "Dapper") {
-    errors.push(`Unsupported ORM '${backend.orm}'. Supported: EF Core, Dapper.`);
+  if (
+    backend.orm !== "EF Core" &&
+    backend.orm !== "Dapper" &&
+    backend.orm !== "EF Core + Dapper"
+  ) {
+    errors.push(`Unsupported ORM '${backend.orm}'.`);
   }
 
   // Validate Database
@@ -108,8 +125,23 @@ export function validateBackendStack(
     backend.database !== "SQL Server" &&
     backend.database !== "SQLite"
   ) {
+    errors.push(`Unsupported database '${backend.database}'.`);
+  }
+
+  // Validate Presentation & Auth compatibility
+  if (
+    (backend.presentation === "MVC" || backend.presentation === "Razor Pages") &&
+    (backend.auth === "Identity + JWT" || backend.auth === "JWT")
+  ) {
     errors.push(
-      `Unsupported database '${backend.database}'. Supported: PostgreSQL, SQL Server, SQLite.`,
+      `${backend.presentation} server-rendered apps use Cookie authentication instead of JWT.`,
+    );
+  }
+
+  // Validate Identity with Dapper only
+  if (backend.orm === "Dapper" && backend.auth !== "None") {
+    errors.push(
+      "ASP.NET Core Identity store requires EF Core. Use 'EF Core + Dapper (Hybrid)' or select 'None' for Dapper-only.",
     );
   }
 
@@ -128,85 +160,68 @@ export function validateFrontendStack(
   const frontend = "frontend" in config ? config.frontend : config;
   const projectType = "projectType" in config ? config.projectType : "frontend";
 
-  // If project is backend-only, frontend rules do not block backend builds
   if (projectType === "backend") {
     return { isValid: true, errors: [] };
   }
 
   const errors: string[] = [];
-  const { framework, tooling, state, ui, styling } = frontend;
+  const { framework, tooling, state, ui, styling, httpClient, forms, language } = frontend;
 
   if (framework === "Angular") {
-    // Angular Tooling
-    if (tooling === "Next.js") {
-      errors.push("Next.js is only available for React projects.");
-    } else if (tooling === "Vite") {
-      errors.push("Vite is only available for React projects.");
-    } else if (tooling !== "Angular CLI") {
+    if (tooling !== "Angular CLI") {
       errors.push(`Tooling '${tooling}' is not supported for Angular.`);
     }
-
-    // Angular State
-    if (state === "Zustand") {
-      errors.push("Zustand is only available for React projects.");
-    } else if (state === "Redux Toolkit") {
-      errors.push("Redux Toolkit is only available for React projects.");
-    } else if (state !== "NgRx" && state !== "None") {
+    if (language && language !== "TypeScript") {
+      errors.push("Angular requires TypeScript.");
+    }
+    if (state !== "NgRx" && state !== "None") {
       errors.push(`State library '${state}' is not supported for Angular.`);
     }
-
-    // Angular UI
-    if (ui === "shadcn/ui") {
-      errors.push("shadcn/ui is only available for React projects.");
-    } else if (ui === "Material UI") {
-      errors.push("Material UI is only available for React projects.");
-    } else if (
+    if (
       ui !== "Angular Material" &&
       ui !== "Ant Design Angular" &&
-      ui !== "Bootstrap"
+      ui !== "None"
     ) {
       errors.push(`UI system '${ui}' is not supported for Angular.`);
     }
-
-    // Angular Styling
-    if (styling !== "Tailwind CSS" && styling !== "Bootstrap") {
-      errors.push(`Styling '${styling}' is not supported for Angular.`);
+    if (httpClient !== "Angular Http") {
+      errors.push(`HTTP client '${httpClient}' is not supported for Angular.`);
+    }
+    if (forms !== "Angular Reactive Forms" && forms !== "None") {
+      errors.push(`Forms system '${forms}' is not supported for Angular.`);
     }
   } else if (framework === "React") {
-    // React Tooling
-    if (tooling === "Angular CLI") {
-      errors.push("Angular CLI is only available for Angular projects.");
-    } else if (tooling !== "Vite" && tooling !== "Next.js") {
+    if (tooling !== "Vite" && tooling !== "Next.js") {
       errors.push(`Tooling '${tooling}' is not supported for React.`);
     }
-
-    // React State
-    if (state === "NgRx") {
-      errors.push("NgRx is only available for Angular projects.");
-    } else if (
-      state !== "Redux Toolkit" &&
+    if (tooling === "Next.js" && language === "JavaScript") {
+      errors.push("Next.js project generator requires TypeScript.");
+    }
+    if (
       state !== "Zustand" &&
+      state !== "Redux Toolkit" &&
       state !== "None"
     ) {
       errors.push(`State library '${state}' is not supported for React.`);
     }
-
-    // React UI
-    if (ui === "Angular Material") {
-      errors.push("Angular Material is only available for Angular projects.");
-    } else if (ui === "Ant Design Angular") {
-      errors.push("Ant Design Angular is only available for Angular projects.");
-    } else if (
+    if (
       ui !== "shadcn/ui" &&
       ui !== "Material UI" &&
-      ui !== "Ant Design"
+      ui !== "Ant Design" &&
+      ui !== "None"
     ) {
       errors.push(`UI system '${ui}' is not supported for React.`);
     }
-
-    // React Styling
-    if (styling !== "Tailwind CSS" && styling !== "Bootstrap") {
-      errors.push(`Styling '${styling}' is not supported for React.`);
+    if (ui === "shadcn/ui") {
+      if (styling !== "Tailwind CSS") {
+        errors.push("shadcn/ui requires Tailwind CSS styling.");
+      }
+      if (language && language !== "TypeScript") {
+        errors.push("shadcn/ui requires TypeScript.");
+      }
+    }
+    if (forms !== "React Hook Form + Zod" && forms !== "None") {
+      errors.push(`Forms system '${forms}' is not supported for React.`);
     }
   } else {
     errors.push(`Unknown framework '${framework}'.`);
@@ -219,35 +234,14 @@ export function validateFrontendStack(
 }
 
 /**
- * Validates the complete stack configuration (project name, frontend, backend).
+ * Validates the complete stack configuration.
  */
 export function validateCompleteStack(config: StackConfiguration): ValidationResult {
-  const errors: string[] = [];
-
-  const nameValidation = validateProjectName(config.projectName);
-  if (!nameValidation.isValid) {
-    errors.push(...nameValidation.errors);
-  }
-
-  const frontendValidation = validateFrontendStack(config);
-  if (!frontendValidation.isValid) {
-    errors.push(...frontendValidation.errors);
-  }
-
-  const backendValidation = validateBackendStack(config);
-  if (!backendValidation.isValid) {
-    errors.push(...backendValidation.errors);
-  }
-
-  return {
-    isValid: errors.length === 0,
-    errors,
-  };
+  return validateStackFromCapabilities(config);
 }
 
 /**
  * Automatically adjusts a frontend configuration when the framework changes
- * to ensure all child options are valid according to the capability matrix.
  */
 export function adjustFrontendStackToFramework(
   current: FrontendConfiguration,
@@ -257,43 +251,14 @@ export function adjustFrontendStackToFramework(
   changed: boolean;
   adjustedFields: string[];
 } {
-  const matrix = FRONTEND_CAPABILITY_MATRIX[targetFramework];
-  const adjusted: FrontendConfiguration = {
-    ...current,
-    framework: targetFramework,
-  };
-
-  const adjustedFields: string[] = [];
-
-  // Check Tooling
-  if (!matrix.tooling.includes(adjusted.tooling)) {
-    adjusted.tooling = matrix.defaultTooling;
-    adjustedFields.push(`Tooling -> ${adjusted.tooling}`);
-  }
-
-  // Check State Management
-  if (current.state === "None") {
-    adjusted.state = "None";
-  } else if (!matrix.state.includes(adjusted.state)) {
-    adjusted.state = matrix.defaultState;
-    adjustedFields.push(`State -> ${adjusted.state}`);
-  }
-
-  // Check UI System
-  if (!matrix.ui.includes(adjusted.ui)) {
-    adjusted.ui = matrix.defaultUi;
-    adjustedFields.push(`UI -> ${adjusted.ui}`);
-  }
-
-  // Check Styling
-  if (!matrix.styling.includes(adjusted.styling)) {
-    adjusted.styling = matrix.defaultStyling;
-    adjustedFields.push(`Styling -> ${adjusted.styling}`);
-  }
+  const { reconciled, changed, adjustments } = reconcileFrontendOnFrameworkChange(
+    current,
+    targetFramework,
+  );
 
   return {
-    adjusted,
-    changed: adjustedFields.length > 0,
-    adjustedFields,
+    adjusted: reconciled,
+    changed,
+    adjustedFields: adjustments,
   };
 }

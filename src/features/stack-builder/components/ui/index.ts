@@ -1,5 +1,11 @@
 export { OptionCard } from "./OptionCard";
 export type { BuilderAccent, OptionCardProps } from "./OptionCard";
+export { OptionPill } from "./OptionPill";
+export type { OptionPillProps } from "./OptionPill";
+export { CollapsibleSection } from "./CollapsibleSection";
+export type { CollapsibleSectionProps } from "./CollapsibleSection";
+export { PresetBar } from "./PresetBar";
+export { StackSummaryBar } from "./StackSummaryBar";
 export { SectionCard } from "./SectionCard";
 export { SelectionGroup } from "./SelectionGroup";
 export { PresetChip } from "./PresetChip";
