@@ -171,7 +171,7 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
                 <span>{config.frontend.httpClient}</span>
                 <span className="text-[#737D8C]">Forms:</span>
                 <span>{config.frontend.forms}</span>
-                <span className="text-[#737D8C]">UI System:</span>
+                <span className="text-[#737D8C]">UI Library / Design System:</span>
                 <span>{config.frontend.ui}</span>
                 <span className="text-[#737D8C]">i18n:</span>
                 <span>{config.frontend.includeI18n ? "Enabled" : "Disabled"}</span>

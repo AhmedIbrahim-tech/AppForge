@@ -106,8 +106,14 @@ export function validateBackendStack(
   const errors: string[] = [];
 
   // Validate Presentation in Fullstack
-  if (projectType === "fullstack" && backend.presentation !== "Controllers") {
-    errors.push("Full Stack architecture requires 'Controllers' presentation.");
+  if (
+    projectType === "fullstack" &&
+    backend.presentation !== "Controllers" &&
+    backend.presentation !== "Minimal API"
+  ) {
+    errors.push(
+      `Full Stack mode only supports Web API (Controllers or Minimal API). Cannot use with backend type "${backend.presentation.toLowerCase().replace(" ", "-")}".`,
+    );
   }
 
   // Validate ORM
@@ -131,7 +137,7 @@ export function validateBackendStack(
   // Validate Presentation & Auth compatibility
   if (
     (backend.presentation === "MVC" || backend.presentation === "Razor Pages") &&
-    (backend.auth === "Identity + JWT" || backend.auth === "JWT")
+    backend.auth === "Identity + JWT"
   ) {
     errors.push(
       `${backend.presentation} server-rendered apps use Cookie authentication instead of JWT.`,

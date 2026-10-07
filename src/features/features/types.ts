@@ -79,13 +79,64 @@ export type FeatureMode = "fullstack" | "backend" | "frontend";
 export type FeatureSurface = "dashboard" | "public" | "both";
 export type FeatureCrudType = "crud" | "readonly";
 
+export interface FeatureOperations {
+  list: boolean;
+  getById: boolean;
+  create: boolean;
+  update: boolean;
+  delete: boolean;
+  restore: boolean;
+  search: boolean;
+  pagination: boolean;
+}
+
+export interface FeatureLabels {
+  enSingular?: string;
+  enPlural?: string;
+  arSingular?: string | null;
+  arPlural?: string | null;
+}
+
 export interface FeatureDefinition {
   name: string;
   plural?: string;
   mode: FeatureMode;
   surface: FeatureSurface;
   featureType: FeatureCrudType;
+  operations?: Partial<FeatureOperations>;
+  labels?: FeatureLabels;
   permissions: boolean;
   localize: boolean;
   fields: FeatureField[];
 }
+
+export const RESERVED_FEATURE_NAMES = new Set([
+  "API",
+  "Application",
+  "Domain",
+  "Infrastructure",
+  "Backend",
+  "Frontend",
+  "Client",
+  "Common",
+  "Shared",
+  "System",
+  "Object",
+  "BaseEntity",
+  "Controller",
+  "Entity",
+  "Router",
+]);
+
+export const SYSTEM_FIELD_NAMES = new Set([
+  "Id",
+  "CreatedAtUtc",
+  "UpdatedAtUtc",
+  "DeletedAtUtc",
+  "IsDeleted",
+  "RowVersion",
+]);
+
+export const BANNED_FIELD_TOKENS =
+  /\b(eval|Function|require|import|process|child_process|constructor|prototype|__proto__)\b/i;
+

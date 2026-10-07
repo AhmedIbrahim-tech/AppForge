@@ -26,8 +26,6 @@ export type BackendDatabase =
 export type BackendAuth =
   | "Identity + JWT"
   | "Identity + Cookies"
-  | "JWT"
-  | "Cookies"
   | "None";
 
 export type BackendMapping =

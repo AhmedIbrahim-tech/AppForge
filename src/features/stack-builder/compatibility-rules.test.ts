@@ -184,7 +184,7 @@ describe("Frontend & Backend Compatibility Rules", () => {
         architecture: "Application Services",
         orm: "EF Core",
         database: "SQL Server",
-        auth: "JWT",
+        auth: "Identity + JWT",
         mapping: "Manual Mapping",
         signalR: false,
         hangfire: false,

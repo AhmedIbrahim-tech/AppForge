@@ -76,7 +76,7 @@ export const BackendSection: React.FC<BackendSectionProps> = ({
   const summaryBadges = isFrontendOnly
     ? []
     : [
-        ...(config.projectType === "backend" ? [b.presentation] : []),
+        b.presentation,
         b.architecture === "CQRS + MediatR" ? "CQRS" : "Services",
         b.orm,
         b.database,
@@ -120,8 +120,8 @@ export const BackendSection: React.FC<BackendSectionProps> = ({
             </h4>
           </div>
 
-          {/* Presentation Layer (Shown when project is Backend Only) */}
-          {config.projectType === "backend" ? (
+          {/* Presentation Layer (Shown for both Backend Only and Full Stack) */}
+          {config.projectType !== "frontend" ? (
             <div>
               <span className="mb-1 block text-xs font-mono text-[#737D8C]">
                 Presentation Layer

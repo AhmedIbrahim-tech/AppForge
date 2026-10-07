@@ -78,13 +78,6 @@ export const BACKEND_PRESENTATIONS: OptionDefinition<BackendPresentation>[] = [
     label: "Minimal API",
     shortLabel: "Minimal API",
     description: "Fast, endpoint-based API routes",
-    getDisabledState: (config) =>
-      config.projectType === "fullstack"
-        ? {
-            disabled: true,
-            reason: "Full Stack standardizes on Web API Controllers",
-          }
-        : { disabled: false },
   },
   {
     value: "MVC",
@@ -95,7 +88,7 @@ export const BACKEND_PRESENTATIONS: OptionDefinition<BackendPresentation>[] = [
       config.projectType === "fullstack"
         ? {
             disabled: true,
-            reason: "Full Stack uses SPA frontend rather than MVC views",
+            reason: "Full Stack SPA mode does not support server-rendered MVC presentation.",
           }
         : { disabled: false },
   },
@@ -108,7 +101,7 @@ export const BACKEND_PRESENTATIONS: OptionDefinition<BackendPresentation>[] = [
       config.projectType === "fullstack"
         ? {
             disabled: true,
-            reason: "Full Stack uses SPA frontend rather than Razor Pages",
+            reason: "Full Stack SPA mode does not support Razor Pages presentation.",
           }
         : { disabled: false },
   },
@@ -152,16 +145,16 @@ export const BACKEND_ORMS: OptionDefinition<BackendOrm>[] = [
 
 export const BACKEND_DATABASES: OptionDefinition<BackendDatabase>[] = [
   {
-    value: "PostgreSQL",
-    label: "PostgreSQL",
-    shortLabel: "Postgres",
-    description: "Npgsql open-source relational database",
-  },
-  {
     value: "SQL Server",
     label: "SQL Server",
     shortLabel: "SQL Server",
     description: "Microsoft SQL Server database engine",
+  },
+  {
+    value: "PostgreSQL",
+    label: "PostgreSQL",
+    shortLabel: "Postgres",
+    description: "Npgsql open-source relational database",
   },
   {
     value: "SQLite",
@@ -206,57 +199,6 @@ export const BACKEND_AUTHS: OptionDefinition<BackendAuth>[] = [
         return {
           disabled: true,
           reason: "Dapper-only cannot be combined with ASP.NET Identity. Use EF Core, Hybrid, or select None.",
-        };
-      }
-      return { disabled: false };
-    },
-  },
-  {
-    value: "JWT",
-    label: "JWT (Stateless)",
-    shortLabel: "JWT",
-    description: "Stateless JWT Bearer token authentication",
-    getDisabledState: (config) => {
-      if (config.backend.orm === "Dapper") {
-        return {
-          disabled: true,
-          reason: "Dapper-only cannot be combined with ASP.NET Identity. Use EF Core, Hybrid, or select None.",
-        };
-      }
-      if (config.projectType === "fullstack") {
-        return {
-          disabled: true,
-          reason: "Full Stack applications use ASP.NET Identity with JWT",
-        };
-      }
-      if (
-        config.backend.presentation === "MVC" ||
-        config.backend.presentation === "Razor Pages"
-      ) {
-        return {
-          disabled: true,
-          reason: "Server-rendered MVC/Razor apps use Cookie authentication",
-        };
-      }
-      return { disabled: false };
-    },
-  },
-  {
-    value: "Cookies",
-    label: "Cookies",
-    shortLabel: "Cookies",
-    description: "Cookie-based session authentication",
-    getDisabledState: (config) => {
-      if (config.backend.orm === "Dapper") {
-        return {
-          disabled: true,
-          reason: "Dapper-only cannot be combined with ASP.NET Identity. Use EF Core, Hybrid, or select None.",
-        };
-      }
-      if (config.projectType === "fullstack") {
-        return {
-          disabled: true,
-          reason: "Full Stack applications use ASP.NET Identity with Cookies",
         };
       }
       return { disabled: false };
@@ -689,7 +631,10 @@ export function reconcileCompleteStack(
 
   // 1. Backend Presentation rules
   if (next.projectType === "fullstack") {
-    if (next.backend.presentation !== "Controllers") {
+    if (
+      next.backend.presentation === "MVC" ||
+      next.backend.presentation === "Razor Pages"
+    ) {
       next.backend.presentation = "Controllers";
     }
   }
@@ -699,26 +644,14 @@ export function reconcileCompleteStack(
     next.backend.presentation === "MVC" ||
     next.backend.presentation === "Razor Pages"
   ) {
-    if (
-      next.backend.auth === "JWT" ||
-      next.backend.auth === "Identity + JWT"
-    ) {
-      next.backend.auth = "Cookies";
+    if (next.backend.auth === "Identity + JWT") {
+      next.backend.auth = "Identity + Cookies";
     }
   }
 
   // 3. Dapper only vs Identity
   if (next.backend.orm === "Dapper" && next.backend.auth !== "None") {
     next.backend.auth = "None";
-  }
-
-  // 4. Fullstack Auth normalization
-  if (next.projectType === "fullstack") {
-    if (next.backend.auth === "JWT") {
-      next.backend.auth = "Identity + JWT";
-    } else if (next.backend.auth === "Cookies") {
-      next.backend.auth = "Identity + Cookies";
-    }
   }
 
   // 5. Frontend framework rules
@@ -756,14 +689,17 @@ export function validateCompleteStack(
 
     if (
       config.projectType === "fullstack" &&
-      b.presentation !== "Controllers"
+      b.presentation !== "Controllers" &&
+      b.presentation !== "Minimal API"
     ) {
-      errors.push("Full Stack architecture requires 'Controllers' presentation.");
+      errors.push(
+        `Full Stack mode only supports Web API (Controllers or Minimal API). Cannot use with backend type "${b.presentation.toLowerCase().replace(" ", "-")}".`,
+      );
     }
 
     if (
       (b.presentation === "MVC" || b.presentation === "Razor Pages") &&
-      (b.auth === "Identity + JWT" || b.auth === "JWT")
+      b.auth === "Identity + JWT"
     ) {
       errors.push(
         `${b.presentation} server-rendered applications use Cookie authentication instead of JWT.`,
@@ -915,14 +851,19 @@ export function buildCliCommand(config: StackConfiguration): string {
 
   if (config.projectType !== "frontend") {
     const b = config.backend;
+    const presMap: Record<BackendPresentation, string> = {
+      Controllers: "controllers",
+      "Minimal API": "minimal-api",
+      MVC: "mvc",
+      "Razor Pages": "razor-pages",
+    };
     if (config.projectType === "backend") {
-      const presMap: Record<BackendPresentation, string> = {
-        Controllers: "controllers",
-        "Minimal API": "minimal-api",
-        MVC: "mvc",
-        "Razor Pages": "razor-pages",
-      };
       flags.push(`--backend-type ${presMap[b.presentation]}`);
+    } else if (
+      config.projectType === "fullstack" &&
+      b.presentation === "Minimal API"
+    ) {
+      flags.push("--backend-type minimal-api");
     }
 
     const archMap: Record<BackendArchitecture, string> = {
@@ -930,6 +871,10 @@ export function buildCliCommand(config: StackConfiguration): string {
       "Application Services": "services",
     };
     flags.push(`--architecture ${archMap[b.architecture]}`);
+
+    flags.push(
+      `--mapping ${b.mapping === "AutoMapper" ? "automapper" : "manual"}`,
+    );
 
     const ormMap: Record<BackendOrm, string> = {
       "EF Core": "efcore",
@@ -948,15 +893,9 @@ export function buildCliCommand(config: StackConfiguration): string {
     const authMap: Record<BackendAuth, string> = {
       "Identity + JWT": "jwt",
       "Identity + Cookies": "cookies",
-      JWT: "jwt",
-      Cookies: "cookies",
       None: "none",
     };
     flags.push(`--auth ${authMap[b.auth]}`);
-
-    flags.push(
-      `--mapping ${b.mapping === "AutoMapper" ? "automapper" : "manual"}`,
-    );
 
     if (b.logging === "Built-in ILogger") {
       flags.push("--logging builtin");
@@ -1020,12 +959,16 @@ export function buildCliCommand(config: StackConfiguration): string {
 
     if (f.includeI18n) {
       flags.push("--localization");
+    } else {
+      flags.push("--no-localization");
     }
   }
 
   if (config.packageManager && config.packageManager !== "npm") {
     flags.push(`--package-manager ${config.packageManager}`);
   }
+
+  flags.push("--yes");
 
   return `npx flatron ${name} ${flags.join(" ")}`;
 }
@@ -1067,14 +1010,12 @@ export function generateStackSummary(config: StackConfiguration): SummaryChip[] 
       tone: "cyan",
     });
 
-    if (config.projectType === "backend") {
-      chips.push({
-        id: "pres",
-        category: "backend",
-        label: config.backend.presentation,
-        tone: "cyan",
-      });
-    }
+    chips.push({
+      id: "pres",
+      category: "backend",
+      label: config.backend.presentation,
+      tone: "cyan",
+    });
 
     chips.push({
       id: "arch",
@@ -1201,7 +1142,7 @@ export function buildManifestJson(config: StackConfiguration): string {
   const isFrontend = config.projectType !== "backend";
 
   const manifest = {
-    generatorVersion: "4.0.0",
+    generatorVersion: "1.1.0",
     projectName: config.projectName || "my-flatron-app",
     paths: {
       backend: isBackend ? (config.projectType === "fullstack" ? "Backend" : ".") : null,
@@ -1210,7 +1151,7 @@ export function buildManifestJson(config: StackConfiguration): string {
     backend: isBackend
       ? {
           enabled: true,
-          framework: "dotnet",
+          dotnet: "10",
           targetFramework: "net10.0",
           presentation: config.backend.presentation.toLowerCase().replace(" ", "-"),
           architecture:
@@ -1224,17 +1165,22 @@ export function buildManifestJson(config: StackConfiguration): string {
           database: config.backend.database.toLowerCase().replace(" ", ""),
           mapping:
             config.backend.mapping === "AutoMapper" ? "automapper" : "manual",
-          authentication: config.backend.auth
-            .toLowerCase()
-            .replace(/\s+\+\s+/g, "-")
-            .replace(/\s+/g, "-"),
+          authentication:
+            config.backend.auth === "Identity + JWT"
+              ? "identity-jwt"
+              : config.backend.auth === "Identity + Cookies"
+                ? "identity"
+                : "none",
+          realtime: config.backend.signalR ? "signalr" : "none",
           logging:
             config.backend.logging === "Built-in ILogger" ? "ilogger" : "serilog",
           backgroundJobs: config.backend.hangfire ? "hangfire" : "none",
-          realtime: config.backend.signalR ? "signalr" : "none",
         }
       : {
           enabled: false,
+          dotnet: null,
+          targetFramework: null,
+          presentation: null,
           architecture: null,
           orm: null,
           database: null,
@@ -1248,7 +1194,7 @@ export function buildManifestJson(config: StackConfiguration): string {
           library: config.frontend.framework.toLowerCase(),
           framework:
             config.frontend.framework === "Angular"
-              ? "angular-cli"
+              ? null
               : config.frontend.tooling.toLowerCase().replace(".", ""),
           language: config.frontend.language.toLowerCase(),
           styling:
@@ -1268,17 +1214,15 @@ export function buildManifestJson(config: StackConfiguration): string {
                 ? "reactive-forms"
                 : "none",
           componentSystem:
-            config.frontend.ui === "shadcn/ui"
-              ? "shadcn"
-              : config.frontend.ui === "Material UI"
-                ? "mui"
-                : config.frontend.ui === "Ant Design"
-                  ? "antd"
-                  : config.frontend.ui === "Angular Material"
-                    ? "angular-material"
-                    : config.frontend.ui === "Ant Design Angular"
-                      ? "antd-angular"
-                      : "none",
+            config.frontend.framework === "Angular"
+              ? "none"
+              : config.frontend.ui === "shadcn/ui"
+                ? "shadcn"
+                : config.frontend.ui === "Material UI"
+                  ? "mui"
+                  : config.frontend.ui === "Ant Design"
+                    ? "antd"
+                    : "none",
           localization: config.frontend.includeI18n,
           realtime: config.backend.signalR ? "signalr" : "none",
         }
@@ -1293,7 +1237,7 @@ export function buildManifestJson(config: StackConfiguration): string {
           forms: null,
           componentSystem: null,
           localization: false,
-          realtime: "none",
+          realtime: null,
         },
     packageManager: config.packageManager || "npm",
     modules: {

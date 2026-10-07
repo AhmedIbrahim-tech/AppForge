@@ -42,6 +42,7 @@ export interface FrontendSectionProps {
   onToggleI18n: () => void;
 }
 
+
 export const FrontendSection: React.FC<FrontendSectionProps> = ({
   config,
   expanded,
@@ -73,10 +74,8 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
         ]
       : [
           "Angular",
-          "Angular CLI",
           f.styling === "Tailwind CSS" ? "Tailwind" : "Bootstrap",
           f.state !== "None" ? "NgRx" : "No Store",
-          "HttpClient",
           f.ui !== "None" ? (f.ui === "Ant Design Angular" ? "NG-ZORRO" : "Material") : "No UI Kit",
         ];
 
@@ -287,10 +286,10 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
             </div>
 
-            {/* UI Kit */}
+            {/* UI Library / Design System */}
             <div>
               <span className="mb-1 block text-xs font-mono text-[#737D8C]">
-                UI Components
+                UI Library / Design System
               </span>
               <div className="flex flex-wrap items-center gap-1.5">
                 {reactUis.map((ui) => {
@@ -313,24 +312,57 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
           </div>
         ) : (
           <div className="space-y-3.5 border-t border-[#252C36] pt-3.5">
-            {/* Angular Defaults */}
+            {/* Core Settings */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <span className="mb-1 block text-xs font-mono text-[#737D8C]">Tooling</span>
-                <div className="inline-flex items-center gap-2 rounded-[6px] border border-[#252C36] bg-[#0E1218] px-3 py-1.5 text-xs text-[#F3F6FA]">
-                  <span className="font-semibold">Angular CLI</span>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <OptionPill
+                    selected={f.tooling === "Angular CLI"}
+                    onClick={() => onSetTooling("Angular CLI")}
+                    label="Angular CLI"
+                  />
                 </div>
               </div>
 
               <div>
                 <span className="mb-1 block text-xs font-mono text-[#737D8C]">Language</span>
-                <div className="inline-flex items-center gap-2 rounded-[6px] border border-[#252C36] bg-[#0E1218] px-3 py-1.5 text-xs text-[#F3F6FA]">
-                  <span className="font-semibold">TypeScript</span>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <OptionPill
+                    selected={f.language === "TypeScript"}
+                    onClick={() => onSetLanguage("TypeScript")}
+                    label="TypeScript"
+                  />
                 </div>
               </div>
             </div>
 
-            {/* Styling & State */}
+            {/* Application Layer */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <span className="mb-1 block text-xs font-mono text-[#737D8C]">HTTP Client</span>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <OptionPill
+                    selected={f.httpClient === "Angular Http"}
+                    onClick={() => onSetHttpClient("Angular Http")}
+                    label="Angular HttpClient"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <span className="mb-1 block text-xs font-mono text-[#737D8C]">Form Handling</span>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <OptionPill
+                    selected={f.forms === "Angular Reactive Forms"}
+                    onClick={() => onSetForms("Angular Reactive Forms")}
+                    label="Reactive Forms"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Styling & State (Selectable) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <span className="mb-1 block text-xs font-mono text-[#737D8C]">Styling</span>
@@ -347,7 +379,7 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
 
               <div>
-                <span className="mb-1 block text-xs font-mono text-[#737D8C]">State</span>
+                <span className="mb-1 block text-xs font-mono text-[#737D8C]">State Management</span>
                 <div className="flex flex-wrap items-center gap-1.5">
                   {angularStates.map((st) => (
                     <OptionPill
@@ -361,9 +393,11 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
             </div>
 
-            {/* UI Components */}
+            {/* UI Library / Design System (Selectable) */}
             <div>
-              <span className="mb-1 block text-xs font-mono text-[#737D8C]">UI System</span>
+              <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+                UI Library / Design System
+              </span>
               <div className="flex flex-wrap items-center gap-1.5">
                 {angularUis.map((ui) => (
                   <OptionPill

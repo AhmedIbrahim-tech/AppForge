@@ -92,15 +92,11 @@ export const useStackBuilderStore = create<StackBuilderState>((set) => ({
       const nextBackend = { ...state.config.backend };
 
       if (projectType === "fullstack") {
-        nextBackend.presentation = "Controllers";
-        if (nextBackend.auth === "JWT" || nextBackend.auth === "Cookies") {
-          nextBackend.auth = "Identity + JWT";
-        }
-      } else if (projectType === "backend") {
-        if (nextBackend.auth === "Identity + JWT") {
-          nextBackend.auth = "JWT";
-        } else if (nextBackend.auth === "Identity + Cookies") {
-          nextBackend.auth = "Cookies";
+        if (
+          nextBackend.presentation === "MVC" ||
+          nextBackend.presentation === "Razor Pages"
+        ) {
+          nextBackend.presentation = "Controllers";
         }
       }
 
@@ -133,8 +129,8 @@ export const useStackBuilderStore = create<StackBuilderState>((set) => ({
     set((state) => {
       let auth = state.config.backend.auth;
       if (presentation === "MVC" || presentation === "Razor Pages") {
-        if (auth === "JWT" || auth === "Identity + JWT") {
-          auth = "Cookies";
+        if (auth === "Identity + JWT") {
+          auth = "Identity + Cookies";
         }
       }
 
@@ -169,11 +165,7 @@ export const useStackBuilderStore = create<StackBuilderState>((set) => ({
     set((state) => {
       let auth = state.config.backend.auth;
       if (orm === "Dapper") {
-        if (auth === "Identity + JWT") {
-          auth = "JWT";
-        } else if (auth === "Identity + Cookies") {
-          auth = "Cookies";
-        }
+        auth = "None";
       }
 
       const nextConfig = reconcileCompleteStack({
