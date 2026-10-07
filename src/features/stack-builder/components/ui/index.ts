@@ -1,5 +1,5 @@
 export { OptionCard } from "./OptionCard";
-export type { BuilderAccent, OptionCardProps } from "./OptionCard";
+export type { OptionCardProps } from "./OptionCard";
 export { OptionPill } from "./OptionPill";
 export type { OptionPillProps } from "./OptionPill";
 export { CollapsibleSection } from "./CollapsibleSection";

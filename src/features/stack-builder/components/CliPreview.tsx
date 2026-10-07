@@ -24,25 +24,25 @@ export const CliPreview: React.FC<CliPreviewProps> = ({ config }) => {
   };
 
   return (
-    <div className="space-y-4 p-4">
-      <div className="flex items-center justify-between text-xs text-zinc-400">
-        <span className="flex items-center gap-1.5 font-mono text-[11px]">
-          <Terminal className="h-3.5 w-3.5 text-indigo-400" />
+    <div className="space-y-3 p-3.5">
+      <div className="flex items-center justify-between text-xs text-[#A1AAB8]">
+        <span className="flex items-center gap-1.5 font-mono text-[11px] text-[#737D8C]">
+          <Terminal className="h-3.5 w-3.5 text-[#4F75FF]" />
           Terminal Execution:
         </span>
         <button
           type="button"
           onClick={handleCopy}
-          className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-mono font-medium text-zinc-300 transition-colors hover:border-white/20 hover:text-white cursor-pointer active:scale-95"
+          className="flex items-center gap-1.5 rounded-[5px] border border-[#252C36] bg-[#0E1218] px-2.5 py-1 text-xs font-mono text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA] transition-colors cursor-pointer"
         >
           {copied ? (
             <>
-              <Check className="h-3.5 w-3.5 text-emerald-400" />
-              <span className="text-emerald-400">Copied!</span>
+              <Check className="h-3.5 w-3.5 text-[#25B77A]" />
+              <span className="text-[#25B77A]">Copied</span>
             </>
           ) : (
             <>
-              <Copy className="h-3.5 w-3.5 text-zinc-400" />
+              <Copy className="h-3.5 w-3.5 text-[#737D8C]" />
               <span>Copy</span>
             </>
           )}
@@ -53,13 +53,13 @@ export const CliPreview: React.FC<CliPreviewProps> = ({ config }) => {
         code={command}
         language="bash"
         filename="terminal"
-        className="border-none bg-[#090b14] shadow-none"
+        className="border border-[#252C36] bg-[#0A0D12]"
       />
 
-      <div className="flex items-start gap-2 rounded-xl border border-white/5 bg-white/[0.02] p-3 text-xs leading-relaxed text-zinc-400 font-sans">
-        <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-indigo-400" />
-        <p>
-          Run this command with <code className="text-zinc-200">npx</code> to scaffold the solution non-interactively using Flatron&apos;s verified architectural generator.
+      <div className="flex items-start gap-2 rounded-[6px] border border-[#252C36] bg-[#0E1218] p-2.5 text-xs text-[#A1AAB8] font-sans">
+        <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#4F75FF]" />
+        <p className="text-[11px] text-[#A1AAB8] leading-relaxed">
+          Run this command to scaffold the solution non-interactively using Flatron&apos;s verified architectural generator.
         </p>
       </div>
     </div>

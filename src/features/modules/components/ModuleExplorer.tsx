@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Search, Sparkles, Filter, PackageCheck } from "lucide-react";
+import { Search, Filter } from "lucide-react";
 import { MODULE_LIST, MODULE_CATEGORIES } from "../modules-data";
 import type { ModuleCategory, ModuleDefinition } from "../types";
 import { ModuleCard } from "./ModuleCard";
@@ -25,67 +25,38 @@ export const ModuleExplorer: React.FC = () => {
   return (
     <div className="w-full">
       {/* Intro Header */}
-      <div className="flex flex-col gap-2">
-        <div className="inline-flex items-center gap-2 self-start rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-300">
-          <Sparkles className="h-3.5 w-3.5" />
-          <span>Application Modules · Flatron Ecosystem</span>
-        </div>
-        <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-          Module Explorer
+      <div className="max-w-2xl mb-6">
+        <h1 className="font-heading text-2xl font-bold tracking-tight text-text-primary sm:text-3xl">
+          Application Module Explorer
         </h1>
-        <p className="max-w-3xl text-sm text-zinc-400 leading-relaxed">
-          Discover and install pre-architected modules into your existing Flatron projects.
-          Each module integrates clean domain layers, persistence entities, service registrations,
-          and frontend UI components.
+        <p className="mt-1.5 text-sm text-text-secondary leading-relaxed">
+          Add ready-made application capabilities to an existing Flatron project.
         </p>
       </div>
 
-      {/* Workflow Guidance Card */}
-      <div className="mt-6 flex flex-col gap-3 rounded-xl border border-white/[0.08] bg-[#11131a]/60 p-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-            <PackageCheck className="h-5 w-5" />
-          </div>
-          <div>
-            <div className="text-xs font-semibold text-white">
-              Installation Flow
-            </div>
-            <div className="text-xs text-zinc-400">
-              1. Scaffold project <code className="rounded bg-black/40 px-1 py-0.5 text-indigo-300">flatron MyApp</code> → 2. Navigate <code className="rounded bg-black/40 px-1 py-0.5 text-indigo-300">cd MyApp</code> → 3. Install <code className="rounded bg-black/40 px-1 py-0.5 text-indigo-300">flatron create module &lt;name&gt;</code>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex shrink-0 items-center gap-2 text-xs text-zinc-400">
-          <span className="rounded-md border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 font-mono text-[11px] text-zinc-300">
-            {MODULE_LIST.length} Modules Available
-          </span>
-        </div>
-      </div>
-
-      {/* Filter & Search Bar */}
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      {/* Integrated Search & Filter Toolbar */}
+      <div className="rounded-lg border border-border bg-surface p-3 mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Search */}
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+          <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-text-muted" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search modules by name, keyword, or id..."
-            className="w-full rounded-xl border border-white/[0.08] bg-[#11131a] py-2 pl-9 pr-4 text-xs text-white placeholder-zinc-500 focus:border-indigo-500/50 focus:outline-none focus:ring-1 focus:ring-indigo-500/50 transition-colors"
+            placeholder="Search modules by name, id, or feature..."
+            className="w-full rounded-md border border-border bg-surface-raised py-1.5 pl-8 pr-3 text-xs text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none transition-colors"
           />
         </div>
 
-        {/* Category Pills */}
-        <div className="flex flex-wrap items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+        {/* Category Filter Pills */}
+        <div className="flex flex-wrap items-center gap-1.5">
           <button
             type="button"
             onClick={() => setSelectedCategory("All")}
-            className={`rounded-lg px-2.5 py-1 text-xs font-medium transition-colors ${
+            className={`rounded px-2.5 py-1 text-xs font-medium transition-all cursor-pointer ${
               selectedCategory === "All"
-                ? "bg-indigo-600 text-white shadow-sm"
-                : "border border-white/[0.08] bg-[#11131a] text-zinc-400 hover:text-white"
+                ? "bg-accent text-white font-semibold shadow-sm"
+                : "bg-surface-raised border border-border text-text-muted hover:text-text-primary hover:border-border-hover"
             }`}
           >
             All
@@ -95,10 +66,10 @@ export const ModuleExplorer: React.FC = () => {
               key={cat}
               type="button"
               onClick={() => setSelectedCategory(cat)}
-              className={`rounded-lg px-2.5 py-1 text-xs font-medium transition-colors ${
+              className={`rounded px-2.5 py-1 text-xs font-medium transition-all cursor-pointer ${
                 selectedCategory === cat
-                  ? "bg-indigo-600 text-white shadow-sm"
-                  : "border border-white/[0.08] bg-[#11131a] text-zinc-400 hover:text-white"
+                  ? "bg-accent text-white font-semibold shadow-sm"
+                  : "bg-surface-raised border border-border text-text-muted hover:text-text-primary hover:border-border-hover"
               }`}
             >
               {cat}
@@ -107,18 +78,18 @@ export const ModuleExplorer: React.FC = () => {
         </div>
       </div>
 
-      {/* Main 2-Column Layout */}
-      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12">
-        {/* Left: Module Cards Grid (7 cols on desktop) */}
-        <div className="lg:col-span-7 xl:col-span-8">
+      {/* Main 2-Column Layout (66% catalog / 34% inspector rail) */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 items-start">
+        {/* Left: Module Cards Catalog */}
+        <div className="lg:col-span-8">
           {filteredModules.length === 0 ? (
-            <div className="flex flex-col items-center justify-center rounded-xl border border-white/[0.08] bg-[#11131a] p-12 text-center">
-              <Filter className="h-8 w-8 text-zinc-600 mb-2" />
-              <p className="text-sm font-medium text-zinc-300">No modules match your criteria</p>
-              <p className="mt-1 text-xs text-zinc-500">Try adjusting your search query or category filter.</p>
+            <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border bg-surface p-12 text-center">
+              <Filter className="h-6 w-6 text-text-muted mb-2 opacity-50" />
+              <p className="text-xs font-medium text-text-secondary">No modules match your filter</p>
+              <p className="mt-0.5 text-[11px] text-text-muted">Try adjusting your search query or selecting &quot;All&quot; categories.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 2xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {filteredModules.map((mod) => (
                 <ModuleCard
                   key={mod.id}
@@ -131,19 +102,19 @@ export const ModuleExplorer: React.FC = () => {
           )}
         </div>
 
-        {/* Right: Selected Module Details Panel (5 cols on desktop) */}
-        <div className="lg:col-span-5 xl:col-span-4">
-          <div className="sticky top-24">
-            {selectedModule ? (
-              <ModuleDetailsPanel module={selectedModule} />
-            ) : (
-              <div className="rounded-xl border border-white/[0.08] bg-[#11131a] p-6 text-center text-xs text-zinc-500">
-                Select a module to view installation commands and architectural details.
-              </div>
-            )}
-          </div>
+        {/* Right: Selected Module Details Inspector */}
+        <div className="lg:sticky lg:top-20 lg:col-span-4">
+          {selectedModule ? (
+            <ModuleDetailsPanel module={selectedModule} />
+          ) : (
+            <div className="rounded-lg border border-border bg-surface p-6 text-center text-xs text-text-muted">
+              Select a module from the catalog to inspect details.
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 };
+
+

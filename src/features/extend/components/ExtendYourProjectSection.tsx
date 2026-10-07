@@ -4,171 +4,159 @@ import {
   PackagePlus,
   Boxes,
   ArrowRight,
-  Sparkles,
-  CheckCircle2,
+  Check,
 } from "lucide-react";
 
 export const ExtendYourProjectSection: React.FC = () => {
   return (
-    <section id="extend" className="relative w-full py-16 sm:py-20 border-t border-white/[0.08] bg-[#090a0f]">
-      <div className="mx-auto w-full max-w-[100rem] px-4 sm:px-6 lg:px-10 xl:px-14">
+    <section id="extend" className="relative w-full py-16 sm:py-20 border-b border-border-line bg-base">
+      <div className="app-container">
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-300">
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>Post-Scaffolding Developer Experience</span>
+        <div className="max-w-2xl">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-medium text-text-secondary">
+            <span className="flex h-2 w-2 rounded-full bg-accent" />
+            <span>Developer workflow</span>
           </div>
-          <h2 className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
-            Extend Your Project
+          <h2 className="mt-3 font-heading text-2xl font-bold tracking-tight text-white sm:text-3xl">
+            Extend beyond initial scaffolding
           </h2>
-          <p className="mt-2 max-w-2xl text-sm text-zinc-400">
-            Flatron doesn&apos;t stop at initial scaffolding. After generating your stack, build domain business
-            features and add production-grade application modules with dedicated generators.
+          <p className="mt-2 text-xs sm:text-sm text-text-secondary leading-relaxed">
+            Flatron stays in your repository. After generating your base stack, scaffold domain business features and install modular capabilities on demand.
           </p>
         </div>
 
-        {/* 3-Step Lifecycle Workflow Bar */}
-        <div className="mt-10 rounded-2xl border border-white/[0.08] bg-[#11131a]/80 p-5 backdrop-blur-sm">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {/* Step 1 */}
-            <div className="flex items-start gap-3 rounded-xl border border-white/[0.04] bg-[#0c0d14] p-3.5">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-indigo-500/20 font-mono text-xs font-bold text-indigo-400">
-                1
-              </span>
-              <div>
-                <h4 className="text-xs font-semibold text-white">Scaffold Solution</h4>
-                <p className="mt-0.5 text-[11px] text-zinc-400">Initial clean architecture stack</p>
-                <code className="mt-1.5 block rounded bg-black/60 px-2 py-1 font-mono text-[11px] text-indigo-300">
-                  flatron MyApp
-                </code>
-              </div>
+        {/* 3-Step Lifecycle */}
+        <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <div className="rounded-[8px] border border-border-subtle bg-surface p-4">
+            <div className="flex items-center gap-2 text-xs font-mono text-text-secondary">
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-surface-raised text-white font-semibold">1</span>
+              <span>Scaffold Solution</span>
             </div>
-
-            {/* Step 2 */}
-            <div className="flex items-start gap-3 rounded-xl border border-white/[0.04] bg-[#0c0d14] p-3.5">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-indigo-500/20 font-mono text-xs font-bold text-indigo-400">
-                2
-              </span>
-              <div>
-                <h4 className="text-xs font-semibold text-white">Enter Workspace</h4>
-                <p className="mt-0.5 text-[11px] text-zinc-400">Navigate to project root</p>
-                <code className="mt-1.5 block rounded bg-black/60 px-2 py-1 font-mono text-[11px] text-indigo-300">
-                  cd MyApp
-                </code>
-              </div>
+            <p className="mt-2 text-xs text-text-muted">Initialize clean architecture stack</p>
+            <div className="mt-2.5 rounded-[5px] bg-base px-2.5 py-1.5 font-mono text-xs text-accent-hover border border-border-subtle">
+              flatron nexus-app
             </div>
+          </div>
 
-            {/* Step 3 */}
-            <div className="flex items-start gap-3 rounded-xl border border-white/[0.04] bg-[#0c0d14] p-3.5">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-indigo-500/20 font-mono text-xs font-bold text-indigo-400">
-                3
-              </span>
-              <div>
-                <h4 className="text-xs font-semibold text-white">Build &amp; Extend</h4>
-                <p className="mt-0.5 text-[11px] text-zinc-400">Features &amp; reusable modules</p>
-                <code className="mt-1.5 block rounded bg-black/60 px-2 py-1 font-mono text-[11px] text-indigo-300">
-                  flatron create [feature|module]
-                </code>
-              </div>
+          <div className="rounded-[8px] border border-border-subtle bg-surface p-4">
+            <div className="flex items-center gap-2 text-xs font-mono text-text-secondary">
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-surface-raised text-white font-semibold">2</span>
+              <span>Enter Workspace</span>
+            </div>
+            <p className="mt-2 text-xs text-text-muted">Navigate into project directory</p>
+            <div className="mt-2.5 rounded-[5px] bg-base px-2.5 py-1.5 font-mono text-xs text-accent-hover border border-border-subtle">
+              cd nexus-app
+            </div>
+          </div>
+
+
+          <div className="rounded-[8px] border border-border-subtle bg-surface p-4">
+            <div className="flex items-center gap-2 text-xs font-mono text-text-secondary">
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-surface-raised text-white font-semibold">3</span>
+              <span>Generate Features</span>
+            </div>
+            <p className="mt-2 text-xs text-text-muted">Add entities, CRUD, and modules</p>
+            <div className="mt-2.5 rounded-[5px] bg-base px-2.5 py-1.5 font-mono text-xs text-accent-hover border border-border-subtle">
+              flatron create [feature|module]
             </div>
           </div>
         </div>
 
-        {/* Two Balanced Entry Cards */}
-        <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+        {/* Two Entry Cards */}
+        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Card 1: Feature Builder */}
-          <div className="group relative flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-[#11131a] p-6 transition-all duration-200 hover:border-indigo-500/40 hover:shadow-[0_0_30px_rgba(99,102,241,0.12)]">
+          <div className="flex flex-col justify-between rounded-[8px] border border-border-subtle bg-surface p-5 sm:p-6 hover:border-zinc-700 transition-colors">
             <div>
               <div className="flex items-center justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-indigo-500/30 bg-indigo-500/10 text-indigo-400">
-                  <PackagePlus className="h-5 w-5" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-border-subtle bg-surface-secondary text-accent">
+                  <PackagePlus className="h-4 w-4" />
                 </div>
-                <span className="rounded-full border border-indigo-500/20 bg-indigo-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-indigo-300">
-                  v4.0 Schema Engine
+                <span className="rounded bg-surface-secondary px-2 py-0.5 font-mono text-[11px] text-text-muted border border-border-subtle">
+                  CLI Generator
                 </span>
               </div>
 
-              <h3 className="mt-4 text-lg font-bold text-white group-hover:text-indigo-300 transition-colors">
+              <h3 className="mt-4 font-heading text-base font-semibold text-white">
                 Business Feature Builder
               </h3>
-              <p className="mt-1.5 text-xs text-zinc-400 leading-relaxed">
-                Define custom business entities such as <strong>Product</strong>, <strong>Category</strong>, or <strong>Order</strong> with typed attributes, validation rules, relationships, enums, and media attachments.
+              <p className="mt-1.5 text-xs text-text-secondary leading-relaxed">
+                Define business entities like <strong>Product</strong> or <strong>Order</strong> with typed attributes, validation rules, relationships, enums, and media attachments.
               </p>
 
-              <div className="mt-4 space-y-1.5 rounded-lg border border-white/[0.04] bg-[#0c0d14] p-3 text-[11px] text-zinc-300">
+              <div className="mt-4 space-y-2 text-xs text-text-secondary">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                  <Check className="h-3.5 w-3.5 text-success shrink-0" />
                   <span>C# Domain Entities, Repositories, &amp; CQRS Handlers</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                  <Check className="h-3.5 w-3.5 text-success shrink-0" />
                   <span>React / Angular Data Tables, Forms &amp; Dialogs</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                  <span>Automatic schema validation (FluentValidation &amp; Zod)</span>
+                  <Check className="h-3.5 w-3.5 text-success shrink-0" />
+                  <span>FluentValidation and Zod schemas</span>
                 </div>
               </div>
             </div>
 
-            <div className="mt-6 flex items-center justify-between border-t border-white/[0.06] pt-4">
-              <code className="font-mono text-xs text-zinc-400">
+            <div className="mt-6 flex items-center justify-between border-t border-border-line pt-4">
+              <code className="font-mono text-xs text-text-muted">
                 flatron create feature &lt;name&gt;
               </code>
               <Link
                 to="/features"
-                className="flex items-center gap-1.5 rounded-xl bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white shadow transition-all hover:bg-indigo-500 active:scale-95"
+                className="flex items-center gap-1.5 rounded-[6px] bg-surface-secondary px-3 py-1.5 text-xs font-medium text-white border border-border-subtle hover:bg-surface-raised hover:border-zinc-700 transition-colors font-heading"
               >
-                <span>Launch Feature Builder</span>
+                <span>Feature Builder</span>
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
           </div>
 
           {/* Card 2: Module Explorer */}
-          <div className="group relative flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-[#11131a] p-6 transition-all duration-200 hover:border-indigo-500/40 hover:shadow-[0_0_30px_rgba(99,102,241,0.12)]">
+          <div className="flex flex-col justify-between rounded-[8px] border border-border-subtle bg-surface p-5 sm:p-6 hover:border-zinc-700 transition-colors">
             <div>
               <div className="flex items-center justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-500/30 bg-purple-500/10 text-purple-400">
-                  <Boxes className="h-5 w-5" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-border-subtle bg-surface-secondary text-accent">
+                  <Boxes className="h-4 w-4" />
                 </div>
-                <span className="rounded-full border border-purple-500/20 bg-purple-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-purple-300">
-                  8 Modules Registered
+                <span className="rounded bg-surface-secondary px-2 py-0.5 font-mono text-[11px] text-text-muted border border-border-subtle">
+                  8 Modules Ready
                 </span>
               </div>
 
-              <h3 className="mt-4 text-lg font-bold text-white group-hover:text-purple-300 transition-colors">
+              <h3 className="mt-4 font-heading text-base font-semibold text-white">
                 Application Module Explorer
               </h3>
-              <p className="mt-1.5 text-xs text-zinc-400 leading-relaxed">
-                Add cross-cutting enterprise capabilities to your application. Flatron modules integrate domain models, security policies, and UI dashboards seamlessly.
+              <p className="mt-1.5 text-xs text-text-secondary leading-relaxed">
+                Add cross-cutting enterprise capabilities with pre-wired persistence, security handlers, API endpoints, and admin UI views.
               </p>
 
-              <div className="mt-4 space-y-1.5 rounded-lg border border-white/[0.04] bg-[#0c0d14] p-3 text-[11px] text-zinc-300">
+              <div className="mt-4 space-y-2 text-xs text-text-secondary">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                  <Check className="h-3.5 w-3.5 text-success shrink-0" />
                   <span>Authentication, User Management, &amp; Permissions</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                  <span>Audit Trail with Change Redaction &amp; Event Logs</span>
+                  <Check className="h-3.5 w-3.5 text-success shrink-0" />
+                  <span>Audit Trail with Entity Change Redaction</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                  <Check className="h-3.5 w-3.5 text-success shrink-0" />
                   <span>Notifications, Domain Localization, &amp; Rich Text</span>
                 </div>
               </div>
             </div>
 
-            <div className="mt-6 flex items-center justify-between border-t border-white/[0.06] pt-4">
-              <code className="font-mono text-xs text-zinc-400">
+            <div className="mt-6 flex items-center justify-between border-t border-border-line pt-4">
+              <code className="font-mono text-xs text-text-muted">
                 flatron create module &lt;name&gt;
               </code>
               <Link
                 to="/modules"
-                className="flex items-center gap-1.5 rounded-xl border border-purple-500/40 bg-purple-500/10 px-3.5 py-2 text-xs font-semibold text-purple-300 transition-all hover:bg-purple-500/20 hover:text-white active:scale-95"
+                className="flex items-center gap-1.5 rounded-[6px] bg-surface-secondary px-3 py-1.5 text-xs font-medium text-white border border-border-subtle hover:bg-surface-raised hover:border-zinc-700 transition-colors font-heading"
               >
-                <span>Explore All Modules</span>
+                <span>Browse Modules</span>
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
@@ -178,3 +166,4 @@ export const ExtendYourProjectSection: React.FC = () => {
     </section>
   );
 };
+

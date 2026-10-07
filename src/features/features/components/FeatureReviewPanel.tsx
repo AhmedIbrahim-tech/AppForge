@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import {
-  Terminal,
   Copy,
   Check,
-  Info,
 } from "lucide-react";
 import type { FeatureDefinition } from "../types";
 import {
   buildFeatureCliCommand,
   buildInteractiveFeatureCommand,
 } from "../command-builder";
-import { useStackBuilderStore } from "@/features/stack-builder/store/stackBuilderStore";
+import { toast } from "sonner";
 
 interface FeatureReviewPanelProps {
   feature: FeatureDefinition;
@@ -24,9 +22,6 @@ export const FeatureReviewPanel: React.FC<FeatureReviewPanelProps> = ({
   );
   const [copied, setCopied] = useState(false);
 
-  // Stack Builder selected context
-  const stackBuilderType = useStackBuilderStore((state) => state.config.projectType);
-
   const command =
     commandMode === "interactive"
       ? buildInteractiveFeatureCommand(feature.name)
@@ -36,141 +31,122 @@ export const FeatureReviewPanel: React.FC<FeatureReviewPanelProps> = ({
     try {
       await navigator.clipboard.writeText(command);
       setCopied(true);
+      toast.success("Command copied to clipboard");
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // fallback
+      toast.error("Failed to copy command");
     }
   };
 
-  const hasRichText = feature.fields.some((f) => f.kind === "richText");
   const relationsCount = feature.fields.filter((f) => f.kind === "relationship").length;
   const enumsCount = feature.fields.filter((f) => f.kind === "enum").length;
 
   return (
-    <div className="flex flex-col rounded-xl border border-white/[0.08] bg-[#11131a] p-5 shadow-xl">
+    <aside className="rounded-lg border border-border bg-surface p-4 sm:p-5">
       {/* Header */}
-      <div className="border-b border-white/[0.06] pb-4">
+      <div>
         <div className="flex items-center justify-between">
-          <span className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-            CLI Command Preview
+          <span className="font-heading text-xs font-semibold text-text-muted">
+            Command
           </span>
-          <div className="flex rounded-lg border border-white/[0.08] bg-[#0c0d14] p-0.5 text-[11px]">
+          <div className="flex rounded border border-border bg-surface-raised p-0.5 text-[11px]">
             <button
               type="button"
               onClick={() => setCommandMode("non-interactive")}
-              className={`rounded-md px-2 py-1 font-medium transition-colors ${
+              className={`rounded px-2 py-0.5 font-medium transition-colors cursor-pointer ${
                 commandMode === "non-interactive"
-                  ? "bg-indigo-600 text-white"
-                  : "text-zinc-400 hover:text-white"
+                  ? "bg-surface-secondary text-text-primary"
+                  : "text-text-muted hover:text-text-primary"
               }`}
             >
-              One-Line Command
+              Exact flags
             </button>
             <button
               type="button"
               onClick={() => setCommandMode("interactive")}
-              className={`rounded-md px-2 py-1 font-medium transition-colors ${
+              className={`rounded px-2 py-0.5 font-medium transition-colors cursor-pointer ${
                 commandMode === "interactive"
-                  ? "bg-indigo-600 text-white"
-                  : "text-zinc-400 hover:text-white"
+                  ? "bg-surface-secondary text-text-primary"
+                  : "text-text-muted hover:text-text-primary"
               }`}
             >
-              Terminal Wizard
+              Wizard
             </button>
           </div>
         </div>
 
-        {/* Command Box */}
-        <div className="mt-3 relative rounded-lg border border-white/[0.08] bg-[#090a0f] p-3 font-mono text-xs text-zinc-200">
-          <div className="flex items-start justify-between gap-2">
-            <div className="flex items-start gap-2 overflow-x-auto py-1 pr-2 max-h-32">
-              <Terminal className="mt-0.5 h-3.5 w-3.5 shrink-0 text-indigo-400" />
-              <span className="select-all text-indigo-200 whitespace-pre-wrap break-all leading-relaxed">
+        {/* Command Box with Horizontal Scroll, pre formatting */}
+        <div className="mt-3 rounded-md border border-border bg-[#0B0E11] p-3 font-mono text-xs">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-start gap-2 min-w-0 flex-1 overflow-x-auto scrollbar-thin py-0.5">
+              <span className="select-none text-accent font-semibold">$</span>
+              <pre className="text-text-primary whitespace-pre font-mono text-[12px] leading-relaxed">
                 {command}
-              </span>
+              </pre>
             </div>
             <button
               type="button"
               onClick={handleCopy}
-              className="flex shrink-0 items-center gap-1 rounded bg-white/[0.06] px-2.5 py-1.5 text-xs font-medium text-zinc-300 transition-colors hover:bg-white/[0.12] hover:text-white"
+              className="flex shrink-0 items-center gap-1.5 rounded bg-surface-raised border border-border px-2.5 py-1 text-xs text-text-secondary hover:bg-surface-secondary hover:text-text-primary transition-colors cursor-pointer"
             >
               {copied ? (
                 <>
-                  <Check className="h-3.5 w-3.5 text-emerald-400" />
-                  <span className="text-emerald-400">Copied</span>
+                  <Check className="h-3.5 w-3.5 text-success" />
+                  <span className="text-success text-[11px] font-medium font-body">Copied</span>
                 </>
               ) : (
                 <>
-                  <Copy className="h-3.5 w-3.5" />
-                  <span>Copy</span>
+                  <Copy className="h-3.5 w-3.5 text-text-muted" />
+                  <span className="text-[11px] font-medium font-body">Copy</span>
                 </>
               )}
             </button>
           </div>
         </div>
-
-        <p className="mt-2 text-[10px] text-zinc-500">
-          {commandMode === "interactive"
-            ? "Launches the interactive CLI Feature Wizard to configure fields directly in your terminal."
-            : "Runs feature generation non-interactively using exact field definitions."}
-        </p>
       </div>
 
-      {/* Feature Specification Summary */}
-      <div className="mt-4 space-y-3">
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-          Feature Blueprint Summary
+      {/* Feature Specification Summary — Clean Definition List */}
+      <div className="mt-5 border-t border-border-line pt-4">
+        <h3 className="font-heading text-xs font-semibold text-text-muted mb-2.5">
+          Blueprint summary
         </h3>
 
-        <div className="grid grid-cols-2 gap-2 text-xs">
-          <div className="rounded-lg border border-white/[0.06] bg-[#0c0d14] p-2.5">
-            <span className="text-zinc-500 block text-[10px]">Entity</span>
-            <span className="font-semibold text-white">{feature.name || "None"}</span>
+        <dl className="space-y-1.5 text-xs">
+          <div className="flex items-center justify-between py-1 border-b border-border-line/40">
+            <dt className="text-text-muted font-mono text-[11px]">Entity</dt>
+            <dd className="font-semibold text-text-primary font-mono">{feature.name || "None"}</dd>
           </div>
-          <div className="rounded-lg border border-white/[0.06] bg-[#0c0d14] p-2.5">
-            <span className="text-zinc-500 block text-[10px]">Target Surface</span>
-            <span className="font-semibold text-white uppercase text-[11px]">{feature.mode}</span>
+          <div className="flex items-center justify-between py-1 border-b border-border-line/40">
+            <dt className="text-text-muted font-mono text-[11px]">Layer</dt>
+            <dd className="font-medium text-text-primary capitalize">{feature.mode}</dd>
           </div>
-          <div className="rounded-lg border border-white/[0.06] bg-[#0c0d14] p-2.5">
-            <span className="text-zinc-500 block text-[10px]">Fields Count</span>
-            <span className="font-semibold text-white">{feature.fields.length} properties</span>
+          <div className="flex items-center justify-between py-1 border-b border-border-line/40">
+            <dt className="text-text-muted font-mono text-[11px]">Fields</dt>
+            <dd className="font-mono text-text-primary">{feature.fields.length}</dd>
           </div>
-          <div className="rounded-lg border border-white/[0.06] bg-[#0c0d14] p-2.5">
-            <span className="text-zinc-500 block text-[10px]">Relations / Enums</span>
-            <span className="font-semibold text-white">
-              {relationsCount} rel · {enumsCount} enum
-            </span>
+          <div className="flex items-center justify-between py-1 border-b border-border-line/40">
+            <dt className="text-text-muted font-mono text-[11px]">Relations</dt>
+            <dd className="font-mono text-text-primary">{relationsCount}</dd>
           </div>
-        </div>
+          <div className="flex items-center justify-between py-1">
+            <dt className="text-text-muted font-mono text-[11px]">Enums</dt>
+            <dd className="font-mono text-text-primary">{enumsCount}</dd>
+          </div>
+        </dl>
       </div>
 
-      {/* Advisory Notices */}
-      <div className="mt-4 space-y-2">
-        {hasRichText && (
-          <div className="flex items-start gap-2 rounded-lg border border-rose-500/20 bg-rose-500/[0.05] p-2.5 text-xs text-rose-300">
-            <Info className="h-4 w-4 shrink-0 text-rose-400 mt-0.5" />
-            <div>
-              <span className="font-semibold">Module Dependency:</span> Rich text fields require
-              the <code className="text-white">rich-text</code> module. Install it via{" "}
-              <code className="text-rose-200">flatron create module rich-text</code>.
-            </div>
-          </div>
-        )}
-
-        <div className="flex items-start gap-2 rounded-lg border border-indigo-500/20 bg-indigo-500/[0.05] p-2.5 text-xs text-indigo-300/90 leading-relaxed">
-          <Info className="h-4 w-4 shrink-0 text-indigo-400 mt-0.5" />
-          <div>
-            <span className="font-semibold text-indigo-200">Available in Flatron CLI v1.1.0:</span>{" "}
-            Run inside your Flatron project root (<code className="text-white">cd MyApp</code>). The CLI generates C# Clean Architecture entities, repositories, endpoints, and frontend components.
-          </div>
-        </div>
-
-        {stackBuilderType && (
-          <div className="text-[11px] text-zinc-500 pl-1">
-            * Selected Stack in Builder: <span className="text-zinc-300 capitalize">{stackBuilderType}</span>
-          </div>
-        )}
+      {/* Direct workflow notice */}
+      <div className="mt-4 rounded-md border border-border bg-surface-raised/60 p-3 text-[11px] text-text-muted font-mono">
+        <div className="text-text-secondary font-semibold mb-1">Execution order:</div>
+        <ol className="list-decimal pl-4 space-y-0.5 text-text-muted">
+          <li>Run <code className="text-text-primary">cd nexus-app</code></li>
+          <li>Execute command above</li>
+          <li>C# CQRS handlers &amp; UI views generated</li>
+        </ol>
       </div>
-    </div>
+
+    </aside>
   );
 };
+
+

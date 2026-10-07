@@ -26,25 +26,25 @@ export function ArchitectureTree({
   const isAngular = config.frontend.framework === "Angular";
 
   return (
-    <div className="space-y-0.5 p-4 font-mono text-[12.5px] leading-6 text-zinc-300 sm:p-5 select-text">
-      <div className="mb-3 text-xs text-zinc-500">
+    <div className="space-y-0.5 p-3.5 font-mono text-xs leading-relaxed text-[#F3F6FA] select-text">
+      <div className="mb-2 text-[11px] text-[#737D8C]">
         {"// Generated filesystem structure for "}
-        <span className="text-zinc-300 font-semibold">{config.projectName}</span>:
+        <span className="text-[#F3F6FA] font-medium">{config.projectName}</span>:
       </div>
 
-      <div className="text-indigo-300 font-semibold">📁 {config.projectName}/</div>
-      <div className="pl-4 text-zinc-400">
+      <div className="text-[#6487FF] font-semibold">📁 {config.projectName}/</div>
+      <div className="pl-4 text-[#A1AAB8]">
         ├── 📄 .fullstack-app.json{" "}
-        <span className="text-zinc-600">{"// Flatron stack manifest"}</span>
+        <span className="text-[#737D8C]">{"// Stack manifest"}</span>
       </div>
 
       {/* BACKEND SECTION */}
       {!isFrontend && (
         <>
           {isFullstack ? (
-            <div className="pl-4 font-semibold text-cyan-300">
+            <div className="pl-4 font-semibold text-[#F3F6FA]">
               ├── 📁 Backend/{" "}
-              <span className="text-xs font-normal text-cyan-500/80">
+              <span className="text-[11px] font-normal text-[#737D8C]">
                 (Clean Architecture • {dotnetDisplay})
               </span>
             </div>
@@ -56,38 +56,38 @@ export function ArchitectureTree({
             const subIndent = isFullstack ? "pl-12" : "pl-8";
             return (
               <>
-                <div className={`${indent} text-zinc-300`}>
+                <div className={`${indent} text-[#F3F6FA]`}>
                   ├── 📁 Domain/
                 </div>
-                <div className={`${subIndent} text-zinc-500`}>
+                <div className={`${subIndent} text-[#737D8C]`}>
                   ├── Entities, ValueObjects, Common, Exceptions
                 </div>
 
-                <div className={`${indent} text-zinc-300`}>
+                <div className={`${indent} text-[#F3F6FA]`}>
                   ├── 📁 Application/
                 </div>
                 {isCQRS ? (
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── Features/ (CQRS Commands, Queries, Handlers)
                   </div>
                 ) : (
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── Modules/ (Application Services & Interfaces)
                   </div>
                 )}
-                <div className={`${subIndent} text-zinc-500`}>
+                <div className={`${subIndent} text-[#737D8C]`}>
                   ├── Common/ (Behaviors, Interfaces, Exceptions)
                 </div>
                 {config.backend.mapping === "AutoMapper" && (
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── Common/Mappings/ (MappingProfile.cs)
                   </div>
                 )}
 
-                <div className={`${indent} text-zinc-300`}>
+                <div className={`${indent} text-[#F3F6FA]`}>
                   ├── 📁 Infrastructure/
                 </div>
-                <div className={`${subIndent} text-zinc-500`}>
+                <div className={`${subIndent} text-[#737D8C]`}>
                   ├── Persistence/ (
                   {isHybrid
                     ? "ApplicationDbContext + DapperContext"
@@ -97,46 +97,46 @@ export function ArchitectureTree({
                   )
                 </div>
                 {config.backend.auth.includes("Identity") && (
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── Identity/ (ApplicationUser, IdentityService)
                   </div>
                 )}
                 {config.backend.signalR && (
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── Hubs/ (NotificationHub.cs)
                   </div>
                 )}
                 {config.backend.hangfire && (
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── BackgroundJobs/ (JobScheduler.cs)
                   </div>
                 )}
 
-                <div className={`${indent} text-zinc-300`}>
+                <div className={`${indent} text-[#F3F6FA]`}>
                   ├── 📁 {presentationDir}/
                 </div>
                 {config.backend.presentation === "Controllers" && (
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── Controllers/, Filters/, Middleware/, Program.cs
                   </div>
                 )}
                 {config.backend.presentation === "Minimal API" && (
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── Endpoints/, Extensions/, Middleware/, Program.cs
                   </div>
                 )}
                 {config.backend.presentation === "MVC" && (
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── Controllers/, Views/, wwwroot/, Program.cs
                   </div>
                 )}
                 {config.backend.presentation === "Razor Pages" && (
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── Pages/, wwwroot/, Program.cs
                   </div>
                 )}
 
-                <div className={`${indent} text-zinc-400`}>
+                <div className={`${indent} text-[#A1AAB8]`}>
                   └── 📄 {config.projectName}.slnx
                 </div>
               </>
@@ -149,9 +149,9 @@ export function ArchitectureTree({
       {!isBackend && (
         <>
           {isFullstack ? (
-            <div className="pl-4 pt-2 font-semibold text-purple-300">
+            <div className="pl-4 pt-1 font-semibold text-[#F3F6FA]">
               └── 📁 Frontend/{" "}
-              <span className="text-xs font-normal text-purple-400/80">
+              <span className="text-[11px] font-normal text-[#737D8C]">
                 ({config.frontend.framework} • {config.frontend.tooling})
               </span>
             </div>
@@ -163,38 +163,37 @@ export function ArchitectureTree({
             const subIndent = isFullstack ? "pl-12" : "pl-8";
 
             if (isReact && !isNext) {
-              // React + Vite
               return (
                 <>
-                  <div className={`${indent} text-zinc-300`}>
+                  <div className={`${indent} text-[#F3F6FA]`}>
                     ├── 📁 src/
                   </div>
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── components/ ({config.frontend.ui !== "None" ? config.frontend.ui : "UI Components"})
                   </div>
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── features/ (Modular Feature Components & Hooks)
                   </div>
                   {config.frontend.state !== "None" && (
-                    <div className={`${subIndent} text-zinc-500`}>
+                    <div className={`${subIndent} text-[#737D8C]`}>
                       ├── stores/ ({config.frontend.state} Store State)
                     </div>
                   )}
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── services/ ({config.frontend.httpClient} API Client)
                   </div>
                   {config.frontend.includeI18n && (
-                    <div className={`${subIndent} text-zinc-500`}>
+                    <div className={`${subIndent} text-[#737D8C]`}>
                       ├── i18n/ (Translations & Localization)
                     </div>
                   )}
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── App.tsx, main.tsx, index.css
                   </div>
-                  <div className={`${indent} text-zinc-400`}>
+                  <div className={`${indent} text-[#A1AAB8]`}>
                     ├── 📄 index.html, vite.config.ts
                   </div>
-                  <div className={`${indent} text-zinc-400`}>
+                  <div className={`${indent} text-[#A1AAB8]`}>
                     └── 📄 package.json, tsconfig.json
                   </div>
                 </>
@@ -202,30 +201,29 @@ export function ArchitectureTree({
             }
 
             if (isReact && isNext) {
-              // React + Next.js
               return (
                 <>
-                  <div className={`${indent} text-zinc-300`}>
+                  <div className={`${indent} text-[#F3F6FA]`}>
                     ├── 📁 src/
                   </div>
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── app/ (layout.tsx, page.tsx, globals.css)
                   </div>
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── components/ ({config.frontend.ui !== "None" ? config.frontend.ui : "UI Components"})
                   </div>
                   {config.frontend.state !== "None" && (
-                    <div className={`${subIndent} text-zinc-500`}>
+                    <div className={`${subIndent} text-[#737D8C]`}>
                       ├── stores/ ({config.frontend.state} Global State)
                     </div>
                   )}
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── services/ ({config.frontend.httpClient} Fetchers)
                   </div>
-                  <div className={`${indent} text-zinc-400`}>
+                  <div className={`${indent} text-[#A1AAB8]`}>
                     ├── 📄 next.config.ts, tailwind.config.ts
                   </div>
-                  <div className={`${indent} text-zinc-400`}>
+                  <div className={`${indent} text-[#A1AAB8]`}>
                     └── 📄 package.json, tsconfig.json
                   </div>
                 </>
@@ -233,33 +231,32 @@ export function ArchitectureTree({
             }
 
             if (isAngular) {
-              // Angular CLI
               return (
                 <>
-                  <div className={`${indent} text-zinc-300`}>
+                  <div className={`${indent} text-[#F3F6FA]`}>
                     ├── 📁 src/app/
                   </div>
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── core/ (Guards, Interceptors, Services)
                   </div>
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── features/ (Lazy-Loaded Feature Routes)
                   </div>
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── shared/ ({config.frontend.ui !== "None" ? config.frontend.ui : "Shared Components"})
                   </div>
                   {config.frontend.state === "NgRx" && (
-                    <div className={`${subIndent} text-zinc-500`}>
+                    <div className={`${subIndent} text-[#737D8C]`}>
                       ├── store/ (NgRx Reducers, Effects, Selectors)
                     </div>
                   )}
-                  <div className={`${subIndent} text-zinc-500`}>
+                  <div className={`${subIndent} text-[#737D8C]`}>
                     ├── app.component.ts, app.config.ts, app.routes.ts
                   </div>
-                  <div className={`${indent} text-zinc-400`}>
+                  <div className={`${indent} text-[#A1AAB8]`}>
                     ├── 📄 angular.json, tsconfig.app.json
                   </div>
-                  <div className={`${indent} text-zinc-400`}>
+                  <div className={`${indent} text-[#A1AAB8]`}>
                     └── 📄 package.json, styles.css
                   </div>
                 </>

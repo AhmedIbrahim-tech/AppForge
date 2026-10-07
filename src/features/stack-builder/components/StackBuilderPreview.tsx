@@ -1,11 +1,9 @@
 import React from "react";
 import {
-  Sparkles,
   FolderTree,
   FileCode2,
   Terminal,
   AlertOctagon,
-  Info,
 } from "lucide-react";
 import { useStackBuilderStore } from "@/features/stack-builder/store/stackBuilderStore";
 import { Badge } from "@/shared/components/ui/Badge";
@@ -61,41 +59,37 @@ export const StackBuilderPreview: React.FC = () => {
   return (
     <section
       id="builder"
-      className="relative overflow-hidden border-t border-white/[0.06] py-14 sm:py-20"
+      className="relative border-b border-[#252C36] bg-[#0A0D12] py-12 sm:py-16"
     >
-      {/* Background Ambience */}
-      <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-25" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.1),transparent_65%)]" />
-
-      <div className="relative mx-auto w-full max-w-[100rem] px-4 sm:px-6 lg:px-10 xl:px-14">
+      <div className="app-container">
         {/* Top Header */}
-        <div className="mx-auto max-w-3xl text-center mb-8">
-          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3.5 py-1 text-xs font-medium text-indigo-300 backdrop-blur-sm mb-3">
-            <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
-            <span>Interactive Stack Builder</span>
+        <div className="max-w-2xl mb-6">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-medium text-[#A1AAB8] mb-1.5">
+            <span className="flex h-2 w-2 rounded-full bg-[#4F75FF]" />
+            <span>Interactive configurator</span>
           </div>
-          <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
+          <h2 className="text-2xl font-semibold tracking-tight text-[#F3F6FA] sm:text-3xl">
             Visual Stack Builder
           </h2>
-          <p className="mt-2.5 text-sm sm:text-base leading-relaxed text-zinc-400">
-            Configure full-stack, backend, or frontend architectures with synchronized live validation and real Flatron CLI flags.
+          <p className="mt-1 text-xs sm:text-sm text-[#A1AAB8] leading-relaxed">
+            Configure your stack and copy a verified Flatron CLI command.
           </p>
         </div>
 
-        {/* Compact Horizontal Preset Bar */}
-        <div className="mb-4">
+        {/* Preset Selector */}
+        <div className="mb-3">
           <PresetBar config={config} onSelectPreset={applyPreset} />
         </div>
 
-        {/* Live Stack Summary Bar */}
-        <div className="mb-8">
+        {/* Live Stack Summary */}
+        <div className="mb-5">
           <StackSummaryBar config={config} />
         </div>
 
-        {/* Main 2-Column Responsive Builder Layout */}
-        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-8">
-          {/* Left Column: Compact Collapsible Configuration (58% width on desktop) */}
-          <div className="space-y-4 lg:col-span-7">
+        {/* 2-Column Responsive Builder Layout (60% / 40%) */}
+        <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-12">
+          {/* Left: Collapsible Configuration Sections */}
+          <div className="space-y-3 lg:col-span-7 xl:col-span-7">
             {/* 1. Project Section */}
             <ProjectSection
               config={config}
@@ -153,16 +147,16 @@ export const StackBuilderPreview: React.FC = () => {
             <BuilderActions config={config} validation={validation} />
           </div>
 
-          {/* Right Column: Sticky Live Inspector Preview (42% width on desktop) */}
-          <div className="space-y-4 lg:sticky lg:top-20 lg:col-span-5">
+          {/* Right: Sticky Live Inspector Preview */}
+          <div className="space-y-3 lg:sticky lg:top-18 lg:col-span-5 xl:col-span-5">
             {/* Live Validation Banner */}
             {!validation.isValid ? (
-              <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-3.5 text-xs text-red-200">
-                <div className="mb-1.5 flex items-center gap-2 font-semibold text-red-300">
-                  <AlertOctagon className="h-4 w-4 shrink-0 text-red-400" />
+              <div className="rounded-[8px] border border-[#E05A67]/40 bg-[#E05A67]/10 p-3 text-xs text-[#E05A67]">
+                <div className="mb-1 flex items-center gap-1.5 font-semibold">
+                  <AlertOctagon className="h-4 w-4 shrink-0" />
                   <span>Validation Warning</span>
                 </div>
-                <ul className="list-disc space-y-1 pl-5 text-red-200/90 font-mono text-[11px]">
+                <ul className="list-disc space-y-0.5 pl-4 font-mono text-[11px]">
                   {validation.errors.map((err, idx) => (
                     <li key={idx}>{err}</li>
                   ))}
@@ -170,7 +164,7 @@ export const StackBuilderPreview: React.FC = () => {
               </div>
             ) : (
               <StatusBadge valid>
-                Verified: Stack ready for Flatron scaffolding.
+                Stack validated and ready to scaffold.
               </StatusBadge>
             )}
 
@@ -209,11 +203,11 @@ export const StackBuilderPreview: React.FC = () => {
               }
             >
               {!validation.isValid ? (
-                <div className="space-y-2 p-8 text-center font-mono text-xs text-red-400">
-                  <AlertOctagon className="mx-auto mb-2 h-7 w-7 text-red-400" />
-                  <p className="font-semibold text-sm">Cannot render preview</p>
-                  <p className="text-zinc-500 text-xs">
-                    Resolve the highlighted compatibility constraints to resume architecture inspection.
+                <div className="p-8 text-center font-mono text-xs text-[#E05A67]">
+                  <AlertOctagon className="mx-auto mb-2 h-6 w-6 text-[#E05A67]" />
+                  <p className="font-semibold text-xs">Cannot render architecture preview</p>
+                  <p className="text-[#737D8C] text-[11px] mt-1">
+                    Resolve compatibility constraints to view filesystem output.
                   </p>
                 </div>
               ) : (
@@ -236,14 +230,6 @@ export const StackBuilderPreview: React.FC = () => {
                 </>
               )}
             </PreviewPanel>
-
-            {/* Informational Guidance */}
-            <div className="flex items-start gap-2.5 rounded-xl border border-white/8 bg-white/[0.02] p-3 text-xs leading-relaxed text-zinc-400">
-              <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-indigo-400" />
-              <p>
-                All 5 surfaces (Controls, Presets, Summary, Architecture/Config, and CLI) derive synchronously from one canonical configuration.
-              </p>
-            </div>
           </div>
         </div>
       </div>

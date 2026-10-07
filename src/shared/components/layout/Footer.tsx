@@ -1,5 +1,4 @@
 import React from "react";
-import { Heart } from "lucide-react";
 
 function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -31,59 +30,48 @@ function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="border-t border-white/[0.06] bg-[#06070a] py-4 text-zinc-400">
-      <div className="mx-auto w-full max-w-[100rem] px-4 sm:px-6 lg:px-10 xl:px-14">
-        <div className="flex flex-col items-center justify-between gap-3 text-xs sm:flex-row">
-          {/* Left Side: Copyright & License */}
-          <div className="text-zinc-500 font-mono text-[11px] text-center sm:text-left">
-            © 2026 Flatron. Open-source under MIT License.
-          </div>
+    <footer className="border-t border-border-line bg-base py-6 text-text-muted">
+      <div className="app-container flex flex-col items-center justify-between gap-4 text-xs sm:flex-row">
+        <div className="flex items-center gap-3 font-mono text-[11px] text-text-muted">
+          <span>Flatron</span>
+          <span>·</span>
+          <span>MIT License</span>
+        </div>
 
-          {/* Right Side: Creator attribution + Social Icons */}
-          <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1 text-zinc-400 text-xs">
-              <span>Crafted with</span>
-              <Heart className="h-3 w-3 fill-red-500 text-red-500 mx-0.5 inline" />
-              <span>by</span>
-              <span className="font-medium text-zinc-200">Ahmed Ibrahim</span>
-            </span>
-
-            {/* Social Icons */}
-            <div className="flex items-center gap-1.5 border-l border-white/10 pl-3">
-              <a
-                href="https://www.linkedin.com/in/ahmedeprahim/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-6 w-6 items-center justify-center rounded-md border border-white/8 bg-white/[0.03] text-zinc-400 transition-colors hover:border-white/20 hover:text-[#0a66c2]"
-                aria-label="Ahmed Ibrahim LinkedIn Profile"
-                title="LinkedIn Profile"
-              >
-                <LinkedinIcon className="h-3 w-3" />
-              </a>
-              <a
-                href="https://github.com/AhmedIbrahim-tech/flatron"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-6 w-6 items-center justify-center rounded-md border border-white/8 bg-white/[0.03] text-zinc-400 transition-colors hover:border-white/20 hover:text-white"
-                aria-label="Flatron GitHub Repository"
-                title="GitHub Repository"
-              >
-                <GithubIcon className="h-3 w-3" />
-              </a>
-              <a
-                href="https://www.npmjs.com/package/flatron"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-6 w-6 items-center justify-center rounded-md border border-white/8 bg-white/[0.03] text-zinc-400 transition-colors hover:border-white/20 hover:text-[#cb3837]"
-                aria-label="Flatron npm Package"
-                title="npm Package"
-              >
-                <NpmIcon className="h-3 w-3" />
-              </a>
-            </div>
+        <div className="flex items-center gap-4 text-xs text-text-secondary">
+          <span>Created by <strong className="text-text-primary font-medium">Ahmed Ibrahim</strong></span>
+          <div className="flex items-center gap-2 border-l border-border-subtle pl-3">
+            <a
+              href="https://github.com/AhmedIbrahim-tech/flatron"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-text-muted hover:text-text-primary transition-colors"
+              aria-label="GitHub"
+            >
+              <GithubIcon className="h-4 w-4" />
+            </a>
+            <a
+              href="https://www.npmjs.com/package/flatron"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-text-muted hover:text-accent transition-colors"
+              aria-label="npm"
+            >
+              <NpmIcon className="h-3.5 w-3.5" />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/ahmedeprahim/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-text-muted hover:text-accent transition-colors"
+              aria-label="LinkedIn"
+            >
+              <LinkedinIcon className="h-3.5 w-3.5" />
+            </a>
           </div>
         </div>
       </div>
     </footer>
   );
 };
+

@@ -28,7 +28,7 @@ function highlightJsonLine(line: string): ReactNode {
     }
     if (match[1] && match[2]) {
       nodes.push(
-        <span key={key++} className="text-indigo-300">
+        <span key={key++} className="text-accent font-medium">
           {match[1]}
         </span>,
       );
@@ -39,19 +39,19 @@ function highlightJsonLine(line: string): ReactNode {
       );
     } else if (match[1]) {
       nodes.push(
-        <span key={key++} className="text-sky-300">
+        <span key={key++} className="text-emerald-400">
           {match[1]}
         </span>,
       );
     } else if (match[3]) {
       nodes.push(
-        <span key={key++} className="text-amber-300">
+        <span key={key++} className="text-amber-400">
           {match[3]}
         </span>,
       );
     } else if (match[4]) {
       nodes.push(
-        <span key={key++} className="text-purple-300">
+        <span key={key++} className="text-accent">
           {match[4]}
         </span>,
       );
@@ -80,26 +80,26 @@ function highlightBashLine(line: string): ReactNode {
   while ((match = re.exec(line)) !== null) {
     if (match.index > lastIndex) {
       nodes.push(
-        <span key={key++} className="text-zinc-200">
+        <span key={key++} className="text-text-primary">
           {line.slice(lastIndex, match.index)}
         </span>,
       );
     }
     if (match[1]) {
       nodes.push(
-        <span key={key++} className="text-indigo-300">
+        <span key={key++} className="text-accent font-semibold">
           {match[1]}
         </span>,
       );
     } else if (match[2]) {
       nodes.push(
-        <span key={key++} className="text-sky-300">
+        <span key={key++} className="text-zinc-300">
           {match[2]}
         </span>,
       );
     } else if (match[3]) {
       nodes.push(
-        <span key={key++} className="text-emerald-300">
+        <span key={key++} className="text-emerald-400">
           {match[3]}
         </span>,
       );
@@ -109,13 +109,13 @@ function highlightBashLine(line: string): ReactNode {
 
   if (lastIndex < line.length) {
     nodes.push(
-      <span key={key} className="text-zinc-200">
+      <span key={key} className="text-text-primary">
         {line.slice(lastIndex)}
       </span>,
     );
   }
 
-  return nodes.length ? nodes : <span className="text-zinc-200">{line}</span>;
+  return nodes.length ? nodes : <span className="text-text-primary">{line}</span>;
 }
 
 export const CodeBlock: React.FC<CodeBlockProps> = ({
@@ -131,7 +131,7 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
     try {
       await navigator.clipboard.writeText(code);
       setCopied(true);
-      toast.success("Copied to clipboard!");
+      toast.success("Copied to clipboard");
       setTimeout(() => setCopied(false), 2000);
     } catch {
       toast.error("Failed to copy code");
@@ -142,22 +142,17 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
 
   return (
     <div
-      className={`group relative overflow-hidden rounded-xl border border-white/8 bg-[#0a0c14] shadow-[0_16px_40px_-24px_rgba(0,0,0,0.9)] transition-all ${className}`}
+      className={`relative overflow-hidden rounded-[8px] border border-border-subtle bg-base ${className}`}
     >
-      <div className="flex items-center justify-between border-b border-white/8 bg-[#12151f]/90 px-4 py-2.5">
+      <div className="flex items-center justify-between border-b border-border-subtle bg-surface px-3.5 py-2">
         <div className="flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <div className="h-2.5 w-2.5 rounded-full bg-red-500/60" />
-            <div className="h-2.5 w-2.5 rounded-full bg-yellow-500/60" />
-            <div className="h-2.5 w-2.5 rounded-full bg-emerald-500/60" />
-          </div>
           {filename ? (
-            <span className="ml-2 font-mono text-xs font-medium text-zinc-400">
+            <span className="font-mono text-xs text-text-secondary">
               {filename}
             </span>
           ) : (
-            <span className="ml-2 flex items-center gap-1.5 font-mono text-xs text-zinc-400">
-              <Terminal className="h-3.5 w-3.5 text-zinc-500" />
+            <span className="flex items-center gap-1.5 font-mono text-xs text-text-muted">
+              <Terminal className="h-3.5 w-3.5 text-accent" />
               {language}
             </span>
           )}
@@ -166,29 +161,29 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
         <button
           onClick={handleCopy}
           type="button"
-          className="flex cursor-pointer items-center gap-1.5 rounded-md px-2.5 py-1 font-mono text-xs text-zinc-400 transition-colors hover:bg-white/5 hover:text-zinc-200"
+          className="flex cursor-pointer items-center gap-1.5 rounded-[5px] px-2 py-1 font-mono text-xs text-text-secondary transition-colors hover:bg-surface-secondary hover:text-text-primary"
           title="Copy code"
         >
           {copied ? (
             <>
-              <Check className="h-3.5 w-3.5 text-emerald-400" />
-              <span className="text-emerald-400">Copied</span>
+              <Check className="h-3.5 w-3.5 text-success" />
+              <span className="text-success font-medium">Copied</span>
             </>
           ) : (
             <>
-              <Copy className="h-3.5 w-3.5 text-zinc-400 group-hover:text-zinc-200" />
+              <Copy className="h-3.5 w-3.5 text-text-muted" />
               <span>Copy</span>
             </>
           )}
         </button>
       </div>
 
-      <div className="overflow-x-auto p-4 font-mono text-sm leading-6 text-zinc-200">
-        <pre className="flex flex-col gap-0.5">
+      <div className="overflow-x-auto p-3.5 font-mono text-xs leading-relaxed text-text-primary">
+        <pre className="flex flex-col gap-0.5 font-mono">
           {lines.map((line, idx) => (
-            <div key={idx} className="flex min-h-[1.5rem]">
+            <div key={idx} className="flex min-h-[1.25rem]">
               {showLineNumbers && (
-                <span className="mr-4 inline-block w-6 select-none text-right font-mono text-xs text-zinc-600">
+                <span className="mr-3 inline-block w-5 select-none text-right font-mono text-xs text-text-muted">
                   {idx + 1}
                 </span>
               )}
@@ -206,3 +201,4 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({
     </div>
   );
 };
+

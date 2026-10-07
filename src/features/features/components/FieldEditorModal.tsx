@@ -234,33 +234,33 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-      <div className="relative w-full max-w-xl rounded-2xl border border-white/[0.1] bg-[#11131a] p-6 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
+      <div className="relative w-full max-w-lg rounded-lg border border-border bg-surface p-5 shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
-          <h2 className="text-base font-bold text-white">
+        <div className="flex items-center justify-between border-b border-border-line pb-3">
+          <h2 className="font-heading text-sm font-bold text-text-primary">
             {initialField ? "Edit Field" : "Add Feature Field"}
           </h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1 text-zinc-400 hover:bg-white/[0.08] hover:text-white"
+            className="rounded p-1 text-text-muted hover:bg-surface-raised hover:text-text-primary transition-colors cursor-pointer"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
         {error && (
-          <div className="mt-4 flex items-center gap-2 rounded-lg border border-red-500/20 bg-red-500/10 p-2.5 text-xs text-red-300">
+          <div className="mt-3 flex items-center gap-2 rounded-md border border-danger/30 bg-danger/10 p-2.5 text-xs text-danger">
             <AlertCircle className="h-4 w-4 shrink-0" />
-            <span>{error}</span>
+            <span className="font-body">{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+        <form onSubmit={handleSubmit} className="mt-3.5 space-y-3.5">
           {/* Field Kind Switcher */}
           <div>
-            <label className="text-xs font-semibold text-zinc-300">Field Kind</label>
+            <label className="text-xs font-medium text-text-secondary">Field kind</label>
             <div className="mt-1.5 grid grid-cols-5 gap-1.5">
               {[
                 { k: "scalar", label: "Scalar", icon: <Type className="h-3.5 w-3.5" /> },
@@ -276,57 +276,58 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
                     setKind(item.k as FieldKind);
                     setError(null);
                   }}
-                  className={`flex flex-col items-center gap-1 rounded-lg border p-2 text-[11px] font-medium transition-all ${
+                  className={`flex flex-col items-center gap-1 rounded-md border p-2 text-[11px] font-medium transition-all cursor-pointer ${
                     kind === item.k
-                      ? "border-indigo-500/60 bg-indigo-500/20 text-indigo-300"
-                      : "border-white/[0.06] bg-[#0c0d14] text-zinc-400 hover:text-white"
+                      ? "border-accent bg-accent/10 text-text-primary shadow-sm"
+                      : "border-border bg-surface-raised text-text-muted hover:text-text-primary hover:border-border-hover"
                   }`}
                 >
                   {item.icon}
-                  <span>{item.label}</span>
+                  <span className="font-body">{item.label}</span>
                 </button>
               ))}
             </div>
           </div>
 
+
           {/* Common: Name & Required */}
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
-              <label className="text-xs font-medium text-zinc-300">
-                Field Name (PascalCase)
+              <label className="text-xs font-medium text-text-secondary">
+                Field name (PascalCase)
               </label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Title, Price, Category"
-                className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#0c0d14] px-3 py-2 text-xs text-white placeholder-zinc-500 focus:border-indigo-500/50 focus:outline-none"
+                className="mt-1 w-full rounded-md border border-border bg-surface-raised px-3 py-1.5 font-mono text-xs text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none transition-colors"
                 required
               />
             </div>
 
             <div className="flex flex-col justify-end">
-              <label className="flex items-center gap-2 rounded-lg border border-white/[0.08] bg-[#0c0d14] px-3 py-2.5 text-xs text-zinc-300 cursor-pointer">
+              <label className="flex items-center gap-2 rounded-md border border-border bg-surface-raised px-3 py-2 text-xs text-text-secondary cursor-pointer hover:border-border-hover transition-colors">
                 <input
                   type="checkbox"
                   checked={required}
                   onChange={(e) => setRequired(e.target.checked)}
-                  className="rounded border-zinc-700 text-indigo-600 focus:ring-indigo-500"
+                  className="rounded border-border text-accent focus:ring-accent accent-accent"
                 />
-                <span>Required (Non-nullable)</span>
+                <span className="font-body">Required (Non-nullable)</span>
               </label>
             </div>
           </div>
 
           {/* Contextual Options based on Kind */}
           {kind === "scalar" && (
-            <div className="space-y-3 rounded-xl border border-white/[0.06] bg-[#0c0d14] p-3.5">
+            <div className="space-y-3 rounded-md border border-border bg-surface-raised p-3">
               <div>
-                <label className="text-xs font-medium text-zinc-400">Data Type</label>
+                <label className="text-xs font-medium text-text-secondary">Data type</label>
                 <select
                   value={scalarType}
                   onChange={(e) => setScalarType(e.target.value as ScalarFieldType)}
-                  className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-3 py-1.5 text-xs text-white focus:border-indigo-500/50 focus:outline-none"
+                  className="mt-1 w-full rounded-md border border-border bg-surface px-3 py-1.5 text-xs text-text-primary focus:border-accent focus:outline-none transition-colors"
                 >
                   {SCALAR_TYPES.map((t) => (
                     <option key={t} value={t}>
@@ -336,26 +337,27 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
                 </select>
               </div>
 
+
               {scalarType === "string" && (
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-[11px] text-zinc-400">Min Length</label>
+                    <label className="text-[11px] text-zinc-400">Min length</label>
                     <input
                       type="number"
                       value={minLength}
                       onChange={(e) => setMinLength(e.target.value)}
                       placeholder="0"
-                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-2.5 py-1 text-xs text-white"
+                      className="mt-1 w-full rounded-md border border-border bg-surface px-2.5 py-1 text-xs text-white"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] text-zinc-400">Max Length</label>
+                    <label className="text-[11px] text-zinc-400">Max length</label>
                     <input
                       type="number"
                       value={maxLength}
                       onChange={(e) => setMaxLength(e.target.value)}
                       placeholder="200"
-                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-2.5 py-1 text-xs text-white"
+                      className="mt-1 w-full rounded-md border border-border bg-surface px-2.5 py-1 text-xs text-white"
                     />
                   </div>
                 </div>
@@ -370,7 +372,7 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
                       value={numericMin}
                       onChange={(e) => setNumericMin(e.target.value)}
                       placeholder="0"
-                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-2 py-1 text-xs text-white"
+                      className="mt-1 w-full rounded-md border border-border bg-surface px-2 py-1 text-xs text-white"
                     />
                   </div>
                   <div>
@@ -380,7 +382,7 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
                       value={numericMax}
                       onChange={(e) => setNumericMax(e.target.value)}
                       placeholder="10000"
-                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-2 py-1 text-xs text-white"
+                      className="mt-1 w-full rounded-md border border-border bg-surface px-2 py-1 text-xs text-white"
                     />
                   </div>
                   <div>
@@ -390,7 +392,7 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
                       value={precision}
                       onChange={(e) => setPrecision(e.target.value)}
                       placeholder="18"
-                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-2 py-1 text-xs text-white"
+                      className="mt-1 w-full rounded-md border border-border bg-surface px-2 py-1 text-xs text-white"
                     />
                   </div>
                   <div>
@@ -400,7 +402,7 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
                       value={scale}
                       onChange={(e) => setScale(e.target.value)}
                       placeholder="2"
-                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-2 py-1 text-xs text-white"
+                      className="mt-1 w-full rounded-md border border-border bg-surface px-2 py-1 text-xs text-white"
                     />
                   </div>
                 </div>
@@ -409,23 +411,23 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
               {(scalarType === "int" || scalarType === "long" || scalarType === "double") && (
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-[11px] text-zinc-400">Min Value</label>
+                    <label className="text-[11px] text-zinc-400">Min value</label>
                     <input
                       type="number"
                       value={numericMin}
                       onChange={(e) => setNumericMin(e.target.value)}
                       placeholder="e.g. 0"
-                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-2.5 py-1 text-xs text-white"
+                      className="mt-1 w-full rounded-md border border-border bg-surface px-2.5 py-1 text-xs text-white"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] text-zinc-400">Max Value</label>
+                    <label className="text-[11px] text-zinc-400">Max value</label>
                     <input
                       type="number"
                       value={numericMax}
                       onChange={(e) => setNumericMax(e.target.value)}
                       placeholder="e.g. 100"
-                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-2.5 py-1 text-xs text-white"
+                      className="mt-1 w-full rounded-md border border-border bg-surface px-2.5 py-1 text-xs text-white"
                     />
                   </div>
                 </div>
@@ -434,31 +436,31 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
           )}
 
           {kind === "enum" && (
-            <div className="space-y-3 rounded-xl border border-white/[0.06] bg-[#0c0d14] p-3.5">
+            <div className="space-y-3 rounded-md border border-border bg-surface-raised p-3">
               <div>
-                <label className="text-xs font-medium text-zinc-400">Enum Class Name</label>
+                <label className="text-xs font-medium text-zinc-300">Enum class name</label>
                 <input
                   type="text"
                   value={enumName}
                   onChange={(e) => setEnumName(e.target.value)}
                   placeholder={`e.g. ${name || "Product"}Status`}
-                  className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-3 py-1.5 text-xs text-white"
+                  className="mt-1 w-full rounded-md border border-border bg-surface px-3 py-1.5 font-mono text-xs text-white"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-medium text-zinc-400">Enum Values</label>
+                <label className="text-xs font-medium text-zinc-300">Enum values</label>
                 <div className="mt-1.5 flex flex-wrap gap-1.5">
                   {enumValues.map((val, idx) => (
                     <span
                       key={idx}
-                      className="inline-flex items-center gap-1 rounded-md bg-indigo-500/20 px-2 py-0.5 text-xs text-indigo-300"
+                      className="inline-flex items-center gap-1 rounded bg-accent/10 border border-accent/20 px-2 py-0.5 font-mono text-xs text-accent-hover"
                     >
                       {val}
                       <button
                         type="button"
                         onClick={() => handleRemoveEnumValue(idx)}
-                        className="text-indigo-400 hover:text-white"
+                        className="text-zinc-400 hover:text-white"
                       >
                         <X className="h-3 w-3" />
                       </button>
@@ -478,12 +480,12 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
                       }
                     }}
                     placeholder="Add value (e.g. Pending, Completed)"
-                    className="flex-1 rounded-lg border border-white/[0.08] bg-[#11131a] px-3 py-1.5 text-xs text-white"
+                    className="flex-1 rounded-md border border-border bg-surface px-3 py-1.5 font-mono text-xs text-white"
                   />
                   <button
                     type="button"
                     onClick={handleAddEnumValue}
-                    className="flex items-center gap-1 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-indigo-500"
+                    className="flex items-center gap-1 rounded-md bg-surface-strong border border-border px-3 py-1.5 text-xs font-medium text-white hover:bg-surface hover:border-zinc-600 transition-colors cursor-pointer"
                   >
                     <Plus className="h-3 w-3" />
                     <span>Add</span>
@@ -494,43 +496,43 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
           )}
 
           {kind === "relationship" && (
-            <div className="space-y-3 rounded-xl border border-white/[0.06] bg-[#0c0d14] p-3.5">
+            <div className="space-y-3 rounded-md border border-border bg-surface-raised p-3">
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="text-xs font-medium text-zinc-400">Target Entity</label>
+                  <label className="text-xs font-medium text-zinc-300">Target entity</label>
                   <input
                     type="text"
                     value={targetEntity}
                     onChange={(e) => setTargetEntity(e.target.value)}
-                    placeholder="e.g. Category, User, Order"
-                    className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-3 py-1.5 text-xs text-white"
+                    placeholder="e.g. Category, User"
+                    className="mt-1 w-full rounded-md border border-border bg-surface px-3 py-1.5 font-mono text-xs text-white"
                     required
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-zinc-400">Display Property</label>
+                  <label className="text-xs font-medium text-zinc-300">Display property</label>
                   <input
                     type="text"
                     value={displayField}
                     onChange={(e) => setDisplayField(e.target.value)}
                     placeholder="e.g. Name, Title"
-                    className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-3 py-1.5 text-xs text-white"
+                    className="mt-1 w-full rounded-md border border-border bg-surface px-3 py-1.5 font-mono text-xs text-white"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs font-medium text-zinc-400">Relationship Type</label>
+                <label className="text-xs font-medium text-zinc-300">Relationship type</label>
                 <div className="mt-1.5 grid grid-cols-2 gap-2">
                   {RELATIONSHIP_TYPES.map((rt) => (
                     <button
                       key={rt.value}
                       type="button"
                       onClick={() => setRelType(rt.value)}
-                      className={`flex flex-col rounded-lg border p-2 text-left text-xs transition-all ${
+                      className={`flex flex-col rounded-md border p-2 text-left text-xs transition-colors cursor-pointer ${
                         relType === rt.value
-                          ? "border-indigo-500/60 bg-indigo-500/20 text-indigo-300"
-                          : "border-white/[0.06] bg-[#11131a] text-zinc-400 hover:text-white"
+                          ? "border-accent bg-accent/10 text-white"
+                          : "border-border bg-surface text-zinc-400 hover:text-white hover:border-zinc-700"
                       }`}
                     >
                       <span className="font-semibold text-white">{rt.label}</span>
@@ -541,11 +543,11 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
               </div>
 
               <div>
-                <label className="text-xs font-medium text-zinc-400">On Delete Behavior</label>
+                <label className="text-xs font-medium text-zinc-300">On delete behavior</label>
                 <select
                   value={deleteBehavior}
                   onChange={(e) => setDeleteBehavior(e.target.value as DeleteBehavior)}
-                  className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-3 py-1.5 text-xs text-white"
+                  className="mt-1 w-full rounded-md border border-border bg-surface px-3 py-1.5 text-xs text-white"
                 >
                   {DELETE_BEHAVIORS.map((db) => (
                     <option key={db} value={db}>
@@ -558,25 +560,25 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
           )}
 
           {kind === "media" && (
-            <div className="space-y-3 rounded-xl border border-white/[0.06] bg-[#0c0d14] p-3.5">
+            <div className="space-y-3 rounded-md border border-border bg-surface-raised p-3">
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="text-xs font-medium text-zinc-400">Media Kind</label>
+                  <label className="text-xs font-medium text-zinc-300">Media kind</label>
                   <select
                     value={mediaKind}
                     onChange={(e) => setMediaKind(e.target.value as MediaKind)}
-                    className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-3 py-1.5 text-xs text-white"
+                    className="mt-1 w-full rounded-md border border-border bg-surface px-3 py-1.5 text-xs text-white"
                   >
                     <option value="image">Image (jpg, png, webp)</option>
                     <option value="file">File (pdf, docx, any)</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-zinc-400">Cardinality</label>
+                  <label className="text-xs font-medium text-zinc-300">Cardinality</label>
                   <select
                     value={cardinality}
                     onChange={(e) => setCardinality(e.target.value as "single" | "multiple")}
-                    className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-3 py-1.5 text-xs text-white"
+                    className="mt-1 w-full rounded-md border border-border bg-surface px-3 py-1.5 text-xs text-white"
                   >
                     <option value="single">Single File</option>
                     <option value="multiple">Multiple Files</option>
@@ -586,24 +588,24 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="text-xs font-medium text-zinc-400">Max Size (MB)</label>
+                  <label className="text-xs font-medium text-zinc-300">Max size (MB)</label>
                   <input
                     type="number"
                     value={maxSizeMb}
                     onChange={(e) => setMaxSizeMb(e.target.value)}
                     placeholder="5"
-                    className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-3 py-1.5 text-xs text-white"
+                    className="mt-1 w-full rounded-md border border-border bg-surface px-3 py-1.5 text-xs text-white"
                   />
                 </div>
                 {cardinality === "multiple" && (
                   <div>
-                    <label className="text-xs font-medium text-zinc-400">Max Files Count</label>
+                    <label className="text-xs font-medium text-zinc-300">Max files count</label>
                     <input
                       type="number"
                       value={maxFiles}
                       onChange={(e) => setMaxFiles(e.target.value)}
                       placeholder="8"
-                      className="mt-1 w-full rounded-lg border border-white/[0.08] bg-[#11131a] px-3 py-1.5 text-xs text-white"
+                      className="mt-1 w-full rounded-md border border-border bg-surface px-3 py-1.5 text-xs text-white"
                     />
                   </div>
                 )}
@@ -612,32 +614,34 @@ export const FieldEditorModal: React.FC<FieldEditorModalProps> = ({
           )}
 
           {kind === "richText" && (
-            <div className="rounded-xl border border-rose-500/20 bg-rose-500/10 p-3 text-xs text-rose-300">
-              <span className="font-semibold text-rose-200">Note on Rich Text:</span> Rich-text
-              fields store structured JSON documents and provide Tiptap editor integration.
-              Ensure your project has the <strong className="underline">rich-text</strong> module
+            <div className="rounded-md border border-border bg-surface-raised p-3 text-xs text-text-secondary">
+              <span className="font-semibold text-text-primary">Note on rich text:</span> Rich-text
+              fields store structured JSON documents with Tiptap editor support.
+              Ensure your project has the <strong className="font-mono text-accent">rich-text</strong> module
               installed from the Module Explorer.
             </div>
           )}
 
           {/* Footer buttons */}
-          <div className="flex items-center justify-end gap-2 border-t border-white/[0.08] pt-4">
+          <div className="flex items-center justify-end gap-2 border-t border-border-line pt-3.5">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg px-3 py-2 text-xs font-medium text-zinc-400 hover:bg-white/[0.06] hover:text-white"
+              className="rounded-md px-3 py-1.5 text-xs font-medium text-text-muted hover:bg-surface-raised hover:text-text-primary transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="rounded-lg bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow hover:bg-indigo-500"
+              className="rounded-md bg-accent px-4 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-accent-hover active:scale-[0.985] transition-all cursor-pointer"
             >
               {initialField ? "Update Field" : "Add Field"}
             </button>
           </div>
+
         </form>
       </div>
     </div>
   );
 };
+

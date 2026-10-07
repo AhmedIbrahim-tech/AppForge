@@ -36,7 +36,7 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      toast.success(".fullstack-app.json downloaded!");
+      toast.success(".fullstack-app.json downloaded");
     } catch {
       toast.error("Failed to download manifest");
     }
@@ -46,17 +46,17 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
   const isFrontend = config.projectType !== "backend";
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-3.5 space-y-3">
       {/* Top toggle bar */}
-      <div className="flex items-center justify-between gap-2 border-b border-white/5 pb-3">
-        <div className="flex items-center gap-1 rounded-lg bg-white/5 p-1 text-xs">
+      <div className="flex items-center justify-between gap-2 border-b border-[#252C36] pb-2.5">
+        <div className="flex items-center gap-1 rounded-[5px] bg-[#0E1218] p-0.5 text-xs">
           <button
             type="button"
             onClick={() => setViewMode("structured")}
-            className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 font-medium transition-colors cursor-pointer ${
+            className={`flex items-center gap-1.5 rounded-[4px] px-2.5 py-1 font-medium transition-colors cursor-pointer ${
               viewMode === "structured"
-                ? "bg-indigo-500/20 text-indigo-300 shadow-sm"
-                : "text-zinc-400 hover:text-white"
+                ? "bg-[#1A2029] text-[#F3F6FA] border border-[#252C36]"
+                : "text-[#737D8C] hover:text-[#A1AAB8]"
             }`}
           >
             <LayoutGrid className="h-3 w-3" />
@@ -65,10 +65,10 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
           <button
             type="button"
             onClick={() => setViewMode("raw")}
-            className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 font-medium transition-colors cursor-pointer ${
+            className={`flex items-center gap-1.5 rounded-[4px] px-2.5 py-1 font-medium transition-colors cursor-pointer ${
               viewMode === "raw"
-                ? "bg-indigo-500/20 text-indigo-300 shadow-sm"
-                : "text-zinc-400 hover:text-white"
+                ? "bg-[#1A2029] text-[#F3F6FA] border border-[#252C36]"
+                : "text-[#737D8C] hover:text-[#A1AAB8]"
             }`}
           >
             <FileJson className="h-3 w-3" />
@@ -80,11 +80,11 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
           <button
             type="button"
             onClick={handleCopyManifest}
-            className="flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-mono text-zinc-300 hover:border-white/20 hover:text-white transition-colors cursor-pointer"
+            className="flex items-center gap-1 rounded-[5px] border border-[#252C36] bg-[#0E1218] px-2.5 py-1 text-xs font-mono text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA] transition-colors cursor-pointer"
             title="Copy manifest JSON"
           >
             {copied ? (
-              <Check className="h-3 w-3 text-emerald-400" />
+              <Check className="h-3 w-3 text-[#25B77A]" />
             ) : (
               <Copy className="h-3 w-3" />
             )}
@@ -93,7 +93,7 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
           <button
             type="button"
             onClick={handleDownloadManifest}
-            className="flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-mono text-zinc-300 hover:border-white/20 hover:text-white transition-colors cursor-pointer"
+            className="flex items-center gap-1 rounded-[5px] border border-[#252C36] bg-[#0E1218] px-2.5 py-1 text-xs font-mono text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA] transition-colors cursor-pointer"
             title="Download .fullstack-app.json"
           >
             <Download className="h-3 w-3" />
@@ -103,48 +103,48 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
       </div>
 
       {viewMode === "structured" ? (
-        <div className="space-y-4 font-mono text-xs">
+        <div className="space-y-3 font-mono text-xs">
           {/* Project Box */}
-          <div className="rounded-xl border border-white/8 bg-white/[0.02] p-3.5 space-y-2">
-            <span className="text-[10px] uppercase font-bold text-indigo-400 tracking-wider">
+          <div className="rounded-[6px] border border-[#252C36] bg-[#0E1218] p-3 space-y-1.5">
+            <span className="text-[10px] uppercase font-mono text-[#4F75FF] font-medium tracking-wider">
               Project
             </span>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-zinc-300">
-              <span className="text-zinc-500">Name:</span>
-              <span className="font-semibold text-white">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[#A1AAB8]">
+              <span className="text-[#737D8C]">Name:</span>
+              <span className="font-medium text-[#F3F6FA]">
                 {config.projectName || "my-flatron-app"}
               </span>
-              <span className="text-zinc-500">Mode:</span>
+              <span className="text-[#737D8C]">Mode:</span>
               <span className="capitalize">{config.projectType}</span>
-              <span className="text-zinc-500">Target:</span>
-              <span className="text-cyan-300">.NET 10 (net10.0)</span>
+              <span className="text-[#737D8C]">Target:</span>
+              <span className="text-[#F3F6FA]">.NET 10 (net10.0)</span>
             </div>
           </div>
 
           {/* Backend Box */}
           {isBackend && (
-            <div className="rounded-xl border border-white/8 bg-white/[0.02] p-3.5 space-y-2">
-              <span className="text-[10px] uppercase font-bold text-cyan-400 tracking-wider">
+            <div className="rounded-[6px] border border-[#252C36] bg-[#0E1218] p-3 space-y-1.5">
+              <span className="text-[10px] uppercase font-mono text-[#4F75FF] font-medium tracking-wider">
                 Backend Configuration
               </span>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-zinc-300">
-                <span className="text-zinc-500">Presentation:</span>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[#A1AAB8]">
+                <span className="text-[#737D8C]">Presentation:</span>
                 <span>{config.backend.presentation}</span>
-                <span className="text-zinc-500">Architecture:</span>
+                <span className="text-[#737D8C]">Architecture:</span>
                 <span>{config.backend.architecture}</span>
-                <span className="text-zinc-500">Data Access:</span>
+                <span className="text-[#737D8C]">Data Access:</span>
                 <span>{config.backend.orm}</span>
-                <span className="text-zinc-500">Database:</span>
+                <span className="text-[#737D8C]">Database:</span>
                 <span>{config.backend.database}</span>
-                <span className="text-zinc-500">Authentication:</span>
+                <span className="text-[#737D8C]">Authentication:</span>
                 <span>{config.backend.auth}</span>
-                <span className="text-zinc-500">Mapping:</span>
+                <span className="text-[#737D8C]">Mapping:</span>
                 <span>{config.backend.mapping}</span>
-                <span className="text-zinc-500">Logging:</span>
+                <span className="text-[#737D8C]">Logging:</span>
                 <span>{config.backend.logging || "Serilog"}</span>
-                <span className="text-zinc-500">SignalR:</span>
+                <span className="text-[#737D8C]">SignalR:</span>
                 <span>{config.backend.signalR ? "Enabled" : "Disabled"}</span>
-                <span className="text-zinc-500">Hangfire:</span>
+                <span className="text-[#737D8C]">Hangfire:</span>
                 <span>{config.backend.hangfire ? "Enabled" : "Disabled"}</span>
               </div>
             </div>
@@ -152,28 +152,28 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
 
           {/* Frontend Box */}
           {isFrontend && (
-            <div className="rounded-xl border border-white/8 bg-white/[0.02] p-3.5 space-y-2">
-              <span className="text-[10px] uppercase font-bold text-purple-400 tracking-wider">
+            <div className="rounded-[6px] border border-[#252C36] bg-[#0E1218] p-3 space-y-1.5">
+              <span className="text-[10px] uppercase font-mono text-[#4F75FF] font-medium tracking-wider">
                 Frontend Configuration
               </span>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-zinc-300">
-                <span className="text-zinc-500">Framework:</span>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[#A1AAB8]">
+                <span className="text-[#737D8C]">Framework:</span>
                 <span>{config.frontend.framework}</span>
-                <span className="text-zinc-500">Tooling:</span>
+                <span className="text-[#737D8C]">Tooling:</span>
                 <span>{config.frontend.tooling}</span>
-                <span className="text-zinc-500">Language:</span>
+                <span className="text-[#737D8C]">Language:</span>
                 <span>{config.frontend.language}</span>
-                <span className="text-zinc-500">Styling:</span>
+                <span className="text-[#737D8C]">Styling:</span>
                 <span>{config.frontend.styling}</span>
-                <span className="text-zinc-500">State:</span>
+                <span className="text-[#737D8C]">State:</span>
                 <span>{config.frontend.state}</span>
-                <span className="text-zinc-500">HTTP Client:</span>
+                <span className="text-[#737D8C]">HTTP Client:</span>
                 <span>{config.frontend.httpClient}</span>
-                <span className="text-zinc-500">Forms:</span>
+                <span className="text-[#737D8C]">Forms:</span>
                 <span>{config.frontend.forms}</span>
-                <span className="text-zinc-500">UI System:</span>
+                <span className="text-[#737D8C]">UI System:</span>
                 <span>{config.frontend.ui}</span>
-                <span className="text-zinc-500">i18n:</span>
+                <span className="text-[#737D8C]">i18n:</span>
                 <span>{config.frontend.includeI18n ? "Enabled" : "Disabled"}</span>
               </div>
             </div>
@@ -181,15 +181,15 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
         </div>
       ) : (
         <div className="space-y-2">
-          <div className="text-[11px] text-zinc-500 font-mono">
-            // Canonical .fullstack-app.json manifest generated for Flatron CLI:
+          <div className="text-[11px] text-[#737D8C] font-mono">
+            // Canonical .fullstack-app.json manifest:
           </div>
           <CodeBlock
             code={manifestJson}
             language="json"
             filename=".fullstack-app.json"
             showLineNumbers
-            className="border-none bg-[#090b14] shadow-none"
+            className="border-none bg-[#0A0D12]"
           />
         </div>
       )}

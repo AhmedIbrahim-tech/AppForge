@@ -20,6 +20,7 @@ export const BuilderActions: React.FC<BuilderActionsProps> = ({
       const command = buildCliCommand(config);
       await navigator.clipboard.writeText(command);
       setCopied(true);
+      toast.success("Command copied to clipboard");
       setTimeout(() => setCopied(false), 2000);
     } catch {
       toast.error("Failed to copy command");
@@ -38,48 +39,46 @@ export const BuilderActions: React.FC<BuilderActionsProps> = ({
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      toast.success(".fullstack-app.json downloaded!");
+      toast.success(".fullstack-app.json downloaded");
     } catch {
       toast.error("Failed to download manifest");
     }
   };
 
   return (
-    <div className="rounded-2xl border border-white/8 bg-[#0c0e18] p-4 sm:p-5 shadow-lg">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="rounded-[8px] border border-[#252C36] bg-[#10141B] p-3.5 sm:p-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-            <Terminal className="h-3.5 w-3.5 text-indigo-400" />
-            <span>Ready to Scaffold with Flatron</span>
+          <div className="flex items-center gap-1.5 text-xs font-mono font-medium text-[#737D8C]">
+            <Terminal className="h-3.5 w-3.5 text-[#4F75FF]" />
+            <span>Generate Stack</span>
           </div>
-          <div className="mt-0.5 text-sm font-semibold text-white">
-            {config.projectName || "my-flatron-app"}{" "}
-            <span className="font-normal text-zinc-400">·</span>{" "}
-            <span className="capitalize font-normal text-zinc-300">
-              {config.projectType}
-            </span>
+          <div className="mt-0.5 text-xs text-[#F3F6FA]">
+            <span className="font-mono font-medium">{config.projectName || "my-flatron-app"}</span>
+            <span className="text-[#737D8C] mx-1.5">·</span>
+            <span className="capitalize text-[#A1AAB8]">{config.projectType}</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={handleCopyCommand}
             disabled={!validation.isValid}
-            className={`flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-xs font-semibold text-white transition-all cursor-pointer active:scale-98 ${
+            className={`flex items-center justify-center gap-1.5 rounded-[6px] px-3.5 py-1.5 text-xs font-semibold transition-colors duration-150 cursor-pointer ${
               validation.isValid
-                ? "bg-gradient-to-r from-indigo-500 via-indigo-600 to-purple-600 shadow-[0_0_24px_-4px_rgba(99,102,241,0.6)] hover:opacity-95"
-                : "bg-zinc-800 text-zinc-500 cursor-not-allowed border border-white/5"
+                ? "bg-[#4F75FF] text-white hover:bg-[#6487FF] shadow-sm active:scale-[0.99]"
+                : "bg-[#1A2029] text-[#737D8C] cursor-not-allowed border border-[#252C36]"
             }`}
           >
             {copied ? (
               <>
-                <Check className="h-4 w-4 text-emerald-300" />
-                <span>Copied Command!</span>
+                <Check className="h-3.5 w-3.5 text-[#25B77A]" />
+                <span className="text-[#25B77A]">Copied</span>
               </>
             ) : (
               <>
-                <Copy className="h-4 w-4" />
+                <Copy className="h-3.5 w-3.5" />
                 <span>Copy CLI Command</span>
               </>
             )}
@@ -90,10 +89,10 @@ export const BuilderActions: React.FC<BuilderActionsProps> = ({
             onClick={handleDownloadManifest}
             disabled={!validation.isValid}
             title="Download .fullstack-app.json manifest"
-            className="flex items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-xs font-mono font-medium text-zinc-300 transition-all hover:bg-white/10 hover:text-white cursor-pointer active:scale-98 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center justify-center gap-1.5 rounded-[6px] border border-[#252C36] bg-[#151A22] px-3 py-1.5 text-xs font-medium text-[#A1AAB8] hover:bg-[#1A2029] hover:text-[#F3F6FA] hover:border-[#353E4D] transition-colors duration-150 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <Download className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">Manifest</span>
+            <span>Manifest</span>
           </button>
         </div>
       </div>

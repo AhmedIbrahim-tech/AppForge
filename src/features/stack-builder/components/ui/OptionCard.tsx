@@ -1,30 +1,9 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
-import { CheckCircle2 } from "lucide-react";
-
-export type BuilderAccent = "indigo" | "cyan" | "purple";
-
-const accentSelected: Record<BuilderAccent, string> = {
-  indigo:
-    "border-indigo-400/80 bg-indigo-500/10 text-white ring-1 ring-indigo-400/30",
-  cyan:
-    "border-cyan-400/80 bg-cyan-500/10 text-white ring-1 ring-cyan-400/30",
-  purple:
-    "border-purple-400/80 bg-purple-500/10 text-white ring-1 ring-purple-400/30",
-};
-
-const accentCheck: Record<BuilderAccent, string> = {
-  indigo: "text-indigo-300",
-  cyan: "text-cyan-300",
-  purple: "text-purple-300",
-};
-
-const accentIdle =
-  "border-white/8 bg-white/[0.03] text-zinc-400 hover:border-white/16 hover:bg-white/[0.05] hover:text-zinc-200";
+import { Check } from "lucide-react";
 
 export type OptionCardProps = {
   selected: boolean;
   disabled?: boolean;
-  accent?: BuilderAccent;
   icon?: ReactNode;
   title: string;
   description?: string;
@@ -35,7 +14,6 @@ export type OptionCardProps = {
 export function OptionCard({
   selected,
   disabled = false,
-  accent = "indigo",
   icon,
   title,
   description,
@@ -47,7 +25,7 @@ export function OptionCard({
 }: OptionCardProps) {
   const isTile = layout === "tile";
   const check = selected ? (
-    <CheckCircle2 className={`h-4 w-4 shrink-0 ${accentCheck[accent]}`} />
+    <Check className="h-3.5 w-3.5 shrink-0 text-accent" />
   ) : null;
 
   return (
@@ -55,35 +33,41 @@ export function OptionCard({
       type={type}
       disabled={disabled}
       aria-pressed={selected}
-      className={`group w-full rounded-2xl border transition-all duration-200 ease-out cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-white/8 disabled:hover:bg-white/[0.03] ${
-        selected ? accentSelected[accent] : accentIdle
+      className={`group w-full rounded-[6px] border text-left transition-colors duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent disabled:cursor-not-allowed disabled:opacity-40 ${
+        selected
+          ? "border-accent bg-accent-subtle text-white"
+          : "border-border-subtle bg-surface-secondary text-text-secondary hover:border-zinc-700 hover:bg-surface-raised hover:text-white"
       } ${
         isTile
-          ? "flex min-h-[7.25rem] flex-col items-center justify-center px-3 py-4 text-center"
-          : "flex min-h-[2.85rem] items-center justify-between gap-2 px-3.5 py-2.5 text-left"
+          ? "flex min-h-[5rem] flex-col items-center justify-center p-3 text-center"
+          : "flex min-h-[2.75rem] items-center justify-between gap-2 px-3 py-2"
       } ${className}`}
       {...props}
     >
       {isTile ? (
         <>
           {icon ? (
-            <span className={`mb-2 ${selected ? "opacity-100" : "opacity-70 group-hover:opacity-90"}`}>
+            <span className={`mb-1.5 ${selected ? "text-accent" : "text-text-muted"}`}>
               {icon}
             </span>
           ) : null}
-          <span className="text-sm font-semibold tracking-tight">{title}</span>
+          <span className="text-xs font-medium tracking-tight text-white font-heading">{title}</span>
           {description ? (
-            <span className="mt-1 block text-[11px] font-normal text-zinc-400">{description}</span>
+            <span className="mt-0.5 block text-[11px] font-normal text-text-muted">{description}</span>
           ) : null}
         </>
       ) : (
         <>
           <span className="flex min-w-0 items-center gap-2">
-            {icon ? <span className="shrink-0">{icon}</span> : null}
+            {icon ? (
+              <span className={`shrink-0 ${selected ? "text-accent" : "text-text-muted"}`}>
+                {icon}
+              </span>
+            ) : null}
             <span className="min-w-0">
-              <span className="block truncate text-[13px] font-semibold tracking-tight">{title}</span>
+              <span className="block truncate text-xs font-medium tracking-tight text-white font-heading">{title}</span>
               {description ? (
-                <span className="mt-0.5 block text-[11px] font-normal text-zinc-400">{description}</span>
+                <span className="mt-0.5 block text-[11px] font-normal text-text-muted">{description}</span>
               ) : null}
             </span>
           </span>
@@ -93,3 +77,4 @@ export function OptionCard({
     </button>
   );
 }
+

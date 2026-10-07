@@ -14,22 +14,23 @@ export function SectionCard({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-white/8 bg-[#0e111b]/80 p-5 shadow-[0_20px_50px_-28px_rgba(0,0,0,0.85)] backdrop-blur-md sm:p-6">
-      <header className="mb-5 flex flex-wrap items-center justify-between gap-3">
+    <section className="rounded-[8px] border border-border bg-surface p-4 sm:p-5">
+      <header className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <span className="flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-indigo-300">
+          <span className="flex h-7 w-7 items-center justify-center rounded-[5px] border border-border bg-surface-secondary text-accent">
             {icon}
           </span>
-          <h3 className="text-sm font-semibold tracking-wide text-zinc-100">{title}</h3>
+          <h3 className="text-sm font-semibold text-text-primary font-heading tracking-tight">{title}</h3>
         </div>
         <div className="flex items-center gap-2">
           {badge}
           {stepLabel ? (
-            <span className="font-mono text-[11px] text-zinc-500">{stepLabel}</span>
+            <span className="font-mono text-[11px] text-text-muted">{stepLabel}</span>
           ) : null}
         </div>
       </header>
-      <div className="space-y-5">{children}</div>
+      <div className="space-y-4">{children}</div>
     </section>
   );
 }
+

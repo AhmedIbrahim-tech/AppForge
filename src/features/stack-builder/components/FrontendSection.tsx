@@ -92,9 +92,6 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
   const angularStates = FRONTEND_STATES.filter(
     (s) => s.value === "NgRx" || s.value === "None",
   );
-  const angularForms = FRONTEND_FORMS.filter(
-    (fo) => fo.value === "Angular Reactive Forms" || fo.value === "None",
-  );
   const angularUis = FRONTEND_UIS.filter(
     (u) =>
       u.value === "Angular Material" ||
@@ -105,104 +102,89 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
   return (
     <CollapsibleSection
       id="frontend-section"
-      icon={<Layout className="h-4 w-4" />}
+      icon={<Layout className="h-3.5 w-3.5" />}
       title="Frontend Stack"
       summaryBadges={summaryBadges}
       expanded={expanded}
       onToggle={onToggle}
-      accent="purple"
       notIncluded={isBackendOnly}
-      notIncludedMessage="Frontend is not included in this Backend Only project."
+      notIncludedMessage="Frontend is omitted in Backend Only projects."
       actionText="Enable Frontend (Full Stack)"
       onIncludeAction={() => onSetProjectType("fullstack")}
       badge={
         !isBackendOnly ? (
-          <span className="rounded-md border border-purple-500/25 bg-purple-500/10 px-2 py-0.5 font-mono text-[10px] text-purple-300">
+          <span className="rounded-[4px] bg-[#151A22] border border-[#252C36] px-1.5 py-0.5 font-mono text-[10px] text-[#737D8C]">
             {f.framework} · {f.framework === "React" ? f.tooling : "Angular CLI"}
           </span>
         ) : null
       }
     >
-      <div className="space-y-6">
-        {/* 1. Primary Top-Level Decision: Frontend Framework */}
+      <div className="space-y-4">
+        {/* 1. Primary Decision: Framework */}
         <div className="space-y-2">
-          <div className="flex items-center gap-2 border-b border-white/5 pb-1.5">
-            <Layers className="h-3.5 w-3.5 text-purple-400" />
-            <h4 className="text-[11px] font-semibold uppercase tracking-wider text-zinc-300">
+          <div className="flex items-center gap-2 border-b border-[#252C36] pb-1">
+            <Layers className="h-3.5 w-3.5 text-[#737D8C]" />
+            <h4 className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#737D8C]">
               Frontend Framework
             </h4>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <button
               type="button"
               onClick={() => onSetFramework("React")}
-              className={`group relative flex flex-col justify-between rounded-xl border p-4 text-left transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 ${
+              className={`flex flex-col justify-between rounded-[7px] border p-3 text-left transition-colors cursor-pointer ${
                 f.framework === "React"
-                  ? "border-purple-400/80 bg-purple-500/15 text-white ring-1 ring-purple-400/30"
-                  : "border-white/10 bg-white/[0.03] text-zinc-300 hover:border-white/20 hover:bg-white/[0.06]"
+                  ? "border-[#4F75FF] bg-[rgba(79,117,255,0.12)] text-[#F3F6FA]"
+                  : "border-[#252C36] bg-[#0E1218] text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA]"
               }`}
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-sm sm:text-base text-white">React 19</span>
-                  <span className="rounded bg-purple-500/20 px-2 py-0.5 text-[10px] font-mono text-purple-300">
-                    React Ecosystem
-                  </span>
-                </div>
+                <span className="font-semibold text-xs text-[#F3F6FA]">React 19</span>
                 {f.framework === "React" && (
-                  <Check className="h-4 w-4 text-purple-300 shrink-0" />
+                  <Check className="h-3.5 w-3.5 text-[#4F75FF] shrink-0" />
                 )}
               </div>
-              <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
-                Vite or Next.js with modern component architecture, TypeScript/JavaScript, and rich ecosystem tooling.
+              <p className="mt-1 text-[11px] text-[#737D8C] leading-relaxed">
+                Vite or Next.js with modern component architecture and TypeScript.
               </p>
             </button>
 
             <button
               type="button"
               onClick={() => onSetFramework("Angular")}
-              className={`group relative flex flex-col justify-between rounded-xl border p-4 text-left transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 ${
+              className={`flex flex-col justify-between rounded-[7px] border p-3 text-left transition-colors cursor-pointer ${
                 f.framework === "Angular"
-                  ? "border-purple-400/80 bg-purple-500/15 text-white ring-1 ring-purple-400/30"
-                  : "border-white/10 bg-white/[0.03] text-zinc-300 hover:border-white/20 hover:bg-white/[0.06]"
+                  ? "border-[#4F75FF] bg-[rgba(79,117,255,0.12)] text-[#F3F6FA]"
+                  : "border-[#252C36] bg-[#0E1218] text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA]"
               }`}
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-sm sm:text-base text-white">Angular</span>
-                  <span className="rounded bg-purple-500/20 px-2 py-0.5 text-[10px] font-mono text-purple-300">
-                    Angular Ecosystem
-                  </span>
-                </div>
+                <span className="font-semibold text-xs text-[#F3F6FA]">Angular</span>
                 {f.framework === "Angular" && (
-                  <Check className="h-4 w-4 text-purple-300 shrink-0" />
+                  <Check className="h-3.5 w-3.5 text-[#4F75FF] shrink-0" />
                 )}
               </div>
-              <p className="mt-2 text-xs text-zinc-400 leading-relaxed">
-                Enterprise standalone architecture with official Angular CLI, NgRx reactive state, and Angular Material.
+              <p className="mt-1 text-[11px] text-[#737D8C] leading-relaxed">
+                Enterprise standalone architecture with Angular CLI and NgRx.
               </p>
             </button>
           </div>
         </div>
 
-        {/* 2. Ecosystem Specific Configuration */}
+        {/* 2. Ecosystem Specific Options */}
         {f.framework === "React" ? (
-          /* ========================================================
-             REACT ECOSYSTEM CONFIGURATION
-             ======================================================== */
-          <div className="space-y-5 border-t border-white/5 pt-5">
-            {/* Row 1: Tooling & Language */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-3.5 border-t border-[#252C36] pt-3.5">
+            {/* Tooling & Language */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <span className="mb-1.5 block text-xs font-medium text-zinc-400">
+                <span className="mb-1 block text-xs font-mono text-[#737D8C]">
                   Tooling / Starter
                 </span>
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-1.5">
                   {reactToolings.map((tool) => (
                     <OptionPill
                       key={tool.value}
-                      accent="purple"
                       selected={f.tooling === tool.value}
                       onClick={() => onSetTooling(tool.value)}
                       label={tool.label}
@@ -212,10 +194,10 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
 
               <div>
-                <span className="mb-1.5 block text-xs font-medium text-zinc-400">
+                <span className="mb-1 block text-xs font-mono text-[#737D8C]">
                   Language
                 </span>
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-1.5">
                   {FRONTEND_LANGUAGES.map((lang) => {
                     const disabledState = lang.getDisabledState?.(config) || {
                       disabled: false,
@@ -223,7 +205,6 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
                     return (
                       <OptionPill
                         key={lang.value}
-                        accent="purple"
                         selected={f.language === lang.value}
                         disabled={disabledState.disabled}
                         disabledReason={disabledState.reason}
@@ -236,17 +217,16 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
             </div>
 
-            {/* Row 2: Styling & State */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Styling & State */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <span className="mb-1.5 block text-xs font-medium text-zinc-400">
+                <span className="mb-1 block text-xs font-mono text-[#737D8C]">
                   Styling
                 </span>
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-1.5">
                   {FRONTEND_STYLINGS.map((sty) => (
                     <OptionPill
                       key={sty.value}
-                      accent="purple"
                       selected={f.styling === sty.value}
                       onClick={() => onSetStyling(sty.value)}
                       label={sty.label}
@@ -256,14 +236,13 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
 
               <div>
-                <span className="mb-1.5 block text-xs font-medium text-zinc-400">
+                <span className="mb-1 block text-xs font-mono text-[#737D8C]">
                   State Management
                 </span>
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-1.5">
                   {reactStates.map((st) => (
                     <OptionPill
                       key={st.value}
-                      accent="purple"
                       selected={f.state === st.value}
                       onClick={() => onSetState(st.value)}
                       label={st.label}
@@ -273,17 +252,16 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
             </div>
 
-            {/* Row 3: HTTP & Forms */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* HTTP & Forms */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <span className="mb-1.5 block text-xs font-medium text-zinc-400">
+                <span className="mb-1 block text-xs font-mono text-[#737D8C]">
                   HTTP Client
                 </span>
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-1.5">
                   {reactHttpClients.map((client) => (
                     <OptionPill
                       key={client.value}
-                      accent="purple"
                       selected={f.httpClient === client.value}
                       onClick={() => onSetHttpClient(client.value)}
                       label={client.label}
@@ -293,14 +271,13 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
 
               <div>
-                <span className="mb-1.5 block text-xs font-medium text-zinc-400">
+                <span className="mb-1 block text-xs font-mono text-[#737D8C]">
                   Form Handling
                 </span>
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-1.5">
                   {reactForms.map((form) => (
                     <OptionPill
                       key={form.value}
-                      accent="purple"
                       selected={f.forms === form.value}
                       onClick={() => onSetForms(form.value)}
                       label={form.label}
@@ -310,12 +287,12 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
             </div>
 
-            {/* Row 4: UI Components */}
+            {/* UI Kit */}
             <div>
-              <span className="mb-1.5 block text-xs font-medium text-zinc-400">
-                UI Component System
+              <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+                UI Components
               </span>
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-center gap-1.5">
                 {reactUis.map((ui) => {
                   const disabledState = ui.getDisabledState?.(config) || {
                     disabled: false,
@@ -323,7 +300,6 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
                   return (
                     <OptionPill
                       key={ui.value}
-                      accent="purple"
                       selected={f.ui === ui.value}
                       disabled={disabledState.disabled}
                       disabledReason={disabledState.reason}
@@ -336,48 +312,32 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
             </div>
           </div>
         ) : (
-          /* ========================================================
-             ANGULAR ECOSYSTEM CONFIGURATION
-             ======================================================== */
-          <div className="space-y-5 border-t border-white/5 pt-5">
-            {/* Row 1: Tooling & Language (Informative/Selected badges) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-3.5 border-t border-[#252C36] pt-3.5">
+            {/* Angular Defaults */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <span className="mb-1.5 block text-xs font-medium text-zinc-400">
-                  Tooling / Starter
-                </span>
-                <div className="inline-flex items-center gap-2 rounded-xl border border-purple-400/80 bg-purple-500/15 px-3 py-1.5 text-xs text-white ring-1 ring-purple-400/30">
-                  <Check className="h-3.5 w-3.5 text-purple-300 shrink-0" />
+                <span className="mb-1 block text-xs font-mono text-[#737D8C]">Tooling</span>
+                <div className="inline-flex items-center gap-2 rounded-[6px] border border-[#252C36] bg-[#0E1218] px-3 py-1.5 text-xs text-[#F3F6FA]">
                   <span className="font-semibold">Angular CLI</span>
-                  <span className="rounded bg-white/10 px-1.5 py-0.5 text-[10px] font-mono text-zinc-400">
-                    Official
-                  </span>
                 </div>
               </div>
 
               <div>
-                <span className="mb-1.5 block text-xs font-medium text-zinc-400">
-                  Language
-                </span>
-                <div className="inline-flex items-center gap-2 rounded-xl border border-purple-400/80 bg-purple-500/15 px-3 py-1.5 text-xs text-white ring-1 ring-purple-400/30">
-                  <Check className="h-3.5 w-3.5 text-purple-300 shrink-0" />
+                <span className="mb-1 block text-xs font-mono text-[#737D8C]">Language</span>
+                <div className="inline-flex items-center gap-2 rounded-[6px] border border-[#252C36] bg-[#0E1218] px-3 py-1.5 text-xs text-[#F3F6FA]">
                   <span className="font-semibold">TypeScript</span>
-                  <span className="text-[10px] text-zinc-400">Required by Angular</span>
                 </div>
               </div>
             </div>
 
-            {/* Row 2: Styling & State */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Styling & State */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <span className="mb-1.5 block text-xs font-medium text-zinc-400">
-                  Styling
-                </span>
-                <div className="flex flex-wrap items-center gap-2">
+                <span className="mb-1 block text-xs font-mono text-[#737D8C]">Styling</span>
+                <div className="flex flex-wrap items-center gap-1.5">
                   {FRONTEND_STYLINGS.map((sty) => (
                     <OptionPill
                       key={sty.value}
-                      accent="purple"
                       selected={f.styling === sty.value}
                       onClick={() => onSetStyling(sty.value)}
                       label={sty.label}
@@ -387,14 +347,11 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
 
               <div>
-                <span className="mb-1.5 block text-xs font-medium text-zinc-400">
-                  State Management
-                </span>
-                <div className="flex flex-wrap items-center gap-2">
+                <span className="mb-1 block text-xs font-mono text-[#737D8C]">State</span>
+                <div className="flex flex-wrap items-center gap-1.5">
                   {angularStates.map((st) => (
                     <OptionPill
                       key={st.value}
-                      accent="purple"
                       selected={f.state === st.value}
                       onClick={() => onSetState(st.value)}
                       label={st.label}
@@ -404,47 +361,13 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
             </div>
 
-            {/* Row 3: HTTP & Forms */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <span className="mb-1.5 block text-xs font-medium text-zinc-400">
-                  HTTP Client
-                </span>
-                <div className="inline-flex items-center gap-2 rounded-xl border border-purple-400/80 bg-purple-500/15 px-3 py-1.5 text-xs text-white ring-1 ring-purple-400/30">
-                  <Check className="h-3.5 w-3.5 text-purple-300 shrink-0" />
-                  <span className="font-semibold">Angular HttpClient</span>
-                  <span className="text-[10px] text-zinc-400">Built-in RxJS</span>
-                </div>
-              </div>
-
-              <div>
-                <span className="mb-1.5 block text-xs font-medium text-zinc-400">
-                  Form Handling
-                </span>
-                <div className="flex flex-wrap items-center gap-2">
-                  {angularForms.map((form) => (
-                    <OptionPill
-                      key={form.value}
-                      accent="purple"
-                      selected={f.forms === form.value}
-                      onClick={() => onSetForms(form.value)}
-                      label={form.label}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Row 4: UI Components */}
+            {/* UI Components */}
             <div>
-              <span className="mb-1.5 block text-xs font-medium text-zinc-400">
-                UI Component System
-              </span>
-              <div className="flex flex-wrap items-center gap-2">
+              <span className="mb-1 block text-xs font-mono text-[#737D8C]">UI System</span>
+              <div className="flex flex-wrap items-center gap-1.5">
                 {angularUis.map((ui) => (
                   <OptionPill
                     key={ui.value}
-                    accent="purple"
                     selected={f.ui === ui.value}
                     onClick={() => onSetUi(ui.value)}
                     label={ui.label}
@@ -455,39 +378,29 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
           </div>
         )}
 
-        {/* 3. Localization Toggle */}
-        <div className="border-t border-white/5 pt-4">
+        {/* 3. Localization */}
+        <div className="border-t border-[#252C36] pt-3">
           <button
             type="button"
             onClick={onToggleI18n}
-            className={`flex w-full items-center justify-between rounded-xl border p-3 transition-colors cursor-pointer ${
+            className={`flex w-full items-center justify-between rounded-[6px] border p-2.5 transition-colors cursor-pointer ${
               f.includeI18n
-                ? "border-purple-400/60 bg-purple-500/10 text-white ring-1 ring-purple-400/20"
-                : "border-white/10 bg-white/[0.02] text-zinc-400 hover:border-white/20 hover:text-zinc-200"
+                ? "border-[#4F75FF] bg-[rgba(79,117,255,0.12)] text-[#F3F6FA]"
+                : "border-[#252C36] bg-[#0E1218] text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA]"
             }`}
           >
-            <div className="flex items-center gap-2.5">
-              <Globe
-                className={`h-4 w-4 ${f.includeI18n ? "text-purple-300" : "text-zinc-500"}`}
-              />
-              <div className="text-left">
-                <span className="text-xs font-semibold block text-zinc-200">
-                  i18n Internationalization
-                </span>
-                <span className="text-[11px] text-zinc-500">
-                  Multi-language translation resource files and runtime switcher
-                </span>
-              </div>
+            <div className="flex items-center gap-2">
+              <Globe className="h-3.5 w-3.5 text-[#737D8C]" />
+              <span className="text-xs font-medium">i18n Internationalization Setup</span>
             </div>
-
             <span
-              className={`rounded px-2 py-0.5 font-mono text-[11px] font-medium ${
+              className={`rounded-[4px] px-1.5 py-0.5 font-mono text-[10px] ${
                 f.includeI18n
-                  ? "bg-purple-500/25 text-purple-200 font-semibold"
-                  : "bg-white/5 text-zinc-500"
+                  ? "bg-[#4F75FF]/20 text-[#6487FF] font-medium"
+                  : "bg-[#151A22] text-[#737D8C]"
               }`}
             >
-              {f.includeI18n ? "ENABLED" : "OFF"}
+              {f.includeI18n ? "ON" : "OFF"}
             </span>
           </button>
         </div>

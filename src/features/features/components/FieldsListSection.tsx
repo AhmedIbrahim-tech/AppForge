@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Plus,
   Trash2,
@@ -7,7 +8,6 @@ import {
   Link2,
   FileImage,
   AlignLeft,
-  Sparkles,
 } from "lucide-react";
 import type { FeatureField } from "../types";
 
@@ -30,36 +30,36 @@ export const FieldsListSection: React.FC<FieldsListSectionProps> = ({
     switch (field.kind) {
       case "scalar":
         return (
-          <span className="flex items-center gap-1 rounded bg-indigo-500/15 px-2 py-0.5 font-mono text-[11px] text-indigo-300">
-            <Type className="h-3 w-3" />
+          <span className="inline-flex items-center gap-1 rounded bg-surface-raised px-2 py-0.5 font-mono text-[11px] text-text-secondary border border-border-line">
+            <Type className="h-3 w-3 text-text-muted" />
             {field.type}
           </span>
         );
       case "enum":
         return (
-          <span className="flex items-center gap-1 rounded bg-purple-500/15 px-2 py-0.5 font-mono text-[11px] text-purple-300">
-            <ListOrdered className="h-3 w-3" />
+          <span className="inline-flex items-center gap-1 rounded bg-surface-raised px-2 py-0.5 font-mono text-[11px] text-text-secondary border border-border-line">
+            <ListOrdered className="h-3 w-3 text-text-muted" />
             enum {field.enumName}
           </span>
         );
       case "relationship":
         return (
-          <span className="flex items-center gap-1 rounded bg-emerald-500/15 px-2 py-0.5 font-mono text-[11px] text-emerald-300">
-            <Link2 className="h-3 w-3" />
+          <span className="inline-flex items-center gap-1 rounded bg-surface-raised px-2 py-0.5 font-mono text-[11px] text-text-secondary border border-border-line">
+            <Link2 className="h-3 w-3 text-text-muted" />
             {field.relationshipType} → {field.target}
           </span>
         );
       case "media":
         return (
-          <span className="flex items-center gap-1 rounded bg-amber-500/15 px-2 py-0.5 font-mono text-[11px] text-amber-300">
-            <FileImage className="h-3 w-3" />
+          <span className="inline-flex items-center gap-1 rounded bg-surface-raised px-2 py-0.5 font-mono text-[11px] text-text-secondary border border-border-line">
+            <FileImage className="h-3 w-3 text-text-muted" />
             {field.mediaKind} ({field.cardinality})
           </span>
         );
       case "richText":
         return (
-          <span className="flex items-center gap-1 rounded bg-rose-500/15 px-2 py-0.5 font-mono text-[11px] text-rose-300">
-            <AlignLeft className="h-3 w-3" />
+          <span className="inline-flex items-center gap-1 rounded bg-surface-raised px-2 py-0.5 font-mono text-[11px] text-text-secondary border border-border-line">
+            <AlignLeft className="h-3 w-3 text-text-muted" />
             richText (Tiptap)
           </span>
         );
@@ -128,12 +128,14 @@ export const FieldsListSection: React.FC<FieldsListSectionProps> = ({
   };
 
   return (
-    <div className="rounded-xl border border-white/[0.08] bg-[#11131a] p-5">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-white/[0.06] pb-3">
+    <div className="rounded-lg border border-border bg-surface p-4 sm:p-5">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-border-line pb-3">
         <div>
-          <h2 className="text-sm font-semibold text-white">Entity Fields Designer</h2>
-          <p className="text-xs text-zinc-400">
-            Define attributes, data validation, relationships, enums, and media attachments.
+          <h2 className="font-heading text-sm font-semibold text-text-primary">
+            Entity fields ({fields.length})
+          </h2>
+          <p className="mt-0.5 text-xs text-text-muted">
+            Define attributes, data validation, relationships, enums, and media.
           </p>
         </div>
 
@@ -142,55 +144,54 @@ export const FieldsListSection: React.FC<FieldsListSectionProps> = ({
             <button
               type="button"
               onClick={handleLoadSampleCatalog}
-              className="flex items-center gap-1.5 rounded-lg border border-indigo-500/30 bg-indigo-500/10 px-2.5 py-1.5 text-xs font-medium text-indigo-300 hover:bg-indigo-500/20"
+              className="rounded-md border border-border bg-surface-raised px-2.5 py-1.5 text-xs font-medium text-text-secondary hover:bg-surface-secondary hover:text-text-primary transition-colors cursor-pointer"
             >
-              <Sparkles className="h-3 w-3" />
-              <span>Load Product Sample</span>
+              <span>Load sample</span>
             </button>
           )}
 
           <button
             type="button"
             onClick={onAddField}
-            className="flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white shadow hover:bg-indigo-500"
+            className="flex items-center gap-1.5 rounded-md bg-accent px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-accent-hover active:scale-[0.985] transition-all cursor-pointer"
           >
             <Plus className="h-3.5 w-3.5" />
-            <span>Add Field</span>
+            <span>Add field</span>
           </button>
         </div>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-2">
         {fields.length === 0 ? (
-          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-[#0c0d14] p-8 text-center">
-            <Type className="h-8 w-8 text-zinc-600 mb-2" />
-            <p className="text-xs font-medium text-zinc-300">No fields added yet</p>
-            <p className="mt-1 text-[11px] text-zinc-500 max-w-sm">
-              Click &quot;Add Field&quot; to design scalar properties, enums, relationships, or media, or click &quot;Load Product Sample&quot; for instant presets.
+          <div className="flex flex-col items-center justify-center rounded-md border border-dashed border-border bg-surface-secondary/40 p-8 text-center my-3">
+            <Type className="h-6 w-6 text-text-muted mb-2 opacity-50" />
+            <p className="text-xs font-medium text-text-secondary">No fields configured</p>
+            <p className="mt-0.5 text-[11px] text-text-muted max-w-sm">
+              Click &quot;Add field&quot; or &quot;Load sample&quot; to configure entity properties.
             </p>
           </div>
         ) : (
-          <div className="space-y-2">
+          <div className="divide-y divide-border-line/60">
             {fields.map((field, index) => (
               <div
-                key={index}
-                className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-[#0c0d14] p-3 transition-colors hover:border-white/[0.12]"
+                key={`${field.name}-${index}`}
+                className="group flex items-center justify-between py-2.5 px-2.5 -mx-2.5 rounded-md hover:bg-surface-raised/80 transition-colors animate-fade-in"
               >
-                <div className="flex items-center gap-3">
-                  <span className="font-mono text-xs font-semibold text-white">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="font-mono text-xs font-semibold text-text-primary">
                     {field.name}
                   </span>
                   {renderFieldBadge(field)}
-                  <span className="text-xs text-zinc-400 hidden sm:inline">
+                  <span className="text-xs text-text-muted hidden sm:inline truncate">
                     {renderFieldDetails(field)}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity">
                   <button
                     type="button"
                     onClick={() => onEditField(field, index)}
-                    className="rounded p-1.5 text-zinc-400 hover:bg-white/[0.08] hover:text-white"
+                    className="rounded p-1.5 text-text-muted hover:bg-surface-secondary hover:text-text-primary transition-colors cursor-pointer"
                     title="Edit field"
                   >
                     <Edit2 className="h-3.5 w-3.5" />
@@ -198,7 +199,7 @@ export const FieldsListSection: React.FC<FieldsListSectionProps> = ({
                   <button
                     type="button"
                     onClick={() => onRemoveField(index)}
-                    className="rounded p-1.5 text-zinc-400 hover:bg-red-500/10 hover:text-red-400"
+                    className="rounded p-1.5 text-text-muted hover:bg-danger/10 hover:text-danger transition-colors cursor-pointer"
                     title="Remove field"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
@@ -212,3 +213,5 @@ export const FieldsListSection: React.FC<FieldsListSectionProps> = ({
     </div>
   );
 };
+
+

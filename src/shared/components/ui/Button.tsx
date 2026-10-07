@@ -1,7 +1,7 @@
 import React from "react";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "gradient";
+  variant?: "primary" | "secondary" | "outline" | "ghost";
   size?: "sm" | "md" | "lg";
   icon?: React.ReactNode;
   iconPosition?: "left" | "right";
@@ -22,29 +22,27 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref,
   ) => {
     const sizeClasses = {
-      sm: "px-3 py-1.5 text-xs font-medium gap-1.5 rounded-lg",
-      md: "px-4 py-2.5 text-sm font-medium gap-2 rounded-xl",
-      lg: "px-6 py-3.5 text-base font-semibold gap-2.5 rounded-xl",
+      sm: "px-2.5 py-1.5 text-xs font-medium gap-1.5 rounded-[6px]",
+      md: "px-3.5 py-2 text-xs font-medium gap-2 rounded-[7px]",
+      lg: "px-5 py-2.5 text-sm font-semibold gap-2 rounded-[7px]",
     }[size];
 
     const variantClasses = {
       primary:
-        "bg-zinc-100 text-zinc-950 hover:bg-white active:bg-zinc-200 border border-transparent shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all duration-200",
+        "bg-accent text-white hover:bg-accent-hover active:scale-[0.985] border border-accent transition-colors duration-150 shadow-sm",
       secondary:
-        "bg-zinc-900 text-zinc-200 hover:bg-zinc-800 hover:text-white border border-zinc-800 active:bg-zinc-850 transition-all duration-200",
+        "bg-surface-secondary text-text-primary hover:bg-surface-raised hover:border-zinc-700 active:scale-[0.985] border border-border-subtle transition-colors duration-150",
       outline:
-        "bg-transparent text-zinc-300 hover:text-white hover:bg-zinc-900/60 border border-zinc-800 hover:border-zinc-700 transition-all duration-200",
+        "bg-transparent text-text-secondary hover:text-text-primary hover:bg-surface-secondary hover:border-zinc-700 border border-border-subtle transition-colors duration-150",
       ghost:
-        "bg-transparent text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/50 border border-transparent transition-all duration-200",
-      gradient:
-        "bg-gradient-to-r from-indigo-500 via-purple-500 to-sky-500 text-white hover:opacity-95 shadow-[0_0_25px_rgba(99,102,241,0.35)] active:scale-[0.98] transition-all duration-200",
+        "bg-transparent text-text-secondary hover:text-text-primary hover:bg-surface-secondary border border-transparent transition-colors duration-150",
     }[variant];
 
     return (
       <button
         ref={ref}
         disabled={disabled}
-        className={`inline-flex items-center justify-center cursor-pointer select-none transition-all disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-500/40 ${sizeClasses} ${variantClasses} ${className}`}
+        className={`inline-flex items-center justify-center cursor-pointer select-none font-heading disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent ${sizeClasses} ${variantClasses} ${className}`}
         {...props}
       >
         {icon && iconPosition === "left" && <span className="shrink-0">{icon}</span>}
@@ -56,3 +54,4 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = "Button";
+

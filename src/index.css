@@ -1,32 +1,75 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: 'Instrument Sans', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Instrument Sans', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --color-base: #0B0E11;
+  --color-surface: #11151A;
+  --color-surface-secondary: #171C22;
+  --color-surface-raised: #1C2229;
+  --color-surface-strong: #222932;
+  
+  --color-border-subtle: #252C34;
+  --color-border-line: rgba(255, 255, 255, 0.06);
+
+  --color-text-primary: #F2F4F5;
+  --color-text-secondary: #A0A8B0;
+  --color-text-muted: #707A84;
+
+  --color-accent: #E56B3F;
+  --color-accent-hover: #F07A4B;
+  --color-accent-subtle: rgba(229, 107, 63, 0.10);
+  --color-accent-border: rgba(229, 107, 63, 0.35);
+
+  --color-success: #3FB98A;
+  --color-warning: #D7A44B;
+  --color-danger: #DE6262;
+}
+
 @layer base {
   :root {
-    --bg-primary: #090a0f;
-    --bg-secondary: #11131a;
-    --bg-card: #151822;
-    --border-subtle: #232736;
-    --border-glow: #3b82f640;
-    --accent-blue: #3b82f6;
-    --accent-indigo: #6366f1;
-    --accent-emerald: #10b981;
-    --accent-cyan: #06b6d4;
+    --bg-base: #0B0E11;
+    --bg-surface: #11151A;
+    --bg-surface-secondary: #171C22;
+    --bg-surface-raised: #1C2229;
+    --border-main: #252C34;
+    --border-subtle: rgba(255, 255, 255, 0.06);
+    --text-primary: #F2F4F5;
+    --text-secondary: #A0A8B0;
+    --text-muted: #707A84;
+    --accent: #E56B3F;
+    --accent-hover: #F07A4B;
+    --accent-subtle: rgba(229, 107, 63, 0.10);
+    --accent-border: rgba(229, 107, 63, 0.35);
+    --status-success: #3FB98A;
+    --status-warning: #D7A44B;
+    --status-danger: #DE6262;
   }
 
   html {
     scroll-behavior: smooth;
     color-scheme: dark;
+    background-color: #0B0E11;
   }
 
   body {
-    background-color: #090a0f;
-    color: #f3f4f6;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #0B0E11;
+    color: #F2F4F5;
+    font-family: var(--font-sans);
     overflow-x: hidden;
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: #F2F4F5;
+    font-weight: 600;
+    letter-spacing: -0.015em;
   }
 
   #root {
@@ -41,47 +84,111 @@
   }
 }
 
-/* Custom developer pattern utilities */
-.bg-grid-pattern {
-  background-size: 40px 40px;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  mask-image: radial-gradient(ellipse at center, black 35%, transparent 80%);
+/* Full-width container utilities (Spacious and fluid for engineering workspaces) */
+.app-container {
+  width: calc(100% - 32px);
+  max-width: 1680px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.bg-dot-pattern {
-  background-size: 24px 24px;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+@media (min-width: 640px) {
+  .app-container {
+    width: calc(100% - 48px);
+  }
 }
 
-.glow-blue {
-  box-shadow: 0 0 50px -10px rgba(59, 130, 246, 0.15);
+@media (min-width: 1024px) {
+  .app-container {
+    width: calc(100% - 64px);
+  }
 }
 
-.glow-indigo {
-  box-shadow: 0 0 60px -15px rgba(99, 102, 241, 0.2);
+@media (min-width: 1440px) {
+  .app-container {
+    width: calc(100% - 64px);
+  }
 }
 
-.code-glow {
-  text-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+/* Fluid Hero Container */
+.app-hero-container {
+  width: 100%;
+  max-width: 1100px;
 }
 
-/* Custom scrollbars */
+/* Deliberate transition easing */
+.ease-product {
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Motion and Animation Utilities */
+@keyframes fadeInSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInSlideUp 260ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeInQuick {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInQuick 160ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Subtle pulse highlight for edited rows */
+@keyframes rowEditHighlight {
+  0% {
+    background-color: rgba(229, 107, 63, 0.15);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.animate-row-highlight {
+  animation: rowEditHighlight 800ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090a0f;
+  background: #0B0E11;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #232736;
-  border-radius: 4px;
+  background: #252C34;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #333a50;
+  background: #353E4A;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

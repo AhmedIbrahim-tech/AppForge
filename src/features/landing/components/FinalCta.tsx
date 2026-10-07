@@ -16,7 +16,7 @@ function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export const FinalCta: React.FC = () => {
   const [copied, setCopied] = useState(false);
-  const command = "npx flatron my-app";
+  const command = "npx flatron nexus-app";
 
   const handleCopy = async () => {
     try {
@@ -30,35 +30,32 @@ export const FinalCta: React.FC = () => {
   };
 
   return (
-    <section className="relative overflow-hidden border-t border-white/[0.06] bg-[#07080d] py-16 sm:py-20">
-      <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-20" />
-      <div className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 h-64 bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,0.12),transparent_70%)]" />
-
+    <section className="relative overflow-hidden border-t border-border bg-base py-16 sm:py-20">
       <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl">
+        <h2 className="font-heading text-2xl font-bold tracking-tight text-text-primary sm:text-3xl lg:text-4xl">
           Start Building with Flatron
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-zinc-400">
+        <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-text-secondary">
           Scaffold your clean architecture stack, build domain business features, and extend with modular capabilities. Run the CLI directly or configure visually in your browser.
         </p>
 
         {/* Quick Command & Actions */}
-        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           {/* CLI Snippet */}
-          <div className="flex w-full sm:w-auto items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#0c0e18] px-4 py-2.5 font-mono text-xs text-zinc-300 shadow-inner">
+          <div className="flex w-full sm:w-auto items-center justify-between gap-3 rounded-md border border-border bg-[#0B0E11] px-3.5 py-2 font-mono text-xs text-text-secondary">
             <div className="flex items-center gap-2">
-              <Terminal className="h-3.5 w-3.5 text-cyan-400" />
-              <span className="text-zinc-500">$</span>
-              <span className="text-white font-medium">{command}</span>
+              <Terminal className="h-3.5 w-3.5 text-accent" />
+              <span className="text-text-muted select-none">$</span>
+              <span className="text-text-primary font-medium">{command}</span>
             </div>
             <button
               type="button"
               onClick={handleCopy}
-              className="ml-2 rounded p-1 text-zinc-400 transition-colors hover:bg-white/10 hover:text-white cursor-pointer"
+              className="ml-2 rounded p-1 text-text-muted transition-colors hover:bg-surface-raised hover:text-text-primary cursor-pointer"
               aria-label="Copy CLI command"
             >
               {copied ? (
-                <Check className="h-3.5 w-3.5 text-emerald-400" />
+                <Check className="h-3.5 w-3.5 text-success" />
               ) : (
                 <Copy className="h-3.5 w-3.5" />
               )}
@@ -68,7 +65,7 @@ export const FinalCta: React.FC = () => {
           {/* Builder Button */}
           <a
             href="#builder"
-            className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 px-5 py-2.5 text-xs font-semibold text-white shadow-[0_0_24px_-6px_rgba(99,102,241,0.5)] transition-all hover:opacity-95 cursor-pointer"
+            className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-md bg-accent px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-accent-hover transition-all active:scale-[0.985] cursor-pointer"
           >
             <span>Configure in Visual Builder</span>
             <ArrowRight className="h-3.5 w-3.5" />
@@ -79,9 +76,9 @@ export const FinalCta: React.FC = () => {
             href="https://github.com/AhmedIbrahim-tech/flatron"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-xs font-medium text-zinc-300 transition-colors hover:bg-white/10 hover:text-white"
+            className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-md border border-border bg-surface px-4 py-2 text-xs font-medium text-text-secondary transition-colors hover:bg-surface-secondary hover:text-text-primary"
           >
-            <GithubIcon className="h-3.5 w-3.5 text-zinc-400" />
+            <GithubIcon className="h-3.5 w-3.5 text-text-muted" />
             <span>GitHub</span>
           </a>
         </div>
@@ -89,3 +86,4 @@ export const FinalCta: React.FC = () => {
     </section>
   );
 };
+

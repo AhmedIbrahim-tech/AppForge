@@ -22,32 +22,29 @@ export const ProjectToolingSection: React.FC<ProjectToolingSectionProps> = ({
   return (
     <CollapsibleSection
       id="project-tooling-section"
-      icon={<Wrench className="h-4 w-4" />}
+      icon={<Wrench className="h-3.5 w-3.5" />}
       title="Project Tooling"
       summaryBadges={summaryBadges}
       expanded={expanded}
       onToggle={onToggle}
-      accent="indigo"
     >
-      <div className="space-y-4">
-        {/* Package Manager */}
+      <div className="space-y-3">
         <div>
-          <span className="mb-1.5 block text-xs font-medium text-zinc-400">
-            Package Manager
+          <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+            Node Package Manager
           </span>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-1.5">
             {PACKAGE_MANAGERS.map((pm) => (
               <OptionPill
                 key={pm.value}
-                accent="indigo"
                 selected={(config.packageManager || "npm") === pm.value}
                 onClick={() => onSetPackageManager(pm.value)}
                 label={pm.label}
               />
             ))}
           </div>
-          <p className="mt-2 text-[11px] text-zinc-500">
-            Node package manager used by Flatron for dependency installation and client scripts.
+          <p className="mt-1.5 text-[11px] text-[#737D8C]">
+            Package manager used for client scaffolding and dependency installation.
           </p>
         </div>
       </div>

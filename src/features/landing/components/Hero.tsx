@@ -1,42 +1,34 @@
 import React, { useState } from "react";
-import { Check, Copy, Layers, Server, Layout } from "lucide-react";
+import { Check, Copy, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
+import { GeneratedProjectPreview } from "./GeneratedProjectPreview";
 
-type CliTab = "npx" | "npm" | "pnpm" | "help";
+type CliTab = "npx" | "npm" | "pnpm";
 
 interface CliOption {
   id: CliTab;
   label: string;
   command: string;
-  description: string;
 }
 
 const CLI_OPTIONS: CliOption[] = [
   {
     id: "npx",
-    label: "npx",
-    command: "npx flatron MyApp",
-    description: "Run directly with npx without installing globally.",
+    label: "npx (instant)",
+    command: "npx flatron nexus-app",
   },
   {
     id: "npm",
     label: "npm global",
-    command: "npm install -g flatron\nflatron MyApp",
-    description: "Install globally to have the flatron command available everywhere.",
+    command: "npm install -g flatron && flatron nexus-app",
   },
   {
     id: "pnpm",
     label: "pnpm dlx",
-    command: "pnpm dlx flatron MyApp",
-    description: "Run via pnpm dlx with instant execution.",
-  },
-  {
-    id: "help",
-    label: "--help",
-    command: "npx flatron --help",
-    description: "View all supported CLI flags and configuration options.",
+    command: "pnpm dlx flatron nexus-app",
   },
 ];
+
 
 export const Hero: React.FC = () => {
   const [activeTab, setActiveTab] = useState<CliTab>("npx");
@@ -49,7 +41,7 @@ export const Hero: React.FC = () => {
     try {
       await navigator.clipboard.writeText(currentOption.command);
       setCopied(true);
-      toast.success("Command copied to clipboard!");
+      toast.success("Command copied to clipboard");
       setTimeout(() => setCopied(false), 2000);
     } catch {
       toast.error("Failed to copy command");
@@ -57,141 +49,108 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative flex min-h-[calc(100vh-4rem)] flex-col justify-center overflow-hidden py-12 sm:py-16 md:py-20">
-      {/* Background glow and subtle grid */}
-      <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-60" />
-      <div className="pointer-events-none absolute -top-40 left-1/2 h-[28rem] w-[50rem] -translate-x-1/2 rounded-full bg-gradient-to-tr from-indigo-600/20 via-purple-600/10 to-transparent blur-3xl" />
-
-      <div className="relative mx-auto my-auto w-full max-w-[100rem] px-4 text-center sm:px-6 lg:px-10 xl:px-14">
-        {/* Release Pill Badge */}
-        <a
-          href="https://www.npmjs.com/package/flatron"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1 text-xs font-medium text-zinc-300 backdrop-blur-md transition-all hover:border-white/20 hover:bg-white/[0.08]"
-        >
-          <span className="rounded-full bg-indigo-500/20 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-indigo-300">
-            New
-          </span>
-          <span>Introducing Flatron CLI</span>
-          <span className="text-zinc-500 transition-transform group-hover:translate-x-0.5">
-            →
-          </span>
-        </a>
-
-        {/* Two-Line Strong Heading */}
-        <h1 className="mx-auto mt-6 max-w-4xl font-sans text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl">
-          Build your application
-          <span className="block mt-1">stack in seconds</span>
-        </h1>
-
-        {/* Supporting description */}
-        <p className="mx-auto mt-5 max-w-2xl font-mono text-xs sm:text-sm leading-relaxed text-zinc-400">
-          The complete developer ecosystem: scaffold applications with Clean Architecture,
-          generate business domain features, and extend with modular capabilities.
-        </p>
-
-        {/* Interactive Tabbed CLI Installation Box */}
-        <div id="cli-install" className="mx-auto mt-10 max-w-2xl text-left">
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0c0e18]/95 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl transition-all hover:border-white/20">
-            {/* Tabs bar */}
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/8 bg-[#101320] px-4 py-2.5">
-              <div className="flex items-center gap-1.5 overflow-x-auto">
-                {CLI_OPTIONS.map((tab) => {
-                  const isActive = tab.id === activeTab;
-                  return (
-                    <button
-                      key={tab.id}
-                      type="button"
-                      onClick={() => {
-                        setActiveTab(tab.id);
-                        setCopied(false);
-                      }}
-                      className={`rounded-lg px-3 py-1.5 font-mono text-xs font-medium transition-all duration-150 cursor-pointer ${
-                        isActive
-                          ? "bg-indigo-500/20 text-indigo-300 ring-1 ring-indigo-400/40"
-                          : "text-zinc-400 hover:bg-white/5 hover:text-zinc-200"
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <button
-                onClick={handleCopy}
-                type="button"
-                className="flex shrink-0 items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 font-mono text-xs font-medium text-zinc-300 transition-all hover:bg-white/10 hover:text-white cursor-pointer active:scale-95"
-                title="Copy CLI command"
-              >
-                {copied ? (
-                  <>
-                    <Check className="h-3.5 w-3.5 text-emerald-400" />
-                    <span className="text-emerald-400">Copied</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-3.5 w-3.5 text-zinc-400" />
-                    <span>Copy</span>
-                  </>
-                )}
-              </button>
+    <section className="relative border-b border-border-line bg-base py-12 sm:py-20 lg:py-24">
+      <div className="app-container">
+        {/* Two-Column Grid: Left Input & CTA / Right Generated Output */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* LEFT: Product Positioning, Command & CTAs */}
+          <div className="lg:col-span-6 space-y-6 animate-fade-in-up">
+            {/* Classification Tag */}
+            <div className="inline-flex items-center gap-2 font-mono text-xs font-medium text-text-secondary">
+              <span className="flex h-2 w-2 rounded-full bg-accent" />
+              <span>CLI-first scaffolding toolchain</span>
             </div>
 
-            {/* Terminal Command View */}
-            <div className="p-5 font-mono">
-              <div className="space-y-2">
-                {currentOption.command.split("\n").map((line, idx) => (
-                  <div key={idx} className="flex items-center gap-2.5 overflow-x-auto">
-                    <span className="text-sm font-semibold text-indigo-400 select-none shrink-0">
-                      &gt;_
-                    </span>
-                    <span className="text-sm font-semibold text-zinc-100 whitespace-nowrap">
-                      {line}
-                    </span>
+            {/* Editorial Headline */}
+            <h1 className="font-heading text-3xl font-bold tracking-tight text-white sm:text-5xl lg:text-[3.25rem] sm:leading-[1.12]">
+              Scaffold production-ready <br className="hidden sm:inline" />
+              .NET applications
+            </h1>
+
+            {/* Subtitle */}
+            <p className="max-w-xl text-base text-text-secondary sm:text-lg leading-relaxed font-sans">
+              Generate clean architecture solutions, business features, and application modules from your terminal or visual builder.
+            </p>
+
+            {/* Interactive Terminal Command Box */}
+            <div className="max-w-lg">
+              <div className="rounded-lg border border-border bg-surface shadow-md overflow-hidden">
+                {/* Tabs Bar */}
+                <div className="flex items-center justify-between border-b border-border bg-surface-secondary px-3 py-2">
+                  <div className="flex items-center gap-1">
+                    {CLI_OPTIONS.map((tab) => {
+                      const isActive = tab.id === activeTab;
+                      return (
+                        <button
+                          key={tab.id}
+                          type="button"
+                          onClick={() => {
+                            setActiveTab(tab.id);
+                            setCopied(false);
+                          }}
+                          className={`rounded-[5px] px-2.5 py-1 font-mono text-xs transition-colors cursor-pointer ${
+                            isActive
+                              ? "bg-surface-raised text-white font-medium border border-border"
+                              : "text-text-muted hover:text-text-secondary"
+                          }`}
+                        >
+                          {tab.label}
+                        </button>
+                      );
+                    })}
                   </div>
-                ))}
+
+                  <button
+                    onClick={handleCopy}
+                    type="button"
+                    className="flex items-center gap-1.5 rounded-[5px] px-2 py-1 font-mono text-xs text-text-secondary hover:bg-surface-raised hover:text-white transition-colors cursor-pointer"
+                    title="Copy command"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="h-3.5 w-3.5 text-success" />
+                        <span className="text-success font-medium font-body">Copied</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3.5 w-3.5 text-text-muted" />
+                        <span className="font-body">Copy</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {/* Command View */}
+                <div className="flex items-center gap-3 px-4 py-3 font-mono text-xs sm:text-sm bg-[#0B0E11]/80">
+                  <span className="text-accent font-semibold select-none">$</span>
+                  <span className="text-text-primary overflow-x-auto whitespace-nowrap font-mono">
+                    {currentOption.command}
+                  </span>
+                </div>
               </div>
             </div>
 
-            {/* Description footer */}
-            <div className="border-t border-white/[0.06] bg-[#090b12] px-5 py-3 text-xs text-zinc-500">
-              <span>{currentOption.description}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Minimal Stack Pillars */}
-        <div className="mx-auto mt-14 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
-          <div className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-[#0e111a]/60 p-3.5 text-left backdrop-blur-sm">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-400">
-              <Layers className="h-4 w-4" />
-            </div>
-            <div>
-              <div className="text-xs font-semibold text-zinc-200">Full Stack</div>
-              <div className="text-[11px] text-zinc-500">.NET + React / Angular</div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-[#0e111a]/60 p-3.5 text-left backdrop-blur-sm">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400">
-              <Server className="h-4 w-4" />
-            </div>
-            <div>
-              <div className="text-xs font-semibold text-zinc-200">Backend Only</div>
-              <div className="text-[11px] text-zinc-500">Clean Architecture & CQRS</div>
+            {/* Action CTAs */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <a
+                href="#builder"
+                className="flex items-center gap-2 rounded-md bg-accent px-4 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-accent-hover transition-all active:scale-[0.985] font-heading cursor-pointer"
+              >
+                <span>Configure in Stack Builder</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </a>
+              <a
+                href="#extend"
+                className="flex items-center gap-2 rounded-md border border-border bg-surface px-4 py-2.5 text-xs font-medium text-text-secondary hover:bg-surface-secondary hover:text-white transition-colors font-heading cursor-pointer"
+              >
+                <span>Explore Workflow</span>
+              </a>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-[#0e111a]/60 p-3.5 text-left backdrop-blur-sm">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-purple-500/10 text-purple-400">
-              <Layout className="h-4 w-4" />
-            </div>
-            <div>
-              <div className="text-xs font-semibold text-zinc-200">Frontend Only</div>
-              <div className="text-[11px] text-zinc-500">Vite / Next.js + UI kits</div>
-            </div>
+          {/* RIGHT: Live Generated Project Preview */}
+          <div className="lg:col-span-6 w-full">
+            <GeneratedProjectPreview />
           </div>
         </div>
       </div>

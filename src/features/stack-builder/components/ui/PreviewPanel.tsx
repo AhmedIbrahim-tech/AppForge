@@ -8,9 +8,10 @@ export function PreviewPanel({
   children: ReactNode;
 }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/8 bg-[#0c0f18]/90 shadow-[0_24px_60px_-32px_rgba(0,0,0,0.9)] backdrop-blur-md">
+    <div className="overflow-hidden rounded-[8px] border border-border-subtle bg-surface">
       {header}
       <div className="max-h-[min(32rem,70vh)] overflow-auto">{children}</div>
     </div>
   );
 }
+
