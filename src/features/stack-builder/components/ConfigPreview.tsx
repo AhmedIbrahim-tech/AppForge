@@ -19,6 +19,7 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
     try {
       await navigator.clipboard.writeText(manifestJson);
       setCopied(true);
+      toast.success("Manifest copied to clipboard");
       setTimeout(() => setCopied(false), 2000);
     } catch {
       toast.error("Failed to copy manifest");
@@ -46,17 +47,17 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
   const isFrontend = config.projectType !== "backend";
 
   return (
-    <div className="p-3.5 space-y-3">
+    <div className="p-4 space-y-3.5 bg-surface">
       {/* Top toggle bar */}
-      <div className="flex items-center justify-between gap-2 border-b border-[#252C36] pb-2.5">
-        <div className="flex items-center gap-1 rounded-[5px] bg-[#0E1218] p-0.5 text-xs">
+      <div className="flex items-center justify-between gap-2 border-b border-border-subtle pb-3">
+        <div className="flex items-center gap-1 rounded-lg bg-surface-secondary p-0.5 text-xs">
           <button
             type="button"
             onClick={() => setViewMode("structured")}
-            className={`flex items-center gap-1.5 rounded-[4px] px-2.5 py-1 font-medium transition-colors cursor-pointer ${
+            className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 font-medium transition-all cursor-pointer ${
               viewMode === "structured"
-                ? "bg-[#1A2029] text-[#F3F6FA] border border-[#252C36]"
-                : "text-[#737D8C] hover:text-[#A1AAB8]"
+                ? "bg-surface text-text-primary font-bold shadow-xs border border-border-subtle"
+                : "text-text-muted hover:text-text-primary"
             }`}
           >
             <LayoutGrid className="h-3 w-3" />
@@ -65,10 +66,10 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
           <button
             type="button"
             onClick={() => setViewMode("raw")}
-            className={`flex items-center gap-1.5 rounded-[4px] px-2.5 py-1 font-medium transition-colors cursor-pointer ${
+            className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 font-medium transition-all cursor-pointer ${
               viewMode === "raw"
-                ? "bg-[#1A2029] text-[#F3F6FA] border border-[#252C36]"
-                : "text-[#737D8C] hover:text-[#A1AAB8]"
+                ? "bg-surface text-text-primary font-bold shadow-xs border border-border-subtle"
+                : "text-text-muted hover:text-text-primary"
             }`}
           >
             <FileJson className="h-3 w-3" />
@@ -80,24 +81,24 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
           <button
             type="button"
             onClick={handleCopyManifest}
-            className="flex items-center gap-1 rounded-[5px] border border-[#252C36] bg-[#0E1218] px-2.5 py-1 text-xs font-mono text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA] transition-colors cursor-pointer"
+            className="flex items-center gap-1 rounded-lg border border-border-subtle bg-surface-secondary px-2.5 py-1 text-xs font-mono text-text-secondary hover:bg-surface-hover hover:text-text-primary transition-all cursor-pointer shadow-xs"
             title="Copy manifest JSON"
           >
             {copied ? (
-              <Check className="h-3 w-3 text-[#25B77A]" />
+              <Check className="h-3 w-3 text-success" />
             ) : (
-              <Copy className="h-3 w-3" />
+              <Copy className="h-3 w-3 text-text-muted" />
             )}
-            <span className="hidden sm:inline">Copy</span>
+            <span className="hidden sm:inline font-sans">Copy</span>
           </button>
           <button
             type="button"
             onClick={handleDownloadManifest}
-            className="flex items-center gap-1 rounded-[5px] border border-[#252C36] bg-[#0E1218] px-2.5 py-1 text-xs font-mono text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA] transition-colors cursor-pointer"
+            className="flex items-center gap-1 rounded-lg border border-border-subtle bg-surface-secondary px-2.5 py-1 text-xs font-mono text-text-secondary hover:bg-surface-hover hover:text-text-primary transition-all cursor-pointer shadow-xs"
             title="Download .fullstack-app.json"
           >
-            <Download className="h-3 w-3" />
-            <span className="hidden sm:inline">Save</span>
+            <Download className="h-3 w-3 text-text-muted" />
+            <span className="hidden sm:inline font-sans">Save</span>
           </button>
         </div>
       </div>
@@ -105,83 +106,83 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
       {viewMode === "structured" ? (
         <div className="space-y-3 font-mono text-xs">
           {/* Project Box */}
-          <div className="rounded-[6px] border border-[#252C36] bg-[#0E1218] p-3 space-y-1.5">
-            <span className="text-[10px] uppercase font-mono text-[#4F75FF] font-medium tracking-wider">
-              Project
+          <div className="rounded-xl border border-border-subtle bg-surface-secondary p-3.5 space-y-2">
+            <span className="text-[11px] uppercase font-mono text-accent font-bold tracking-wider">
+              Project Manifest
             </span>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[#A1AAB8]">
-              <span className="text-[#737D8C]">Name:</span>
-              <span className="font-medium text-[#F3F6FA]">
-                {config.projectName || "my-flatron-app"}
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-text-secondary">
+              <span className="text-text-muted">Name:</span>
+              <span className="font-semibold text-text-primary">
+                {config.projectName || "nexus-app"}
               </span>
-              <span className="text-[#737D8C]">Mode:</span>
-              <span className="capitalize">{config.projectType}</span>
-              <span className="text-[#737D8C]">Target:</span>
-              <span className="text-[#F3F6FA]">.NET 10 (net10.0)</span>
+              <span className="text-text-muted">Mode:</span>
+              <span className="capitalize text-text-primary">{config.projectType}</span>
+              <span className="text-text-muted">Target:</span>
+              <span className="text-text-primary">.NET 10 (net10.0)</span>
             </div>
           </div>
 
           {/* Backend Box */}
           {isBackend && (
-            <div className="rounded-[6px] border border-[#252C36] bg-[#0E1218] p-3 space-y-1.5">
-              <span className="text-[10px] uppercase font-mono text-[#4F75FF] font-medium tracking-wider">
-                Backend Configuration
+            <div className="rounded-xl border border-border-subtle bg-surface-secondary p-3.5 space-y-2">
+              <span className="text-[11px] uppercase font-mono text-accent font-bold tracking-wider">
+                Backend Architecture
               </span>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[#A1AAB8]">
-                <span className="text-[#737D8C]">Presentation:</span>
-                <span>{config.backend.presentation}</span>
-                <span className="text-[#737D8C]">Architecture:</span>
-                <span>{config.backend.architecture}</span>
-                <span className="text-[#737D8C]">Data Access:</span>
-                <span>{config.backend.orm}</span>
-                <span className="text-[#737D8C]">Database:</span>
-                <span>{config.backend.database}</span>
-                <span className="text-[#737D8C]">Authentication:</span>
-                <span>{config.backend.auth}</span>
-                <span className="text-[#737D8C]">Mapping:</span>
-                <span>{config.backend.mapping}</span>
-                <span className="text-[#737D8C]">Logging:</span>
-                <span>{config.backend.logging || "Serilog"}</span>
-                <span className="text-[#737D8C]">SignalR:</span>
-                <span>{config.backend.signalR ? "Enabled" : "Disabled"}</span>
-                <span className="text-[#737D8C]">Hangfire:</span>
-                <span>{config.backend.hangfire ? "Enabled" : "Disabled"}</span>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-text-secondary">
+                <span className="text-text-muted">Presentation:</span>
+                <span className="text-text-primary">{config.backend.presentation}</span>
+                <span className="text-text-muted">Architecture:</span>
+                <span className="text-text-primary">{config.backend.architecture}</span>
+                <span className="text-text-muted">Data Access:</span>
+                <span className="text-text-primary">{config.backend.orm}</span>
+                <span className="text-text-muted">Database:</span>
+                <span className="text-text-primary">{config.backend.database}</span>
+                <span className="text-text-muted">Authentication:</span>
+                <span className="text-text-primary">{config.backend.auth}</span>
+                <span className="text-text-muted">Mapping:</span>
+                <span className="text-text-primary">{config.backend.mapping}</span>
+                <span className="text-text-muted">Logging:</span>
+                <span className="text-text-primary">{config.backend.logging || "Serilog"}</span>
+                <span className="text-text-muted">SignalR:</span>
+                <span className="text-text-primary">{config.backend.signalR ? "Enabled" : "Disabled"}</span>
+                <span className="text-text-muted">Hangfire:</span>
+                <span className="text-text-primary">{config.backend.hangfire ? "Enabled" : "Disabled"}</span>
               </div>
             </div>
           )}
 
           {/* Frontend Box */}
           {isFrontend && (
-            <div className="rounded-[6px] border border-[#252C36] bg-[#0E1218] p-3 space-y-1.5">
-              <span className="text-[10px] uppercase font-mono text-[#4F75FF] font-medium tracking-wider">
-                Frontend Configuration
+            <div className="rounded-xl border border-border-subtle bg-surface-secondary p-3.5 space-y-2">
+              <span className="text-[11px] uppercase font-mono text-accent font-bold tracking-wider">
+                Frontend Architecture
               </span>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[#A1AAB8]">
-                <span className="text-[#737D8C]">Framework:</span>
-                <span>{config.frontend.framework}</span>
-                <span className="text-[#737D8C]">Tooling:</span>
-                <span>{config.frontend.tooling}</span>
-                <span className="text-[#737D8C]">Language:</span>
-                <span>{config.frontend.language}</span>
-                <span className="text-[#737D8C]">Styling:</span>
-                <span>{config.frontend.styling}</span>
-                <span className="text-[#737D8C]">State:</span>
-                <span>{config.frontend.state}</span>
-                <span className="text-[#737D8C]">HTTP Client:</span>
-                <span>{config.frontend.httpClient}</span>
-                <span className="text-[#737D8C]">Forms:</span>
-                <span>{config.frontend.forms}</span>
-                <span className="text-[#737D8C]">UI Library / Design System:</span>
-                <span>{config.frontend.ui}</span>
-                <span className="text-[#737D8C]">i18n:</span>
-                <span>{config.frontend.includeI18n ? "Enabled" : "Disabled"}</span>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-text-secondary">
+                <span className="text-text-muted">Framework:</span>
+                <span className="text-text-primary">{config.frontend.framework}</span>
+                <span className="text-text-muted">Tooling:</span>
+                <span className="text-text-primary">{config.frontend.tooling}</span>
+                <span className="text-text-muted">Language:</span>
+                <span className="text-text-primary">{config.frontend.language}</span>
+                <span className="text-text-muted">Styling:</span>
+                <span className="text-text-primary">{config.frontend.styling}</span>
+                <span className="text-text-muted">State:</span>
+                <span className="text-text-primary">{config.frontend.state}</span>
+                <span className="text-text-muted">HTTP Client:</span>
+                <span className="text-text-primary">{config.frontend.httpClient}</span>
+                <span className="text-text-muted">Forms:</span>
+                <span className="text-text-primary">{config.frontend.forms}</span>
+                <span className="text-text-muted">UI Library / Design System:</span>
+                <span className="text-text-primary">{config.frontend.ui}</span>
+                <span className="text-text-muted">i18n:</span>
+                <span className="text-text-primary">{config.frontend.includeI18n ? "Enabled" : "Disabled"}</span>
               </div>
             </div>
           )}
         </div>
       ) : (
         <div className="space-y-2">
-          <div className="text-[11px] text-[#737D8C] font-mono">
+          <div className="text-[11px] text-text-muted font-mono">
             // Canonical .fullstack-app.json manifest:
           </div>
           <CodeBlock
@@ -189,7 +190,7 @@ export const ConfigPreview: React.FC<ConfigPreviewProps> = ({ config }) => {
             language="json"
             filename=".fullstack-app.json"
             showLineNumbers
-            className="border-none bg-[#0A0D12]"
+            className="border border-border-subtle"
           />
         </div>
       )}

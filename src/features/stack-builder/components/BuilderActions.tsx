@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Copy, Check, Download, Terminal } from "lucide-react";
+import { Copy, Check, Download, Terminal, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { buildCliCommand, buildManifestJson } from "../capabilities";
 import type { StackConfiguration, ValidationResult } from "../types";
@@ -20,7 +20,7 @@ export const BuilderActions: React.FC<BuilderActionsProps> = ({
       const command = buildCliCommand(config);
       await navigator.clipboard.writeText(command);
       setCopied(true);
-      toast.success("Command copied to clipboard");
+      toast.success("CLI command copied to clipboard");
       setTimeout(() => setCopied(false), 2000);
     } catch {
       toast.error("Failed to copy command");
@@ -46,40 +46,41 @@ export const BuilderActions: React.FC<BuilderActionsProps> = ({
   };
 
   return (
-    <div className="rounded-[8px] border border-[#252C36] bg-[#10141B] p-3.5 sm:p-4">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <div className="rounded-2xl border border-border-subtle bg-surface p-4 sm:p-5 shadow-card">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-1.5 text-xs font-mono font-medium text-[#737D8C]">
-            <Terminal className="h-3.5 w-3.5 text-[#4F75FF]" />
-            <span>Generate Stack</span>
+          <div className="flex items-center gap-2 text-xs font-mono font-medium text-text-muted">
+            <Terminal className="h-4 w-4 text-accent" />
+            <span>Generate Configured Stack</span>
           </div>
-          <div className="mt-0.5 text-xs text-[#F3F6FA]">
-            <span className="font-mono font-medium">{config.projectName || "my-flatron-app"}</span>
-            <span className="text-[#737D8C] mx-1.5">·</span>
-            <span className="capitalize text-[#A1AAB8]">{config.projectType}</span>
+          <div className="mt-1 text-sm font-bold text-text-primary font-heading">
+            <span>{config.projectName || "nexus-app"}</span>
+            <span className="text-border-main mx-2">·</span>
+            <span className="capitalize text-text-secondary text-xs font-normal">{config.projectType}</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <button
             type="button"
             onClick={handleCopyCommand}
             disabled={!validation.isValid}
-            className={`flex items-center justify-center gap-1.5 rounded-[6px] px-3.5 py-1.5 text-xs font-semibold transition-colors duration-150 cursor-pointer ${
+            className={`flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all duration-150 cursor-pointer ${
               validation.isValid
-                ? "bg-[#4F75FF] text-white hover:bg-[#6487FF] shadow-sm active:scale-[0.99]"
-                : "bg-[#1A2029] text-[#737D8C] cursor-not-allowed border border-[#252C36]"
+                ? "bg-accent text-white hover:bg-accent-hover shadow-sm active:scale-[0.985]"
+                : "bg-surface-secondary text-text-muted cursor-not-allowed border border-border-subtle"
             }`}
           >
             {copied ? (
               <>
-                <Check className="h-3.5 w-3.5 text-[#25B77A]" />
-                <span className="text-[#25B77A]">Copied</span>
+                <Check className="h-4 w-4 text-white" />
+                <span>Copied</span>
               </>
             ) : (
               <>
-                <Copy className="h-3.5 w-3.5" />
+                <Copy className="h-4 w-4" />
                 <span>Copy CLI Command</span>
+                <ArrowRight className="h-3.5 w-3.5" />
               </>
             )}
           </button>
@@ -89,9 +90,9 @@ export const BuilderActions: React.FC<BuilderActionsProps> = ({
             onClick={handleDownloadManifest}
             disabled={!validation.isValid}
             title="Download .fullstack-app.json manifest"
-            className="flex items-center justify-center gap-1.5 rounded-[6px] border border-[#252C36] bg-[#151A22] px-3 py-1.5 text-xs font-medium text-[#A1AAB8] hover:bg-[#1A2029] hover:text-[#F3F6FA] hover:border-[#353E4D] transition-colors duration-150 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center justify-center gap-1.5 rounded-xl border border-border-subtle bg-surface-secondary px-3.5 py-2 text-xs font-semibold text-text-secondary hover:bg-surface-hover hover:text-text-primary transition-all duration-150 cursor-pointer shadow-xs disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            <Download className="h-3.5 w-3.5" />
+            <Download className="h-4 w-4" />
             <span>Manifest</span>
           </button>
         </div>

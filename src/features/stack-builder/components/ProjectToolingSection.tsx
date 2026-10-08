@@ -22,7 +22,7 @@ export const ProjectToolingSection: React.FC<ProjectToolingSectionProps> = ({
   return (
     <CollapsibleSection
       id="project-tooling-section"
-      icon={<Wrench className="h-3.5 w-3.5" />}
+      icon={<Wrench className="h-4 w-4 text-accent" />}
       title="Project Tooling"
       summaryBadges={summaryBadges}
       expanded={expanded}
@@ -30,7 +30,7 @@ export const ProjectToolingSection: React.FC<ProjectToolingSectionProps> = ({
     >
       <div className="space-y-3">
         <div>
-          <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+          <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
             Node Package Manager
           </span>
           <div className="flex flex-wrap items-center gap-1.5">
@@ -43,7 +43,7 @@ export const ProjectToolingSection: React.FC<ProjectToolingSectionProps> = ({
               />
             ))}
           </div>
-          <p className="mt-1.5 text-[11px] text-[#737D8C]">
+          <p className="mt-2 text-[11px] text-text-muted">
             Package manager used for client scaffolding and dependency installation.
           </p>
         </div>

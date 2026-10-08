@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Copy,
   Check,
+  Terminal,
 } from "lucide-react";
 import type { FeatureDefinition } from "../types";
 import {
@@ -42,31 +43,32 @@ export const FeatureReviewPanel: React.FC<FeatureReviewPanelProps> = ({
   const enumsCount = feature.fields.filter((f) => f.kind === "enum").length;
 
   return (
-    <aside className="rounded-lg border border-border bg-surface p-4 sm:p-5">
+    <aside className="rounded-2xl border border-border-subtle bg-surface p-5 shadow-card space-y-4">
       {/* Header */}
       <div>
         <div className="flex items-center justify-between">
-          <span className="font-heading text-xs font-semibold text-text-muted">
-            Command
+          <span className="font-heading text-xs font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
+            <Terminal className="h-3.5 w-3.5 text-accent" />
+            <span>CLI Scaffolding</span>
           </span>
-          <div className="flex rounded border border-border bg-surface-raised p-0.5 text-[11px]">
+          <div className="flex rounded-lg border border-border-subtle bg-surface-secondary p-0.5 text-xs">
             <button
               type="button"
               onClick={() => setCommandMode("non-interactive")}
-              className={`rounded px-2 py-0.5 font-medium transition-colors cursor-pointer ${
+              className={`rounded-md px-2 py-0.5 font-medium transition-all cursor-pointer ${
                 commandMode === "non-interactive"
-                  ? "bg-surface-secondary text-text-primary"
+                  ? "bg-surface text-text-primary font-bold shadow-xs border border-border-subtle"
                   : "text-text-muted hover:text-text-primary"
               }`}
             >
-              Exact flags
+              Exact Flags
             </button>
             <button
               type="button"
               onClick={() => setCommandMode("interactive")}
-              className={`rounded px-2 py-0.5 font-medium transition-colors cursor-pointer ${
+              className={`rounded-md px-2 py-0.5 font-medium transition-all cursor-pointer ${
                 commandMode === "interactive"
-                  ? "bg-surface-secondary text-text-primary"
+                  ? "bg-surface text-text-primary font-bold shadow-xs border border-border-subtle"
                   : "text-text-muted hover:text-text-primary"
               }`}
             >
@@ -76,28 +78,28 @@ export const FeatureReviewPanel: React.FC<FeatureReviewPanelProps> = ({
         </div>
 
         {/* Command Box with Horizontal Scroll, pre formatting */}
-        <div className="mt-3 rounded-md border border-border bg-[#0B0E11] p-3 font-mono text-xs">
+        <div className="mt-3 rounded-xl border border-[var(--bg-code-border)] bg-[var(--bg-code)] p-3.5 font-mono text-xs">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-start gap-2 min-w-0 flex-1 overflow-x-auto scrollbar-thin py-0.5">
-              <span className="select-none text-accent font-semibold">$</span>
-              <pre className="text-text-primary whitespace-pre font-mono text-[12px] leading-relaxed">
+              <span className="select-none text-accent font-bold">$</span>
+              <pre className="text-slate-200 whitespace-pre font-mono text-[12px] leading-relaxed">
                 {command}
               </pre>
             </div>
             <button
               type="button"
               onClick={handleCopy}
-              className="flex shrink-0 items-center gap-1.5 rounded bg-surface-raised border border-border px-2.5 py-1 text-xs text-text-secondary hover:bg-surface-secondary hover:text-text-primary transition-colors cursor-pointer"
+              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-slate-800 border border-slate-700 px-2.5 py-1 text-xs text-slate-300 hover:bg-slate-700 hover:text-white transition-all cursor-pointer shadow-xs"
             >
               {copied ? (
                 <>
                   <Check className="h-3.5 w-3.5 text-success" />
-                  <span className="text-success text-[11px] font-medium font-body">Copied</span>
+                  <span className="text-success font-medium font-sans">Copied</span>
                 </>
               ) : (
                 <>
-                  <Copy className="h-3.5 w-3.5 text-text-muted" />
-                  <span className="text-[11px] font-medium font-body">Copy</span>
+                  <Copy className="h-3.5 w-3.5 text-slate-400" />
+                  <span className="font-sans">Copy</span>
                 </>
               )}
             </button>
@@ -106,47 +108,46 @@ export const FeatureReviewPanel: React.FC<FeatureReviewPanelProps> = ({
       </div>
 
       {/* Feature Specification Summary — Clean Definition List */}
-      <div className="mt-5 border-t border-border-line pt-4">
-        <h3 className="font-heading text-xs font-semibold text-text-muted mb-2.5">
-          Blueprint summary
+      <div className="border-t border-border-subtle pt-4">
+        <h3 className="font-heading text-xs font-bold text-text-muted uppercase tracking-wider mb-3">
+          Blueprint Summary
         </h3>
 
-        <dl className="space-y-1.5 text-xs">
-          <div className="flex items-center justify-between py-1 border-b border-border-line/40">
-            <dt className="text-text-muted font-mono text-[11px]">Entity</dt>
-            <dd className="font-semibold text-text-primary font-mono">{feature.name || "None"}</dd>
+        <dl className="space-y-2 text-xs">
+          <div className="flex items-center justify-between py-1 border-b border-border-subtle">
+            <dt className="text-text-muted font-mono text-[11px]">Entity Model</dt>
+            <dd className="font-bold text-text-primary font-mono">{feature.name || "None"}</dd>
           </div>
-          <div className="flex items-center justify-between py-1 border-b border-border-line/40">
-            <dt className="text-text-muted font-mono text-[11px]">Layer</dt>
-            <dd className="font-medium text-text-primary capitalize">{feature.mode}</dd>
+          <div className="flex items-center justify-between py-1 border-b border-border-subtle">
+            <dt className="text-text-muted font-mono text-[11px]">Layer Target</dt>
+            <dd className="font-semibold text-text-primary capitalize">{feature.mode}</dd>
           </div>
-          <div className="flex items-center justify-between py-1 border-b border-border-line/40">
-            <dt className="text-text-muted font-mono text-[11px]">Fields</dt>
-            <dd className="font-mono text-text-primary">{feature.fields.length}</dd>
+          <div className="flex items-center justify-between py-1 border-b border-border-subtle">
+            <dt className="text-text-muted font-mono text-[11px]">Fields Count</dt>
+            <dd className="font-mono text-text-primary font-semibold">{feature.fields.length}</dd>
           </div>
-          <div className="flex items-center justify-between py-1 border-b border-border-line/40">
-            <dt className="text-text-muted font-mono text-[11px]">Relations</dt>
-            <dd className="font-mono text-text-primary">{relationsCount}</dd>
+          <div className="flex items-center justify-between py-1 border-b border-border-subtle">
+            <dt className="text-text-muted font-mono text-[11px]">Relationships</dt>
+            <dd className="font-mono text-text-primary font-semibold">{relationsCount}</dd>
           </div>
           <div className="flex items-center justify-between py-1">
             <dt className="text-text-muted font-mono text-[11px]">Enums</dt>
-            <dd className="font-mono text-text-primary">{enumsCount}</dd>
+            <dd className="font-mono text-text-primary font-semibold">{enumsCount}</dd>
           </div>
         </dl>
       </div>
 
       {/* Direct workflow notice */}
-      <div className="mt-4 rounded-md border border-border bg-surface-raised/60 p-3 text-[11px] text-text-muted font-mono">
-        <div className="text-text-secondary font-semibold mb-1">Execution order:</div>
-        <ol className="list-decimal pl-4 space-y-0.5 text-text-muted">
-          <li>Run <code className="text-text-primary">cd nexus-app</code></li>
-          <li>Execute command above</li>
-          <li>C# CQRS handlers &amp; UI views generated</li>
+      <div className="rounded-xl border border-border-subtle bg-surface-secondary/70 p-3.5 text-xs text-text-secondary font-sans">
+        <div className="text-text-primary font-bold mb-1.5 flex items-center gap-1.5 font-heading">
+          <span>Execution Workflow:</span>
+        </div>
+        <ol className="list-decimal pl-4 space-y-1 text-text-secondary text-[11px]">
+          <li>Navigate into your project directory (<code className="font-mono text-accent">cd nexus-app</code>)</li>
+          <li>Execute the generated CLI command</li>
+          <li>C# CQRS handlers, entities &amp; UI views generated</li>
         </ol>
       </div>
-
     </aside>
   );
 };
-
-

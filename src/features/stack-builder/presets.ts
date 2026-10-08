@@ -20,7 +20,7 @@ export const STACK_PRESETS: Record<string, PresetDefinition> = {
     description: "React (Vite) + .NET 10 with CQRS, EF Core & SQL Server",
     badge: "Popular",
     config: {
-      projectName: "my-flatron-app",
+      projectName: "nexus-app",
       projectType: "fullstack",
       packageManager: "npm",
       backend: {

@@ -59,11 +59,11 @@ export const ManualSetupComparison: React.FC = () => {
       <div className="app-container">
         {/* Header */}
         <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 font-mono text-xs font-medium text-text-secondary">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border-subtle bg-surface px-3 py-1 font-mono text-xs font-medium text-text-secondary shadow-xs">
             <span className="flex h-2 w-2 rounded-full bg-accent" />
             <span>Why Flatron</span>
           </div>
-          <h2 className="mt-3 font-heading text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          <h2 className="mt-3 font-heading text-2xl font-bold tracking-tight text-text-primary sm:text-3xl">
             Manual assembly vs Flatron
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-text-secondary leading-relaxed">
@@ -72,36 +72,36 @@ export const ManualSetupComparison: React.FC = () => {
         </div>
 
         {/* Comparison Table */}
-        <div className="mt-8 overflow-hidden rounded-[8px] border border-border-subtle bg-surface">
+        <div className="mt-8 overflow-hidden rounded-2xl border border-border-subtle bg-surface shadow-card">
           {/* Table Header */}
-          <div className="grid grid-cols-12 border-b border-border-subtle bg-base px-4 py-3 text-xs font-semibold text-text-muted">
+          <div className="grid grid-cols-12 border-b border-border-subtle bg-surface-secondary px-5 py-3.5 text-xs font-semibold text-text-muted">
             <div className="col-span-4 sm:col-span-3 font-mono text-[11px] uppercase tracking-wider">
               Capability
             </div>
             <div className="col-span-4 sm:col-span-4 font-mono text-[11px] uppercase tracking-wider text-text-muted">
               Manual Setup
             </div>
-            <div className="col-span-4 sm:col-span-5 font-mono text-[11px] uppercase tracking-wider text-accent">
+            <div className="col-span-4 sm:col-span-5 font-mono text-[11px] uppercase tracking-wider text-accent font-bold">
               Flatron Toolchain
             </div>
           </div>
 
           {/* Table Rows */}
-          <div className="divide-y divide-border-line">
+          <div className="divide-y divide-border-subtle">
             {COMPARISON_ROWS.map((row, idx) => (
               <div
                 key={idx}
-                className="grid grid-cols-12 items-center gap-2 px-4 py-3.5 text-xs transition-colors hover:bg-surface-secondary"
+                className="grid grid-cols-12 items-center gap-2 px-5 py-4 text-xs transition-colors hover:bg-surface-secondary/60"
               >
                 {/* Column 1: Feature */}
                 <div className="col-span-4 sm:col-span-3">
-                  <div className="font-medium text-text-primary">{row.feature}</div>
+                  <div className="font-semibold text-text-primary font-heading">{row.feature}</div>
                   <div className="text-[10px] font-mono text-text-muted mt-0.5">{row.category}</div>
                 </div>
 
                 {/* Column 2: Manual */}
                 <div className="col-span-4 sm:col-span-4 flex items-start gap-2 text-text-muted">
-                  <X className="h-3.5 w-3.5 text-text-muted shrink-0 mt-0.5" />
+                  <X className="h-3.5 w-3.5 text-danger shrink-0 mt-0.5 opacity-70" />
                   <span className="text-xs leading-relaxed">{row.manual}</span>
                 </div>
 
@@ -118,4 +118,3 @@ export const ManualSetupComparison: React.FC = () => {
     </section>
   );
 };
-

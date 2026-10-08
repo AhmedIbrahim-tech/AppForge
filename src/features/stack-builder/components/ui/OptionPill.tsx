@@ -24,7 +24,7 @@ export function OptionPill({
   ...props
 }: OptionPillProps) {
   const sizeClass =
-    size === "sm" ? "px-2 py-1 text-xs" : "px-2.5 py-1.5 text-xs";
+    size === "sm" ? "px-2.5 py-1 text-xs min-h-[30px]" : "px-3 py-1.5 text-xs min-h-[34px]";
 
   return (
     <div className="relative group/pill inline-flex items-center">
@@ -33,12 +33,12 @@ export function OptionPill({
         disabled={disabled}
         aria-pressed={selected}
         title={disabled && disabledReason ? disabledReason : undefined}
-        className={`relative inline-flex items-center justify-between gap-1.5 rounded-[6px] border font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent cursor-pointer ${
+        className={`relative inline-flex items-center justify-between gap-2 rounded-lg border font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 cursor-pointer ${
           disabled
-            ? "cursor-not-allowed border-border-subtle/50 bg-transparent text-text-muted/50"
+            ? "cursor-not-allowed border-border-subtle/50 bg-surface/40 text-text-muted/50"
             : selected
-              ? "border-accent bg-accent-subtle text-white font-semibold"
-              : "border-border-subtle bg-surface-secondary text-text-secondary hover:border-zinc-700 hover:bg-surface-raised hover:text-white"
+              ? "border-accent/80 bg-accent-subtle text-text-primary font-semibold ring-1 ring-accent/30 shadow-xs"
+              : "border-border-subtle bg-surface-secondary text-text-secondary hover:border-border-hover hover:bg-surface-hover hover:text-text-primary"
         } ${sizeClass} ${className}`}
         {...props}
       >
@@ -46,23 +46,22 @@ export function OptionPill({
           {icon ? <span className="shrink-0 text-text-muted">{icon}</span> : null}
           <span className="truncate">{label}</span>
           {badge ? (
-            <span className="rounded bg-surface-raised px-1 py-0.2 text-[10px] font-mono text-text-muted">
+            <span className="rounded bg-surface-raised px-1 py-0.5 text-[10px] font-mono text-text-muted">
               {badge}
             </span>
           ) : null}
         </span>
 
         {selected && !disabled ? (
-          <Check className="h-3.5 w-3.5 shrink-0 text-accent" />
+          <Check className="h-3.5 w-3.5 shrink-0 text-accent font-bold" />
         ) : null}
       </button>
 
-
       {/* Accessible Tooltip for Disabled Reason */}
       {disabled && disabledReason && (
-        <div className="pointer-events-none absolute bottom-full left-1/2 z-40 mb-2 hidden -translate-x-1/2 rounded-[5px] border border-[#D89A3C]/40 bg-[#16141E] px-2.5 py-1 text-[11px] font-normal text-[#D89A3C] shadow-xl group-hover/pill:block whitespace-nowrap">
+        <div className="pointer-events-none absolute bottom-full left-1/2 z-40 mb-2 hidden -translate-x-1/2 rounded-lg border border-warning/40 bg-surface p-2 text-[11px] font-normal text-warning shadow-lg group-hover/pill:block whitespace-nowrap">
           <div className="flex items-center gap-1.5">
-            <HelpCircle className="h-3 w-3 text-[#D89A3C] shrink-0" />
+            <HelpCircle className="h-3 w-3 text-warning shrink-0" />
             <span>{disabledReason}</span>
           </div>
         </div>

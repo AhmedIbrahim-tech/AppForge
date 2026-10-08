@@ -41,64 +41,73 @@ export const ProjectSection: React.FC<ProjectSectionProps> = ({
   return (
     <CollapsibleSection
       id="project-section"
-      icon={<Sliders className="h-3.5 w-3.5" />}
+      icon={<Sliders className="h-4 w-4 text-accent" />}
       title="Project Scope"
-      summaryBadges={[modeLabel, config.projectName || "my-flatron-app"]}
+      summaryBadges={[modeLabel, config.projectName || "nexus-app"]}
       expanded={expanded}
       onToggle={onToggle}
       badge={
-        <span className="rounded-[4px] bg-[#151A22] border border-[#252C36] px-1.5 py-0.5 font-mono text-[10px] text-[#737D8C] uppercase">
+        <span className="rounded-md bg-surface-secondary border border-border-subtle px-2 py-0.5 font-mono text-[11px] text-text-muted uppercase font-medium">
           {config.projectType}
         </span>
       }
     >
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Project Name Input */}
         <div>
           <label
             htmlFor="projectName"
-            className="mb-1 block text-xs font-mono font-medium text-[#737D8C]"
+            className="mb-1.5 block text-xs font-semibold text-text-secondary"
           >
-            Project Name <span className="text-[#E05A67]">*</span>
+            Project Name <span className="text-danger">*</span>
           </label>
           <input
             id="projectName"
             type="text"
             value={config.projectName}
             onChange={(e) => onSetName(e.target.value)}
-            placeholder="e.g. my-flatron-app"
-            className={`w-full rounded-[6px] border bg-[#0E1218] px-3 py-1.5 font-mono text-xs text-[#F3F6FA] placeholder-[#737D8C] transition-colors focus:outline-none focus:ring-1 ${
+            placeholder="e.g. nexus-app"
+            className={`w-full rounded-lg border bg-surface-secondary px-3.5 py-2 font-mono text-xs text-text-primary placeholder:text-text-muted transition-all focus:outline-none focus:ring-2 ${
               projectNameError
-                ? "border-[#E05A67] focus:border-[#E05A67] focus:ring-[#E05A67]"
-                : "border-[#252C36] focus:border-[#4F75FF] focus:ring-[#4F75FF]"
+                ? "border-danger focus:border-danger focus:ring-danger/30"
+                : "border-border-subtle focus:border-accent focus:ring-accent/30 focus:bg-surface"
             }`}
           />
           {projectNameError ? (
-            <p className="mt-1 flex items-center gap-1 text-[11px] text-[#E05A67]">
+            <p className="mt-1.5 flex items-center gap-1 text-[11px] text-danger">
               <AlertOctagon className="h-3 w-3 shrink-0" />
               <span>{projectNameError}</span>
             </p>
-          ) : null}
+          ) : (
+            <p className="mt-1.5 text-[11px] text-text-muted">
+              Directory &amp; C# namespace identifier.
+            </p>
+          )}
         </div>
 
         {/* Fixed .NET Target */}
         <div>
-          <span className="mb-1 block text-xs font-mono font-medium text-[#737D8C]">
+          <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
             Target Framework
           </span>
-          <div className="flex items-center justify-between rounded-[6px] border border-[#252C36] bg-[#0E1218] px-3 py-1.5 text-xs text-[#A1AAB8]">
-            <span className="font-mono text-[#F3F6FA]">.NET 10 (net10.0)</span>
-            <span className="text-[#737D8C] text-[11px] font-mono">C# 14 / LTS</span>
+          <div className="flex items-center justify-between rounded-lg border border-border-subtle bg-surface-secondary px-3.5 py-2 text-xs text-text-secondary">
+            <span className="font-mono text-text-primary font-medium">.NET 10 (net10.0)</span>
+            <span className="text-info text-[11px] font-mono font-semibold bg-info/10 px-2 py-0.5 rounded border border-info/20">
+              C# 14 / LTS
+            </span>
           </div>
+          <p className="mt-1.5 text-[11px] text-text-muted">
+            Pre-configured with latest SDK runtime features.
+          </p>
         </div>
       </div>
 
       {/* Project Mode Cards */}
       <div className="pt-2">
-        <span className="mb-1.5 block text-xs font-mono font-medium text-[#737D8C]">
+        <span className="mb-2 block text-xs font-semibold text-text-secondary">
           Architecture Scope
         </span>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           {PROJECT_MODES.map((mode) => (
             <OptionCard
               key={mode.value}

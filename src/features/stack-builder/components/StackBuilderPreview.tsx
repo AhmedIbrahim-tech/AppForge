@@ -59,37 +59,37 @@ export const StackBuilderPreview: React.FC = () => {
   return (
     <section
       id="builder"
-      className="relative border-b border-[#252C36] bg-[#0A0D12] py-12 sm:py-16"
+      className="relative border-b border-border-subtle bg-base py-12 sm:py-16"
     >
       <div className="app-container">
         {/* Top Header */}
         <div className="max-w-2xl mb-6">
-          <div className="inline-flex items-center gap-2 font-mono text-xs font-medium text-[#A1AAB8] mb-1.5">
-            <span className="flex h-2 w-2 rounded-full bg-[#4F75FF]" />
-            <span>Interactive configurator</span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-border-subtle bg-surface px-3 py-1 font-mono text-xs font-medium text-text-secondary shadow-xs mb-2">
+            <span className="flex h-2 w-2 rounded-full bg-accent" />
+            <span>Interactive Configurator</span>
           </div>
-          <h2 className="text-2xl font-semibold tracking-tight text-[#F3F6FA] sm:text-3xl">
+          <h2 className="text-2xl font-bold tracking-tight text-text-primary sm:text-3xl font-heading">
             Visual Stack Builder
           </h2>
-          <p className="mt-1 text-xs sm:text-sm text-[#A1AAB8] leading-relaxed">
-            Configure your stack and copy a verified Flatron CLI command.
+          <p className="mt-1.5 text-xs sm:text-sm text-text-secondary leading-relaxed font-sans">
+            Configure your application stack with verified architectural compatibility and export a reproducible CLI command.
           </p>
         </div>
 
         {/* Preset Selector */}
-        <div className="mb-3">
+        <div className="mb-4">
           <PresetBar config={config} onSelectPreset={applyPreset} />
         </div>
 
-        {/* Live Stack Summary */}
-        <div className="mb-5">
+        {/* Live Stack Summary Bar */}
+        <div className="mb-6">
           <StackSummaryBar config={config} />
         </div>
 
         {/* 2-Column Responsive Builder Layout (60% / 40%) */}
-        <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-12">
+        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12">
           {/* Left: Collapsible Configuration Sections */}
-          <div className="space-y-3 lg:col-span-7 xl:col-span-7">
+          <div className="space-y-4 lg:col-span-7 xl:col-span-7">
             {/* 1. Project Section */}
             <ProjectSection
               config={config}
@@ -148,15 +148,15 @@ export const StackBuilderPreview: React.FC = () => {
           </div>
 
           {/* Right: Sticky Live Inspector Preview */}
-          <div className="space-y-3 lg:sticky lg:top-18 lg:col-span-5 xl:col-span-5">
+          <div className="space-y-4 lg:sticky lg:top-20 lg:col-span-5 xl:col-span-5">
             {/* Live Validation Banner */}
             {!validation.isValid ? (
-              <div className="rounded-[8px] border border-[#E05A67]/40 bg-[#E05A67]/10 p-3 text-xs text-[#E05A67]">
-                <div className="mb-1 flex items-center gap-1.5 font-semibold">
+              <div className="rounded-2xl border border-danger/40 bg-danger/10 p-4 text-xs text-danger shadow-xs">
+                <div className="mb-1.5 flex items-center gap-1.5 font-bold font-heading">
                   <AlertOctagon className="h-4 w-4 shrink-0" />
                   <span>Validation Warning</span>
                 </div>
-                <ul className="list-disc space-y-0.5 pl-4 font-mono text-[11px]">
+                <ul className="list-disc space-y-1 pl-4 font-mono text-xs">
                   {validation.errors.map((err, idx) => (
                     <li key={idx}>{err}</li>
                   ))}
@@ -203,10 +203,10 @@ export const StackBuilderPreview: React.FC = () => {
               }
             >
               {!validation.isValid ? (
-                <div className="p-8 text-center font-mono text-xs text-[#E05A67]">
-                  <AlertOctagon className="mx-auto mb-2 h-6 w-6 text-[#E05A67]" />
-                  <p className="font-semibold text-xs">Cannot render architecture preview</p>
-                  <p className="text-[#737D8C] text-[11px] mt-1">
+                <div className="p-8 text-center font-mono text-xs text-danger bg-surface">
+                  <AlertOctagon className="mx-auto mb-2 h-7 w-7 text-danger" />
+                  <p className="font-bold text-xs">Cannot render architecture preview</p>
+                  <p className="text-text-muted text-[11px] mt-1 font-sans">
                     Resolve compatibility constraints to view filesystem output.
                   </p>
                 </div>

@@ -4,6 +4,7 @@ import {
   Check,
   CheckCircle2,
   AlertTriangle,
+  Terminal,
 } from "lucide-react";
 import type { ModuleDefinition } from "../types";
 import { useStackBuilderStore } from "@/features/stack-builder/store/stackBuilderStore";
@@ -56,50 +57,51 @@ export const ModuleDetailsPanel: React.FC<ModuleDetailsPanelProps> = ({
   return (
     <aside
       key={module.id}
-      className="flex flex-col rounded-lg border border-border bg-surface p-4 sm:p-5 animate-fade-in"
+      className="flex flex-col rounded-2xl border border-border-subtle bg-surface p-5 sm:p-6 shadow-card animate-fade-in space-y-4"
     >
       {/* Header */}
-      <div className="border-b border-border-line pb-3">
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-[11px] font-semibold text-accent">
+      <div className="border-b border-border-subtle pb-4">
+        <div className="flex items-center justify-between gap-2">
+          <span className="font-mono text-xs font-bold text-accent">
             {module.id}
           </span>
-          <span className="text-[10px] font-mono text-text-muted uppercase">
+          <span className="text-[10px] font-mono text-info bg-info/10 px-2 py-0.5 rounded-md border border-info/20 font-semibold uppercase">
             {module.category}
           </span>
         </div>
-        <h2 className="font-heading mt-1.5 text-lg font-bold text-text-primary tracking-tight">
+        <h2 className="font-heading mt-2 text-lg font-bold text-text-primary tracking-tight">
           {module.name}
         </h2>
-        <p className="mt-1 text-xs text-text-secondary leading-relaxed">
+        <p className="mt-1.5 text-xs text-text-secondary leading-relaxed font-sans">
           {module.summary}
         </p>
       </div>
 
       {/* CLI Installation Command */}
-      <div className="mt-4">
-        <span className="font-heading text-xs font-semibold text-text-muted">
-          Install command
+      <div>
+        <span className="font-heading text-xs font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
+          <Terminal className="h-3.5 w-3.5 text-accent" />
+          <span>Install Command</span>
         </span>
-        <div className="mt-1.5 flex items-center justify-between rounded-md border border-border bg-[#0B0E11] px-3 py-2 font-mono text-xs">
+        <div className="mt-2 flex items-center justify-between rounded-xl border border-[var(--bg-code-border)] bg-[var(--bg-code)] px-3.5 py-2.5 font-mono text-xs shadow-xs">
           <div className="flex items-center gap-2 overflow-x-auto min-w-0 flex-1">
-            <span className="select-none text-accent font-semibold">$</span>
-            <span className="text-text-primary truncate">{installCommand}</span>
+            <span className="select-none text-accent font-bold">$</span>
+            <span className="text-slate-200 truncate">{installCommand}</span>
           </div>
           <button
             type="button"
             onClick={handleCopy}
-            className="ml-2 flex shrink-0 items-center gap-1 rounded bg-surface-raised border border-border px-2 py-1 text-xs text-text-secondary hover:bg-surface-secondary hover:text-text-primary transition-colors cursor-pointer"
+            className="ml-2 flex shrink-0 items-center gap-1 rounded-lg bg-slate-800 border border-slate-700 px-2.5 py-1 text-xs text-slate-300 hover:bg-slate-700 hover:text-white transition-all cursor-pointer shadow-xs"
           >
             {copied ? (
               <>
-                <Check className="h-3 w-3 text-success" />
-                <span className="text-success text-[11px] font-medium font-body">Copied</span>
+                <Check className="h-3.5 w-3.5 text-success" />
+                <span className="text-success text-xs font-medium font-sans">Copied</span>
               </>
             ) : (
               <>
-                <Copy className="h-3 w-3 text-text-muted" />
-                <span className="text-[11px] font-medium font-body">Copy</span>
+                <Copy className="h-3.5 w-3.5 text-slate-400" />
+                <span className="text-xs font-medium font-sans">Copy</span>
               </>
             )}
           </button>
@@ -107,43 +109,41 @@ export const ModuleDetailsPanel: React.FC<ModuleDetailsPanelProps> = ({
       </div>
 
       {/* Included Capabilities */}
-      <div className="mt-5">
-        <h4 className="font-heading text-xs font-semibold text-text-muted">
-          Included capabilities
+      <div>
+        <h4 className="font-heading text-xs font-bold text-text-muted uppercase tracking-wider">
+          Included Capabilities
         </h4>
-        <ul className="mt-2 space-y-1.5 text-xs text-text-secondary">
+        <ul className="mt-2.5 space-y-2 text-xs text-text-secondary">
           {module.includes.map((item, idx) => (
-            <li key={idx} className="flex items-start gap-2">
-              <span className="text-accent font-mono text-[10px] mt-0.5">•</span>
-              <span className="leading-relaxed">{item}</span>
+            <li key={idx} className="flex items-start gap-2.5">
+              <span className="text-accent font-bold text-sm leading-none mt-0.5">•</span>
+              <span className="leading-relaxed font-sans">{item}</span>
             </li>
           ))}
         </ul>
       </div>
 
       {/* Compatibility Notice */}
-      <div className="mt-5 border-t border-border-line pt-3.5">
+      <div className="border-t border-border-subtle pt-4">
         {compatibilityIssues.length > 0 ? (
-          <div className="rounded-md border border-warning/30 bg-warning/10 p-2.5 text-[11px] text-warning">
-            <div className="flex items-center gap-1.5 font-semibold text-warning font-heading">
-              <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-warning" />
-              <span>Stack notice</span>
+          <div className="rounded-xl border border-warning/30 bg-warning/10 p-3 text-xs text-warning shadow-xs">
+            <div className="flex items-center gap-1.5 font-bold text-warning font-heading">
+              <AlertTriangle className="h-4 w-4 shrink-0 text-warning" />
+              <span>Stack Notice</span>
             </div>
             {compatibilityIssues.map((issue, idx) => (
-              <p key={idx} className="mt-1 pl-5 text-warning leading-relaxed font-body">
+              <p key={idx} className="mt-1 pl-5 text-warning leading-relaxed font-sans text-[11px]">
                 {issue}
               </p>
             ))}
           </div>
         ) : (
-          <div className="flex items-center gap-1.5 text-[11px] text-text-muted font-mono">
-            <CheckCircle2 className="h-3.5 w-3.5 text-success shrink-0" />
-            <span>Compatible with current Stack Builder config</span>
+          <div className="flex items-center gap-2 text-xs text-text-muted font-mono bg-surface-secondary/70 p-2.5 rounded-xl border border-border-subtle">
+            <CheckCircle2 className="h-4 w-4 text-success shrink-0" />
+            <span className="text-[11px]">Compatible with current Stack Builder config</span>
           </div>
         )}
       </div>
     </aside>
   );
 };
-
-

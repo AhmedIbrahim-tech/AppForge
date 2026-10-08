@@ -52,7 +52,7 @@ describe(".NET Runtime Version & Builder Stack Tests", () => {
       invalidCharValidation.errors.some((e) => e.includes("can only contain")),
     ).toBe(true);
 
-    const validValidation = validateProjectName("my-flatron-app");
+    const validValidation = validateProjectName("nexus-app");
     expect(validValidation.isValid).toBe(true);
     expect(validValidation.errors).toHaveLength(0);
   });
@@ -215,11 +215,11 @@ describe("Acceptance Validation Matrix (Sections 43-50 & 59)", () => {
   // GOLDEN PARITY CASE A: Fullstack React Project
   it("Golden Parity Case A: Fullstack React project CLI and manifest match Library", () => {
     const config = getPresetConfig("fullstack-react")!;
-    config.projectName = "my-flatron-app";
+    config.projectName = "nexus-app";
 
     const cli = buildCliCommand(config);
     expect(cli).toBe(
-      "npx flatron my-flatron-app --type fullstack --architecture cqrs --mapping manual --orm efcore --db sqlserver --auth jwt --frontend react --frontend-tooling vite --language typescript --styling tailwind --state zustand --http axios --forms rhf-zod --ui shadcn --localization --yes"
+      "npx flatron nexus-app --type fullstack --architecture cqrs --mapping manual --orm efcore --db sqlserver --auth jwt --frontend react --frontend-tooling vite --language typescript --styling tailwind --state zustand --http axios --forms rhf-zod --ui shadcn --localization --yes"
     );
 
     const manifest = JSON.parse(buildManifestJson(config));

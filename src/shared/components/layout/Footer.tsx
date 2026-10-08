@@ -1,4 +1,5 @@
 import React from "react";
+import { Layers } from "lucide-react";
 
 function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -30,22 +31,31 @@ function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="border-t border-border-line bg-base py-6 text-text-muted">
+    <footer className="border-t border-border-subtle bg-surface py-8 text-text-muted transition-colors duration-150">
       <div className="app-container flex flex-col items-center justify-between gap-4 text-xs sm:flex-row">
-        <div className="flex items-center gap-3 font-mono text-[11px] text-text-muted">
-          <span>Flatron</span>
-          <span>·</span>
-          <span>MIT License</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <span className="flex h-5 w-5 items-center justify-center rounded-md bg-surface-secondary text-accent border border-border-subtle">
+              <Layers className="h-3 w-3" />
+            </span>
+            <span className="font-heading font-semibold text-text-primary">Flatron Platform</span>
+          </div>
+          <span className="text-border-main">·</span>
+          <span className="font-mono text-[11px] text-text-muted">MIT License</span>
+          <span className="text-border-main">·</span>
+          <span className="font-mono text-[11px] text-text-muted">Production Architecture</span>
         </div>
 
         <div className="flex items-center gap-4 text-xs text-text-secondary">
-          <span>Created by <strong className="text-text-primary font-medium">Ahmed Ibrahim</strong></span>
-          <div className="flex items-center gap-2 border-l border-border-subtle pl-3">
+          <span>
+            Created by <strong className="font-semibold text-text-primary">Ahmed Ibrahim</strong>
+          </span>
+          <div className="flex items-center gap-2 border-l border-border-subtle pl-4">
             <a
               href="https://github.com/AhmedIbrahim-tech/flatron"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-text-muted hover:text-text-primary transition-colors"
+              className="rounded-md p-1 text-text-muted hover:bg-surface-secondary hover:text-text-primary transition-colors"
               aria-label="GitHub"
             >
               <GithubIcon className="h-4 w-4" />
@@ -54,7 +64,7 @@ export const Footer: React.FC = () => {
               href="https://www.npmjs.com/package/flatron"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-text-muted hover:text-accent transition-colors"
+              className="rounded-md p-1 text-text-muted hover:bg-surface-secondary hover:text-accent transition-colors"
               aria-label="npm"
             >
               <NpmIcon className="h-3.5 w-3.5" />
@@ -63,7 +73,7 @@ export const Footer: React.FC = () => {
               href="https://www.linkedin.com/in/ahmedeprahim/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-text-muted hover:text-accent transition-colors"
+              className="rounded-md p-1 text-text-muted hover:bg-surface-secondary hover:text-info transition-colors"
               aria-label="LinkedIn"
             >
               <LinkedinIcon className="h-3.5 w-3.5" />
@@ -74,4 +84,3 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
-

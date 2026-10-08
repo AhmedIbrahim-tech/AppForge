@@ -1,75 +1,169 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: 'Instrument Sans', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: 'Instrument Sans', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
-
-  --color-base: #0B0E11;
-  --color-surface: #11151A;
-  --color-surface-secondary: #171C22;
-  --color-surface-raised: #1C2229;
-  --color-surface-strong: #222932;
-  
-  --color-border-subtle: #252C34;
-  --color-border-line: rgba(255, 255, 255, 0.06);
-
-  --color-text-primary: #F2F4F5;
-  --color-text-secondary: #A0A8B0;
-  --color-text-muted: #707A84;
-
-  --color-accent: #E56B3F;
-  --color-accent-hover: #F07A4B;
-  --color-accent-subtle: rgba(229, 107, 63, 0.10);
-  --color-accent-border: rgba(229, 107, 63, 0.35);
-
-  --color-success: #3FB98A;
-  --color-warning: #D7A44B;
-  --color-danger: #DE6262;
-}
-
 @layer base {
   :root {
-    --bg-base: #0B0E11;
-    --bg-surface: #11151A;
-    --bg-surface-secondary: #171C22;
-    --bg-surface-raised: #1C2229;
-    --border-main: #252C34;
-    --border-subtle: rgba(255, 255, 255, 0.06);
-    --text-primary: #F2F4F5;
-    --text-secondary: #A0A8B0;
-    --text-muted: #707A84;
+    /* LIGHT MODE PALETTE (Refined enterprise cool-slate & crisp white, inspired by SWA) */
+    --bg-base: #F1F5F9;
+    --bg-canvas: #F8FAFC;
+    --bg-surface: #FFFFFF;
+    --bg-surface-secondary: #F1F5F9;
+    --bg-surface-raised: #FFFFFF;
+    --bg-surface-elevated: #FFFFFF;
+    --bg-surface-hover: #F8FAFC;
+    --bg-surface-overlay: rgba(15, 23, 42, 0.45);
+    
+    /* Code surfaces in light mode: sleek deep technical navy */
+    --bg-code: #0B111A;
+    --bg-code-header: #111A27;
+    --bg-code-border: #1E2E42;
+    --text-code-primary: #F8FAFC;
+    --text-code-secondary: #94A3B8;
+
+    /* Borders */
+    --border-subtle: #E2E8F0;
+    --border-main: #CBD5E1;
+    --border-strong: #94A3B8;
+    --border-line: rgba(15, 23, 42, 0.08);
+    --border-hover: #94A3B8;
+
+    /* Typography */
+    --text-primary: #0F172A;
+    --text-secondary: #334155;
+    --text-muted: #64748B;
+    --text-dim: #94A3B8;
+    --text-inverse: #FFFFFF;
+
+    /* Brand Accent: Flatron Orange */
     --accent: #E56B3F;
     --accent-hover: #F07A4B;
     --accent-subtle: rgba(229, 107, 63, 0.10);
     --accent-border: rgba(229, 107, 63, 0.35);
-    --status-success: #3FB98A;
-    --status-warning: #D7A44B;
-    --status-danger: #DE6262;
+    --accent-text: #C44E24;
+
+    /* Informational / Technical Accent: Clean Cyan/Blue */
+    --color-info: #0284C7;
+    --color-info-hover: #0369A1;
+    --info-subtle: rgba(2, 132, 199, 0.09);
+    --info-border: rgba(2, 132, 199, 0.28);
+    --info-text: #0369A1;
+
+    /* Status Colors */
+    --status-success: #10B981;
+    --success-subtle: rgba(16, 185, 129, 0.10);
+    --success-border: rgba(16, 185, 129, 0.30);
+    --success-text: #047857;
+
+    --status-warning: #F59E0B;
+    --warning-subtle: rgba(245, 158, 11, 0.10);
+    --warning-border: rgba(245, 158, 11, 0.30);
+    --warning-text: #B45309;
+
+    --status-danger: #EF4444;
+    --danger-subtle: rgba(239, 68, 68, 0.10);
+    --danger-border: rgba(239, 68, 68, 0.30);
+    --danger-text: #B91C1C;
+
+    /* Elevation & Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+    --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+    --shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+    --shadow-modal: 0 20px 35px -5px rgba(15, 23, 42, 0.18), 0 8px 16px -6px rgba(15, 23, 42, 0.1);
+  }
+
+  .dark {
+    /* DARK MODE PALETTE (Deep enterprise navy/slate with elevated surfaces) */
+    --bg-base: #0B111A;
+    --bg-canvas: #0E1622;
+    --bg-surface: #111A27;
+    --bg-surface-secondary: #162233;
+    --bg-surface-raised: #1C2B3E;
+    --bg-surface-elevated: #22344B;
+    --bg-surface-hover: #1A2738;
+    --bg-surface-overlay: rgba(0, 0, 0, 0.70);
+
+    /* Code surfaces in dark mode */
+    --bg-code: #080D14;
+    --bg-code-header: #0E1622;
+    --bg-code-border: #1E2E42;
+    --text-code-primary: #F8FAFC;
+    --text-code-secondary: #94A3B8;
+
+    /* Borders */
+    --border-subtle: #1E2E42;
+    --border-main: #273A52;
+    --border-strong: #385273;
+    --border-line: rgba(255, 255, 255, 0.07);
+    --border-hover: #476288;
+
+    /* Typography */
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    --text-dim: #475569;
+    --text-inverse: #0F172A;
+
+    /* Brand Accent: Flatron Orange */
+    --accent: #E56B3F;
+    --accent-hover: #F07A4B;
+    --accent-subtle: rgba(229, 107, 63, 0.12);
+    --accent-border: rgba(229, 107, 63, 0.38);
+    --accent-text: #F07A4B;
+
+    /* Informational / Technical Accent */
+    --color-info: #38BDF8;
+    --color-info-hover: #60A5FA;
+    --info-subtle: rgba(56, 189, 248, 0.12);
+    --info-border: rgba(56, 189, 248, 0.35);
+    --info-text: #38BDF8;
+
+    /* Status Colors */
+    --status-success: #34D399;
+    --success-subtle: rgba(52, 211, 153, 0.12);
+    --success-border: rgba(52, 211, 153, 0.35);
+    --success-text: #34D399;
+
+    --status-warning: #FBBF24;
+    --warning-subtle: rgba(251, 191, 36, 0.12);
+    --warning-border: rgba(251, 191, 36, 0.35);
+    --warning-text: #FBBF24;
+
+    --status-danger: #F87171;
+    --danger-subtle: rgba(248, 113, 113, 0.12);
+    --danger-border: rgba(248, 113, 113, 0.35);
+    --danger-text: #F87171;
+
+    /* Elevation & Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-card: 0 2px 8px 0 rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 6px 16px 0 rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 12px 32px 0 rgba(0, 0, 0, 0.5);
+    --shadow-modal: 0 24px 48px -12px rgba(0, 0, 0, 0.65);
   }
 
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
-    background-color: #0B0E11;
+    background-color: var(--bg-base);
+    color: var(--text-primary);
   }
 
   body {
-    background-color: #0B0E11;
-    color: #F2F4F5;
-    font-family: var(--font-sans);
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: 'IBM Plex Sans', 'Inter', 'IBM Plex Sans Arabic', 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     overflow-x: hidden;
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 200ms ease, color 200ms ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-    color: #F2F4F5;
+    font-family: 'IBM Plex Sans', 'Inter', 'IBM Plex Sans Arabic', 'Cairo', sans-serif;
+    color: var(--text-primary);
     font-weight: 600;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
   }
 
   #root {
@@ -84,10 +178,50 @@
   }
 }
 
-/* Full-width container utilities (Spacious and fluid for engineering workspaces) */
+@theme {
+  --font-sans: 'IBM Plex Sans', 'Inter', 'IBM Plex Sans Arabic', 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'IBM Plex Sans', 'Inter', 'IBM Plex Sans Arabic', 'Cairo', sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --color-base: var(--bg-base);
+  --color-canvas: var(--bg-canvas);
+  --color-surface: var(--bg-surface);
+  --color-surface-secondary: var(--bg-surface-secondary);
+  --color-surface-raised: var(--bg-surface-raised);
+  --color-surface-elevated: var(--bg-surface-elevated);
+  --color-surface-hover: var(--bg-surface-hover);
+
+  --color-border-subtle: var(--border-subtle);
+  --color-border-main: var(--border-main);
+  --color-border-strong: var(--border-strong);
+  --color-border-line: var(--border-line);
+  --color-border-hover: var(--border-hover);
+  --color-border: var(--border-subtle);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-dim: var(--text-dim);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-accent-border: var(--accent-border);
+
+  --color-info: var(--color-info);
+  --color-info-hover: var(--color-info-hover);
+  --color-info-subtle: var(--info-subtle);
+  --color-info-border: var(--info-border);
+
+  --color-success: var(--status-success);
+  --color-warning: var(--status-warning);
+  --color-danger: var(--status-danger);
+}
+
+/* Layout Container Utilities */
 .app-container {
   width: calc(100% - 32px);
-  max-width: 1680px;
+  max-width: 1600px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -104,28 +238,17 @@
   }
 }
 
-@media (min-width: 1440px) {
-  .app-container {
-    width: calc(100% - 64px);
-  }
-}
-
 /* Fluid Hero Container */
 .app-hero-container {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1160px;
 }
 
-/* Deliberate transition easing */
-.ease-product {
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* Motion and Animation Utilities */
+/* Animation utilities */
 @keyframes fadeInSlideUp {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
@@ -134,7 +257,7 @@
 }
 
 .animate-fade-in-up {
-  animation: fadeInSlideUp 260ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: fadeInSlideUp 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes fadeInQuick {
@@ -147,40 +270,26 @@
 }
 
 .animate-fade-in {
-  animation: fadeInQuick 160ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-/* Subtle pulse highlight for edited rows */
-@keyframes rowEditHighlight {
-  0% {
-    background-color: rgba(229, 107, 63, 0.15);
-  }
-  100% {
-    background-color: transparent;
-  }
-}
-
-.animate-row-highlight {
-  animation: rowEditHighlight 800ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: fadeInQuick 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Scrollbars */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0B0E11;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #252C34;
-  border-radius: 2px;
+  background: var(--border-main);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #353E4A;
+  background: var(--border-strong);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -191,4 +300,3 @@
     scroll-behavior: auto !important;
   }
 }
-

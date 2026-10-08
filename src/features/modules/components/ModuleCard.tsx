@@ -1,5 +1,6 @@
 import React from "react";
 import type { ModuleDefinition } from "../types";
+import { Check } from "lucide-react";
 
 interface ModuleCardProps {
   module: ModuleDefinition;
@@ -16,36 +17,41 @@ export const ModuleCard: React.FC<ModuleCardProps> = ({
     <button
       type="button"
       onClick={() => onSelect(module)}
-      className={`group flex flex-col justify-between rounded-lg p-3.5 text-left transition-all cursor-pointer border ${
+      className={`group flex flex-col justify-between rounded-2xl p-5 text-left transition-all cursor-pointer border ${
         isSelected
-          ? "border-accent/60 border-l-[3px] border-l-accent bg-accent/[0.07] shadow-sm"
-          : "border-border bg-surface hover:bg-surface-raised hover:border-border-hover"
+          ? "border-accent/80 bg-accent-subtle shadow-xs ring-1 ring-accent/30"
+          : "border-border-subtle bg-surface hover:bg-surface-secondary hover:border-border-hover shadow-xs"
       }`}
     >
       <div>
         {/* Top: Name + Category & ID */}
-        <div className="flex items-baseline justify-between gap-2">
-          <div className="flex items-baseline gap-2">
-            <span className="font-heading text-sm font-semibold text-text-primary tracking-tight">
-              {module.name}
-            </span>
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-heading text-sm font-bold text-text-primary tracking-tight">
+                {module.name}
+              </span>
+              {isSelected && (
+                <Check className="h-4 w-4 text-accent font-bold" />
+              )}
+            </div>
             <span className="font-mono text-[10px] text-text-muted">
               {module.id}
             </span>
           </div>
-          <span className="text-[11px] font-mono text-text-muted">
+          <span className="text-[11px] font-mono text-info bg-info/10 px-2 py-0.5 rounded-md border border-info/20 font-medium">
             {module.category}
           </span>
         </div>
 
         {/* Short Purpose Description */}
-        <p className="mt-1.5 text-xs text-text-secondary line-clamp-2 leading-relaxed">
+        <p className="mt-2.5 text-xs text-text-secondary line-clamp-2 leading-relaxed font-sans">
           {module.description}
         </p>
       </div>
 
       {/* Essential requirement tags */}
-      <div className="mt-3 flex items-center gap-1.5 border-t border-border-line pt-2 text-[10px] font-mono text-text-muted">
+      <div className="mt-4 flex items-center gap-1.5 border-t border-border-subtle pt-3 text-[10px] font-mono text-text-muted">
         {module.requiresBackend && <span>.NET Backend</span>}
         {module.requiresBackend && module.requiresFrontend && <span>·</span>}
         {module.requiresFrontend && <span>SPA Client</span>}
@@ -59,5 +65,3 @@ export const ModuleCard: React.FC<ModuleCardProps> = ({
     </button>
   );
 };
-
-

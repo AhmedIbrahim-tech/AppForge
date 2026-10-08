@@ -845,7 +845,7 @@ export function isPresetActive(
 // ---------------------------------------------------------
 export function buildCliCommand(config: StackConfiguration): string {
   const flags: string[] = [];
-  const name = config.projectName || "my-flatron-app";
+  const name = config.projectName || "nexus-app";
 
   flags.push(`--type ${config.projectType}`);
 
@@ -1143,7 +1143,7 @@ export function buildManifestJson(config: StackConfiguration): string {
 
   const manifest = {
     generatorVersion: "1.1.0",
-    projectName: config.projectName || "my-flatron-app",
+    projectName: config.projectName || "nexus-app",
     paths: {
       backend: isBackend ? (config.projectType === "fullstack" ? "Backend" : ".") : null,
       frontend: isFrontend ? (config.projectType === "fullstack" ? "Frontend" : ".") : null,

@@ -42,7 +42,6 @@ export interface FrontendSectionProps {
   onToggleI18n: () => void;
 }
 
-
 export const FrontendSection: React.FC<FrontendSectionProps> = ({
   config,
   expanded,
@@ -79,7 +78,7 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
           f.ui !== "None" ? (f.ui === "Ant Design Angular" ? "NG-ZORRO" : "Material") : "No UI Kit",
         ];
 
-  // Filter ecosystem-specific options
+  // Filter ecosystem-specific options for React
   const reactToolings = FRONTEND_TOOLINGS.filter((t) => t.value !== "Angular CLI");
   const reactStates = FRONTEND_STATES.filter((s) => s.value !== "NgRx");
   const reactHttpClients = FRONTEND_HTTP_CLIENTS.filter((h) => h.value !== "Angular Http");
@@ -101,7 +100,7 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
   return (
     <CollapsibleSection
       id="frontend-section"
-      icon={<Layout className="h-3.5 w-3.5" />}
+      icon={<Layout className="h-4 w-4 text-accent" />}
       title="Frontend Stack"
       summaryBadges={summaryBadges}
       expanded={expanded}
@@ -112,59 +111,59 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
       onIncludeAction={() => onSetProjectType("fullstack")}
       badge={
         !isBackendOnly ? (
-          <span className="rounded-[4px] bg-[#151A22] border border-[#252C36] px-1.5 py-0.5 font-mono text-[10px] text-[#737D8C]">
+          <span className="rounded-md bg-surface-secondary border border-border-subtle px-2 py-0.5 font-mono text-[11px] text-text-muted font-medium">
             {f.framework} · {f.framework === "React" ? f.tooling : "Angular CLI"}
           </span>
         ) : null
       }
     >
-      <div className="space-y-4">
+      <div className="space-y-5">
         {/* 1. Primary Decision: Framework */}
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 border-b border-[#252C36] pb-1">
-            <Layers className="h-3.5 w-3.5 text-[#737D8C]" />
-            <h4 className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#737D8C]">
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 border-b border-border-subtle pb-2">
+            <Layers className="h-4 w-4 text-accent" />
+            <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-secondary">
               Frontend Framework
             </h4>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => onSetFramework("React")}
-              className={`flex flex-col justify-between rounded-[7px] border p-3 text-left transition-colors cursor-pointer ${
+              className={`flex flex-col justify-between rounded-xl border p-4 text-left transition-all cursor-pointer ${
                 f.framework === "React"
-                  ? "border-[#4F75FF] bg-[rgba(79,117,255,0.12)] text-[#F3F6FA]"
-                  : "border-[#252C36] bg-[#0E1218] text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA]"
+                  ? "border-accent/80 bg-accent-subtle text-text-primary ring-1 ring-accent/30 shadow-xs"
+                  : "border-border-subtle bg-surface-secondary text-text-secondary hover:border-border-hover hover:bg-surface-hover hover:text-text-primary"
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-xs text-[#F3F6FA]">React 19</span>
+                <span className="font-bold text-sm text-text-primary font-heading">React 19</span>
                 {f.framework === "React" && (
-                  <Check className="h-3.5 w-3.5 text-[#4F75FF] shrink-0" />
+                  <Check className="h-4 w-4 text-accent font-bold shrink-0" />
                 )}
               </div>
-              <p className="mt-1 text-[11px] text-[#737D8C] leading-relaxed">
-                Vite or Next.js with modern component architecture and TypeScript.
+              <p className="mt-1.5 text-xs text-text-secondary leading-relaxed">
+                Modern Vite or Next.js with reactive components and typed contracts.
               </p>
             </button>
 
             <button
               type="button"
               onClick={() => onSetFramework("Angular")}
-              className={`flex flex-col justify-between rounded-[7px] border p-3 text-left transition-colors cursor-pointer ${
+              className={`flex flex-col justify-between rounded-xl border p-4 text-left transition-all cursor-pointer ${
                 f.framework === "Angular"
-                  ? "border-[#4F75FF] bg-[rgba(79,117,255,0.12)] text-[#F3F6FA]"
-                  : "border-[#252C36] bg-[#0E1218] text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA]"
+                  ? "border-accent/80 bg-accent-subtle text-text-primary ring-1 ring-accent/30 shadow-xs"
+                  : "border-border-subtle bg-surface-secondary text-text-secondary hover:border-border-hover hover:bg-surface-hover hover:text-text-primary"
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-xs text-[#F3F6FA]">Angular</span>
+                <span className="font-bold text-sm text-text-primary font-heading">Angular</span>
                 {f.framework === "Angular" && (
-                  <Check className="h-3.5 w-3.5 text-[#4F75FF] shrink-0" />
+                  <Check className="h-4 w-4 text-accent font-bold shrink-0" />
                 )}
               </div>
-              <p className="mt-1 text-[11px] text-[#737D8C] leading-relaxed">
+              <p className="mt-1.5 text-xs text-text-secondary leading-relaxed">
                 Enterprise standalone architecture with Angular CLI and NgRx.
               </p>
             </button>
@@ -173,11 +172,11 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
 
         {/* 2. Ecosystem Specific Options */}
         {f.framework === "React" ? (
-          <div className="space-y-3.5 border-t border-[#252C36] pt-3.5">
+          <div className="space-y-4 border-t border-border-subtle pt-4">
             {/* Tooling & Language */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+                <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
                   Tooling / Starter
                 </span>
                 <div className="flex flex-wrap items-center gap-1.5">
@@ -193,7 +192,7 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
 
               <div>
-                <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+                <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
                   Language
                 </span>
                 <div className="flex flex-wrap items-center gap-1.5">
@@ -217,10 +216,10 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
             </div>
 
             {/* Styling & State */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <span className="mb-1 block text-xs font-mono text-[#737D8C]">
-                  Styling
+                <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
+                  Styling Framework
                 </span>
                 <div className="flex flex-wrap items-center gap-1.5">
                   {FRONTEND_STYLINGS.map((sty) => (
@@ -235,7 +234,7 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
 
               <div>
-                <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+                <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
                   State Management
                 </span>
                 <div className="flex flex-wrap items-center gap-1.5">
@@ -252,9 +251,9 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
             </div>
 
             {/* HTTP & Forms */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+                <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
                   HTTP Client
                 </span>
                 <div className="flex flex-wrap items-center gap-1.5">
@@ -270,7 +269,7 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
 
               <div>
-                <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+                <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
                   Form Handling
                 </span>
                 <div className="flex flex-wrap items-center gap-1.5">
@@ -288,7 +287,7 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
 
             {/* UI Library / Design System */}
             <div>
-              <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+              <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
                 UI Library / Design System
               </span>
               <div className="flex flex-wrap items-center gap-1.5">
@@ -311,61 +310,45 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
             </div>
           </div>
         ) : (
-          <div className="space-y-3.5 border-t border-[#252C36] pt-3.5">
-            {/* Core Settings */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <span className="mb-1 block text-xs font-mono text-[#737D8C]">Tooling</span>
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <OptionPill
-                    selected={f.tooling === "Angular CLI"}
-                    onClick={() => onSetTooling("Angular CLI")}
-                    label="Angular CLI"
-                  />
-                </div>
+          /* Angular Ecosystem with Requirement #14: Read-Only Config Rows for Fixed Settings */
+          <div className="space-y-4 border-t border-border-subtle pt-4">
+            {/* Fixed Settings Hierarchy Rows */}
+            <div className="rounded-xl border border-border-subtle bg-surface-secondary/60 p-4 space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-border-subtle">
+                <span className="text-xs font-mono font-semibold text-text-muted uppercase">
+                  Framework Presets
+                </span>
+                <span className="text-[11px] font-mono text-info bg-info/10 px-2 py-0.5 rounded-md border border-info/20 font-medium">
+                  Framework-defined
+                </span>
               </div>
 
-              <div>
-                <span className="mb-1 block text-xs font-mono text-[#737D8C]">Language</span>
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <OptionPill
-                    selected={f.language === "TypeScript"}
-                    onClick={() => onSetLanguage("TypeScript")}
-                    label="TypeScript"
-                  />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div className="flex items-center justify-between p-2 rounded-lg bg-surface border border-border-subtle">
+                  <span className="text-text-muted">Tooling</span>
+                  <span className="font-mono font-semibold text-text-primary">Angular CLI</span>
                 </div>
-              </div>
-            </div>
-
-            {/* Application Layer */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <span className="mb-1 block text-xs font-mono text-[#737D8C]">HTTP Client</span>
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <OptionPill
-                    selected={f.httpClient === "Angular Http"}
-                    onClick={() => onSetHttpClient("Angular Http")}
-                    label="Angular HttpClient"
-                  />
+                <div className="flex items-center justify-between p-2 rounded-lg bg-surface border border-border-subtle">
+                  <span className="text-text-muted">Language</span>
+                  <span className="font-mono font-semibold text-text-primary">TypeScript</span>
                 </div>
-              </div>
-
-              <div>
-                <span className="mb-1 block text-xs font-mono text-[#737D8C]">Form Handling</span>
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <OptionPill
-                    selected={f.forms === "Angular Reactive Forms"}
-                    onClick={() => onSetForms("Angular Reactive Forms")}
-                    label="Reactive Forms"
-                  />
+                <div className="flex items-center justify-between p-2 rounded-lg bg-surface border border-border-subtle">
+                  <span className="text-text-muted">HTTP Client</span>
+                  <span className="font-mono font-semibold text-text-primary">Angular HttpClient</span>
+                </div>
+                <div className="flex items-center justify-between p-2 rounded-lg bg-surface border border-border-subtle">
+                  <span className="text-text-muted">Forms</span>
+                  <span className="font-mono font-semibold text-text-primary">Reactive Forms</span>
                 </div>
               </div>
             </div>
 
-            {/* Styling & State (Selectable) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Selectable Options in Angular */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <span className="mb-1 block text-xs font-mono text-[#737D8C]">Styling</span>
+                <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
+                  Styling Framework
+                </span>
                 <div className="flex flex-wrap items-center gap-1.5">
                   {FRONTEND_STYLINGS.map((sty) => (
                     <OptionPill
@@ -379,7 +362,9 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
 
               <div>
-                <span className="mb-1 block text-xs font-mono text-[#737D8C]">State Management</span>
+                <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
+                  State Management
+                </span>
                 <div className="flex flex-wrap items-center gap-1.5">
                   {angularStates.map((st) => (
                     <OptionPill
@@ -393,9 +378,9 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
               </div>
             </div>
 
-            {/* UI Library / Design System (Selectable) */}
+            {/* UI Library / Design System */}
             <div>
-              <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+              <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
                 UI Library / Design System
               </span>
               <div className="flex flex-wrap items-center gap-1.5">
@@ -412,26 +397,29 @@ export const FrontendSection: React.FC<FrontendSectionProps> = ({
           </div>
         )}
 
-        {/* 3. Localization */}
-        <div className="border-t border-[#252C36] pt-3">
+        {/* 3. Localization Toggle */}
+        <div className="border-t border-border-subtle pt-4">
           <button
             type="button"
             onClick={onToggleI18n}
-            className={`flex w-full items-center justify-between rounded-[6px] border p-2.5 transition-colors cursor-pointer ${
+            className={`flex w-full items-center justify-between rounded-xl border p-3.5 transition-all cursor-pointer ${
               f.includeI18n
-                ? "border-[#4F75FF] bg-[rgba(79,117,255,0.12)] text-[#F3F6FA]"
-                : "border-[#252C36] bg-[#0E1218] text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA]"
+                ? "border-accent/80 bg-accent-subtle text-text-primary ring-1 ring-accent/30 shadow-xs"
+                : "border-border-subtle bg-surface-secondary text-text-secondary hover:border-border-hover hover:bg-surface-hover hover:text-text-primary"
             }`}
           >
-            <div className="flex items-center gap-2">
-              <Globe className="h-3.5 w-3.5 text-[#737D8C]" />
-              <span className="text-xs font-medium">i18n Internationalization Setup</span>
+            <div className="flex items-center gap-2.5">
+              <Globe className="h-4 w-4 text-accent" />
+              <div>
+                <span className="text-xs font-bold font-heading">i18n Localization Architecture</span>
+                <p className="text-[11px] text-text-muted mt-0.5">Pre-configures multi-language routing, translation catalogs, and RTL support.</p>
+              </div>
             </div>
             <span
-              className={`rounded-[4px] px-1.5 py-0.5 font-mono text-[10px] ${
+              className={`rounded-md px-2.5 py-1 font-mono text-[10px] font-bold ${
                 f.includeI18n
-                  ? "bg-[#4F75FF]/20 text-[#6487FF] font-medium"
-                  : "bg-[#151A22] text-[#737D8C]"
+                  ? "bg-accent text-white"
+                  : "bg-surface text-text-muted border border-border-subtle"
               }`}
             >
               {f.includeI18n ? "ON" : "OFF"}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Folder, FileCode, Check } from "lucide-react";
+import { Folder, FileCode, Check, Layers, Server, Layout } from "lucide-react";
 
 export type HeroProjectMode = "fullstack" | "backend" | "frontend";
 
@@ -62,19 +62,19 @@ export const GeneratedProjectPreview: React.FC = () => {
 
   const modeBadge =
     mode === "fullstack"
-      ? ".NET 10 Clean Architecture + React SPA"
+      ? ".NET 10 Clean Architecture + React / Angular"
       : mode === "backend"
       ? ".NET 10 Clean Architecture API"
-      : "Vite SPA Client Application";
+      : "Vite / Next.js SPA Client Application";
 
   return (
-    <div className="flex flex-col rounded-lg border border-border bg-surface shadow-xl overflow-hidden animate-fade-in">
+    <div className="flex flex-col rounded-2xl border border-border-subtle bg-surface shadow-card overflow-hidden animate-fade-in">
       {/* Header bar with Mode Selector */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-border bg-surface-secondary px-4 py-3">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-border-subtle bg-surface-secondary px-4 py-3">
         <div className="flex items-center gap-2">
           <span className="flex h-2 w-2 rounded-full bg-accent" />
           <span className="font-heading text-xs font-semibold text-text-primary">
-            Generated Project Output
+            Generated Output Preview
           </span>
         </div>
 
@@ -82,66 +82,68 @@ export const GeneratedProjectPreview: React.FC = () => {
         <div
           role="tablist"
           aria-label="Project mode preview"
-          className="flex items-center rounded-md border border-border bg-surface-raised p-0.5"
+          className="flex items-center rounded-lg border border-border-subtle bg-surface p-0.5 shadow-xs"
         >
           <button
             role="tab"
             aria-selected={mode === "fullstack"}
             type="button"
             onClick={() => setMode("fullstack")}
-            className={`rounded px-2.5 py-1 text-[11px] font-medium transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-all cursor-pointer ${
               mode === "fullstack"
-                ? "bg-accent text-white font-semibold shadow-sm"
+                ? "bg-accent text-white font-semibold shadow-xs"
                 : "text-text-muted hover:text-text-primary"
             }`}
           >
-            Full Stack
+            <Layers className="h-3 w-3" />
+            <span>Full Stack</span>
           </button>
           <button
             role="tab"
             aria-selected={mode === "backend"}
             type="button"
             onClick={() => setMode("backend")}
-            className={`rounded px-2.5 py-1 text-[11px] font-medium transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-all cursor-pointer ${
               mode === "backend"
-                ? "bg-accent text-white font-semibold shadow-sm"
+                ? "bg-accent text-white font-semibold shadow-xs"
                 : "text-text-muted hover:text-text-primary"
             }`}
           >
-            Backend
+            <Server className="h-3 w-3" />
+            <span>Backend</span>
           </button>
           <button
             role="tab"
             aria-selected={mode === "frontend"}
             type="button"
             onClick={() => setMode("frontend")}
-            className={`rounded px-2.5 py-1 text-[11px] font-medium transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-all cursor-pointer ${
               mode === "frontend"
-                ? "bg-accent text-white font-semibold shadow-sm"
+                ? "bg-accent text-white font-semibold shadow-xs"
                 : "text-text-muted hover:text-text-primary"
             }`}
           >
-            Frontend
+            <Layout className="h-3 w-3" />
+            <span>Frontend</span>
           </button>
         </div>
       </div>
 
       {/* Output source hint */}
-      <div className="flex items-center justify-between border-b border-border-line bg-surface/80 px-4 py-2 text-[11px] font-mono text-text-muted">
+      <div className="flex items-center justify-between border-b border-border-subtle bg-[var(--bg-code-header)] px-4 py-2 text-[11px] font-mono text-slate-400">
         <div className="flex items-center gap-1.5 truncate">
           <span className="text-accent font-semibold">$</span>
-          <span className="text-text-secondary">
+          <span className="text-slate-200">
             flatron {mode === "backend" ? "--mode backend " : mode === "frontend" ? "--mode frontend " : ""}nexus-app
           </span>
         </div>
-        <span className="hidden sm:inline-block text-[10px] text-text-muted shrink-0">
-          Scaffolded structure
+        <span className="hidden sm:inline-block text-[10px] text-slate-400 shrink-0">
+          Scaffolded Filesystem
         </span>
       </div>
 
-
-      {/* Filesystem Tree */}
-      <div className="p-4 sm:p-5 font-mono text-xs overflow-x-auto min-h-[300px] bg-[#0B0E11]/60">
+      {/* Filesystem Tree in Dark Technical Surface */}
+      <div className="p-4 sm:p-5 font-mono text-xs overflow-x-auto min-h-[300px] bg-[var(--bg-code)] text-[var(--text-code-primary)]">
         <div key={mode} className="space-y-1.5 animate-fade-in">
           {activeTree.map((item, index) => {
             const indentClass =
@@ -163,17 +165,17 @@ export const GeneratedProjectPreview: React.FC = () => {
               >
                 <div className="flex items-center gap-2 truncate">
                   {isFolder ? (
-                    <Folder className={`h-3.5 w-3.5 shrink-0 ${item.isRoot ? "text-accent" : "text-text-secondary"}`} />
+                    <Folder className={`h-3.5 w-3.5 shrink-0 ${item.isRoot ? "text-accent" : "text-[#38BDF8]"}`} />
                   ) : (
-                    <FileCode className="h-3.5 w-3.5 shrink-0 text-text-muted" />
+                    <FileCode className="h-3.5 w-3.5 shrink-0 text-slate-400" />
                   )}
                   <span
                     className={`${
                       item.isRoot
-                        ? "font-semibold text-text-primary font-mono text-[13px]"
+                        ? "font-semibold text-white font-mono text-[13px]"
                         : isFolder
-                        ? "font-medium text-text-primary"
-                        : "text-text-secondary"
+                        ? "font-medium text-slate-200"
+                        : "text-slate-300"
                     }`}
                   >
                     {item.name}
@@ -181,7 +183,7 @@ export const GeneratedProjectPreview: React.FC = () => {
                 </div>
 
                 {item.comment && (
-                  <span className="text-[11px] text-text-muted truncate hidden sm:inline opacity-80 group-hover:opacity-100 transition-opacity">
+                  <span className="text-[11px] text-slate-400 truncate hidden sm:inline opacity-80 group-hover:opacity-100 transition-opacity">
                     // {item.comment}
                   </span>
                 )}
@@ -192,12 +194,12 @@ export const GeneratedProjectPreview: React.FC = () => {
       </div>
 
       {/* Footer metadata */}
-      <div className="border-t border-border-line bg-surface px-4 py-2.5 flex items-center justify-between text-[11px]">
-        <div className="flex items-center gap-1.5 text-text-muted">
+      <div className="border-t border-border-subtle bg-surface px-4 py-3 flex items-center justify-between text-[11px]">
+        <div className="flex items-center gap-1.5 text-text-secondary">
           <Check className="h-3.5 w-3.5 text-success shrink-0" />
-          <span className="font-mono text-text-secondary">{modeBadge}</span>
+          <span className="font-mono">{modeBadge}</span>
         </div>
-        <span className="text-text-muted font-mono text-[10px]">Ready to build</span>
+        <span className="text-info font-mono text-[11px] font-medium">Ready to scaffold</span>
       </div>
     </div>
   );

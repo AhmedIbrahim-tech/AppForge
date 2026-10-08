@@ -4,6 +4,7 @@ import { FeatureIdentitySection } from "./FeatureIdentitySection";
 import { FieldsListSection } from "./FieldsListSection";
 import { FieldEditorModal } from "./FieldEditorModal";
 import { FeatureReviewPanel } from "./FeatureReviewPanel";
+import { PackagePlus } from "lucide-react";
 
 const DEFAULT_FEATURE: FeatureDefinition = {
   name: "Product",
@@ -97,21 +98,25 @@ export const FeatureBuilder: React.FC = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full space-y-6">
       {/* Page Header */}
-      <div className="max-w-2xl mb-6">
+      <div className="max-w-2xl">
+        <div className="inline-flex items-center gap-2 rounded-full border border-border-subtle bg-surface px-3 py-1 font-mono text-xs font-medium text-text-secondary shadow-xs mb-2">
+          <PackagePlus className="h-3.5 w-3.5 text-accent" />
+          <span>Domain Scaffolding</span>
+        </div>
         <h1 className="font-heading text-2xl font-bold tracking-tight text-text-primary sm:text-3xl">
           Business Feature Builder
         </h1>
-        <p className="mt-1.5 text-sm text-text-secondary leading-relaxed">
-          Define fields, relationships, enums, and media for a new feature.
+        <p className="mt-1.5 text-xs sm:text-sm text-text-secondary leading-relaxed font-sans">
+          Design domain models, attributes, validation rules, relationships, enums, and media attachments with synchronized C# CQRS and TypeScript UI view generation.
         </p>
       </div>
 
       {/* Main 2-Column Grid (66% editor / 34% review) */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 items-start">
         {/* Left: Designer */}
-        <div className="space-y-4 lg:col-span-8">
+        <div className="space-y-5 lg:col-span-8">
           <FeatureIdentitySection
             feature={feature}
             onChange={handleUpdateIdentity}
@@ -147,5 +152,3 @@ export const FeatureBuilder: React.FC = () => {
     </div>
   );
 };
-
-

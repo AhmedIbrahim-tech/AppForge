@@ -93,7 +93,7 @@ export const BackendSection: React.FC<BackendSectionProps> = ({
   return (
     <CollapsibleSection
       id="backend-section"
-      icon={<Server className="h-3.5 w-3.5" />}
+      icon={<Server className="h-4 w-4 text-accent" />}
       title="Backend Architecture"
       summaryBadges={summaryBadges}
       expanded={expanded}
@@ -104,26 +104,26 @@ export const BackendSection: React.FC<BackendSectionProps> = ({
       onIncludeAction={() => onSetProjectType("fullstack")}
       badge={
         !isFrontendOnly ? (
-          <span className="inline-flex items-center gap-1 rounded-[4px] bg-[#151A22] border border-[#252C36] px-1.5 py-0.5 font-mono text-[10px] text-[#737D8C]">
-            <Cpu className="h-3 w-3" /> .NET 10
+          <span className="inline-flex items-center gap-1 rounded-md bg-surface-secondary border border-border-subtle px-2 py-0.5 font-mono text-[11px] text-text-muted font-medium">
+            <Cpu className="h-3 w-3 text-info" /> .NET 10
           </span>
         ) : null
       }
     >
-      <div className="space-y-4">
+      <div className="space-y-5">
         {/* 1. Architecture Group */}
-        <div className="space-y-2.5">
-          <div className="flex items-center gap-2 border-b border-[#252C36] pb-1">
-            <Layers className="h-3.5 w-3.5 text-[#737D8C]" />
-            <h4 className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#737D8C]">
-              Architecture & Pattern
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 border-b border-border-subtle pb-2">
+            <Layers className="h-4 w-4 text-accent" />
+            <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-secondary">
+              Architecture &amp; Pattern
             </h4>
           </div>
 
           {/* Presentation Layer (Shown for both Backend Only and Full Stack) */}
           {config.projectType !== "frontend" ? (
             <div>
-              <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+              <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
                 Presentation Layer
               </span>
               <div className="flex flex-wrap items-center gap-1.5">
@@ -148,10 +148,10 @@ export const BackendSection: React.FC<BackendSectionProps> = ({
 
           {/* Application Architecture (Cards) */}
           <div>
-            <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+            <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
               Application Pattern
             </span>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {BACKEND_ARCHITECTURES.map((arch) => (
                 <OptionCard
                   key={arch.value}
@@ -173,7 +173,7 @@ export const BackendSection: React.FC<BackendSectionProps> = ({
 
           {/* Object Mapping */}
           <div>
-            <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+            <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
               Object Mapping
             </span>
             <div className="flex flex-wrap items-center gap-1.5">
@@ -190,18 +190,18 @@ export const BackendSection: React.FC<BackendSectionProps> = ({
         </div>
 
         {/* 2. Data Group */}
-        <div className="space-y-2.5 border-t border-[#252C36] pt-3.5">
-          <div className="flex items-center gap-2 border-b border-[#252C36] pb-1">
-            <Database className="h-3.5 w-3.5 text-[#737D8C]" />
-            <h4 className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#737D8C]">
-              Data & Persistence
+        <div className="space-y-3 border-t border-border-subtle pt-4">
+          <div className="flex items-center gap-2 border-b border-border-subtle pb-2">
+            <Database className="h-4 w-4 text-info" />
+            <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-secondary">
+              Data &amp; Persistence
             </h4>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <span className="mb-1 block text-xs font-mono text-[#737D8C]">
-                Data Access & ORM
+              <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
+                Data Access &amp; ORM
               </span>
               <div className="flex flex-wrap items-center gap-1.5">
                 {BACKEND_ORMS.map((orm) => (
@@ -216,7 +216,7 @@ export const BackendSection: React.FC<BackendSectionProps> = ({
             </div>
 
             <div>
-              <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+              <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
                 Database Engine
               </span>
               <div className="flex flex-wrap items-center gap-1.5">
@@ -234,16 +234,16 @@ export const BackendSection: React.FC<BackendSectionProps> = ({
         </div>
 
         {/* 3. Security Group */}
-        <div className="space-y-2.5 border-t border-[#252C36] pt-3.5">
-          <div className="flex items-center gap-2 border-b border-[#252C36] pb-1">
-            <ShieldCheck className="h-3.5 w-3.5 text-[#737D8C]" />
-            <h4 className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#737D8C]">
-              Security
+        <div className="space-y-3 border-t border-border-subtle pt-4">
+          <div className="flex items-center gap-2 border-b border-border-subtle pb-2">
+            <ShieldCheck className="h-4 w-4 text-success" />
+            <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-secondary">
+              Security &amp; Auth
             </h4>
           </div>
 
           <div>
-            <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+            <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
               Authentication Strategy
             </span>
             <div className="flex flex-wrap items-center gap-1.5">
@@ -267,17 +267,17 @@ export const BackendSection: React.FC<BackendSectionProps> = ({
         </div>
 
         {/* 4. Logging & Extensions */}
-        <div className="space-y-2.5 border-t border-[#252C36] pt-3.5">
-          <div className="flex items-center gap-2 border-b border-[#252C36] pb-1">
-            <Cpu className="h-3.5 w-3.5 text-[#737D8C]" />
-            <h4 className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#737D8C]">
-              Extensions & Tooling
+        <div className="space-y-3 border-t border-border-subtle pt-4">
+          <div className="flex items-center gap-2 border-b border-border-subtle pb-2">
+            <Cpu className="h-4 w-4 text-warning" />
+            <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-text-secondary">
+              Extensions &amp; Tooling
             </h4>
           </div>
 
           {/* Logging Provider */}
           <div>
-            <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+            <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
               Logging Provider
             </span>
             <div className="flex flex-wrap items-center gap-1.5">
@@ -294,33 +294,33 @@ export const BackendSection: React.FC<BackendSectionProps> = ({
 
           {/* Extensions */}
           <div>
-            <span className="mb-1 block text-xs font-mono text-[#737D8C]">
+            <span className="mb-1.5 block text-xs font-semibold text-text-secondary">
               Runtime Features
             </span>
             <div
               className={`grid grid-cols-1 ${
                 isApiPresentation ? "sm:grid-cols-3" : "sm:grid-cols-2"
-              } gap-2`}
+              } gap-2.5`}
             >
               {/* SignalR */}
               <button
                 type="button"
                 onClick={onToggleSignalR}
-                className={`flex items-center justify-between rounded-[6px] border p-2.5 text-xs transition-colors cursor-pointer ${
+                className={`flex items-center justify-between rounded-xl border p-3 text-xs transition-all cursor-pointer ${
                   b.signalR
-                    ? "border-[#4F75FF] bg-[rgba(79,117,255,0.12)] text-[#F3F6FA]"
-                    : "border-[#252C36] bg-[#0E1218] text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA]"
+                    ? "border-accent/80 bg-accent-subtle text-text-primary ring-1 ring-accent/30 shadow-xs"
+                    : "border-border-subtle bg-surface-secondary text-text-secondary hover:border-border-hover hover:bg-surface-hover hover:text-text-primary"
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <Radio className="h-3.5 w-3.5 text-[#737D8C]" />
-                  <span className="font-medium text-xs">SignalR WebSockets</span>
+                  <Radio className="h-3.5 w-3.5 text-accent" />
+                  <span className="font-semibold text-xs font-heading">SignalR</span>
                 </div>
                 <span
-                  className={`rounded-[4px] px-1.5 py-0.5 font-mono text-[10px] ${
+                  className={`rounded-md px-2 py-0.5 font-mono text-[10px] font-bold ${
                     b.signalR
-                      ? "bg-[#4F75FF]/20 text-[#6487FF] font-medium"
-                      : "bg-[#151A22] text-[#737D8C]"
+                      ? "bg-accent text-white"
+                      : "bg-surface text-text-muted border border-border-subtle"
                   }`}
                 >
                   {b.signalR ? "ON" : "OFF"}
@@ -331,21 +331,21 @@ export const BackendSection: React.FC<BackendSectionProps> = ({
               <button
                 type="button"
                 onClick={onToggleHangfire}
-                className={`flex items-center justify-between rounded-[6px] border p-2.5 text-xs transition-colors cursor-pointer ${
+                className={`flex items-center justify-between rounded-xl border p-3 text-xs transition-all cursor-pointer ${
                   b.hangfire
-                    ? "border-[#4F75FF] bg-[rgba(79,117,255,0.12)] text-[#F3F6FA]"
-                    : "border-[#252C36] bg-[#0E1218] text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA]"
+                    ? "border-accent/80 bg-accent-subtle text-text-primary ring-1 ring-accent/30 shadow-xs"
+                    : "border-border-subtle bg-surface-secondary text-text-secondary hover:border-border-hover hover:bg-surface-hover hover:text-text-primary"
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <Flame className="h-3.5 w-3.5 text-[#737D8C]" />
-                  <span className="font-medium text-xs">Hangfire Jobs</span>
+                  <Flame className="h-3.5 w-3.5 text-accent" />
+                  <span className="font-semibold text-xs font-heading">Hangfire</span>
                 </div>
                 <span
-                  className={`rounded-[4px] px-1.5 py-0.5 font-mono text-[10px] ${
+                  className={`rounded-md px-2 py-0.5 font-mono text-[10px] font-bold ${
                     b.hangfire
-                      ? "bg-[#4F75FF]/20 text-[#6487FF] font-medium"
-                      : "bg-[#151A22] text-[#737D8C]"
+                      ? "bg-accent text-white"
+                      : "bg-surface text-text-muted border border-border-subtle"
                   }`}
                 >
                   {b.hangfire ? "ON" : "OFF"}
@@ -357,21 +357,21 @@ export const BackendSection: React.FC<BackendSectionProps> = ({
                 <button
                   type="button"
                   onClick={onToggleSwagger}
-                  className={`flex items-center justify-between rounded-[6px] border p-2.5 text-xs transition-colors cursor-pointer ${
+                  className={`flex items-center justify-between rounded-xl border p-3 text-xs transition-all cursor-pointer ${
                     b.includeSwagger
-                      ? "border-[#4F75FF] bg-[rgba(79,117,255,0.12)] text-[#F3F6FA]"
-                      : "border-[#252C36] bg-[#0E1218] text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA]"
+                      ? "border-accent/80 bg-accent-subtle text-text-primary ring-1 ring-accent/30 shadow-xs"
+                      : "border-border-subtle bg-surface-secondary text-text-secondary hover:border-border-hover hover:bg-surface-hover hover:text-text-primary"
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <FileCode className="h-3.5 w-3.5 text-[#737D8C]" />
-                    <span className="font-medium text-xs">OpenAPI / Swagger</span>
+                    <FileCode className="h-3.5 w-3.5 text-accent" />
+                    <span className="font-semibold text-xs font-heading">Swagger</span>
                   </div>
                   <span
-                    className={`rounded-[4px] px-1.5 py-0.5 font-mono text-[10px] ${
+                    className={`rounded-md px-2 py-0.5 font-mono text-[10px] font-bold ${
                       b.includeSwagger
-                        ? "bg-[#4F75FF]/20 text-[#6487FF] font-medium"
-                        : "bg-[#151A22] text-[#737D8C]"
+                        ? "bg-accent text-white"
+                        : "bg-surface text-text-muted border border-border-subtle"
                     }`}
                   >
                     {b.includeSwagger ? "ON" : "OFF"}

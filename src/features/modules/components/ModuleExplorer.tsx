@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, Boxes } from "lucide-react";
 import { MODULE_LIST, MODULE_CATEGORIES } from "../modules-data";
 import type { ModuleCategory, ModuleDefinition } from "../types";
 import { ModuleCard } from "./ModuleCard";
@@ -23,28 +23,32 @@ export const ModuleExplorer: React.FC = () => {
   }, [searchQuery, selectedCategory]);
 
   return (
-    <div className="w-full">
+    <div className="w-full space-y-6">
       {/* Intro Header */}
-      <div className="max-w-2xl mb-6">
+      <div className="max-w-2xl">
+        <div className="inline-flex items-center gap-2 rounded-full border border-border-subtle bg-surface px-3 py-1 font-mono text-xs font-medium text-text-secondary shadow-xs mb-2">
+          <Boxes className="h-3.5 w-3.5 text-accent" />
+          <span>Module Catalog</span>
+        </div>
         <h1 className="font-heading text-2xl font-bold tracking-tight text-text-primary sm:text-3xl">
           Application Module Explorer
         </h1>
-        <p className="mt-1.5 text-sm text-text-secondary leading-relaxed">
-          Add ready-made application capabilities to an existing Flatron project.
+        <p className="mt-1.5 text-xs sm:text-sm text-text-secondary leading-relaxed font-sans">
+          Browse and install ready-made enterprise modules with pre-wired C# persistence, handlers, API endpoints, and admin UI views.
         </p>
       </div>
 
       {/* Integrated Search & Filter Toolbar */}
-      <div className="rounded-lg border border-border bg-surface p-3 mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="rounded-2xl border border-border-subtle bg-surface p-4 shadow-card flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         {/* Search */}
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-text-muted" />
+          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search modules by name, id, or feature..."
-            className="w-full rounded-md border border-border bg-surface-raised py-1.5 pl-8 pr-3 text-xs text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none transition-colors"
+            className="w-full rounded-xl border border-border-subtle bg-surface-secondary py-2 pl-10 pr-3.5 text-xs text-text-primary placeholder:text-text-muted focus:border-accent focus:ring-2 focus:ring-accent/30 focus:outline-none focus:bg-surface transition-all"
           />
         </div>
 
@@ -53,10 +57,10 @@ export const ModuleExplorer: React.FC = () => {
           <button
             type="button"
             onClick={() => setSelectedCategory("All")}
-            className={`rounded px-2.5 py-1 text-xs font-medium transition-all cursor-pointer ${
+            className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
               selectedCategory === "All"
-                ? "bg-accent text-white font-semibold shadow-sm"
-                : "bg-surface-raised border border-border text-text-muted hover:text-text-primary hover:border-border-hover"
+                ? "bg-accent text-white shadow-xs"
+                : "bg-surface-secondary border border-border-subtle text-text-secondary hover:text-text-primary hover:bg-surface-hover hover:border-border-hover"
             }`}
           >
             All
@@ -66,10 +70,10 @@ export const ModuleExplorer: React.FC = () => {
               key={cat}
               type="button"
               onClick={() => setSelectedCategory(cat)}
-              className={`rounded px-2.5 py-1 text-xs font-medium transition-all cursor-pointer ${
+              className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
                 selectedCategory === cat
-                  ? "bg-accent text-white font-semibold shadow-sm"
-                  : "bg-surface-raised border border-border text-text-muted hover:text-text-primary hover:border-border-hover"
+                  ? "bg-accent text-white shadow-xs"
+                  : "bg-surface-secondary border border-border-subtle text-text-secondary hover:text-text-primary hover:bg-surface-hover hover:border-border-hover"
               }`}
             >
               {cat}
@@ -83,13 +87,13 @@ export const ModuleExplorer: React.FC = () => {
         {/* Left: Module Cards Catalog */}
         <div className="lg:col-span-8">
           {filteredModules.length === 0 ? (
-            <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border bg-surface p-12 text-center">
-              <Filter className="h-6 w-6 text-text-muted mb-2 opacity-50" />
-              <p className="text-xs font-medium text-text-secondary">No modules match your filter</p>
-              <p className="mt-0.5 text-[11px] text-text-muted">Try adjusting your search query or selecting &quot;All&quot; categories.</p>
+            <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border-main bg-surface p-12 text-center shadow-xs">
+              <Filter className="h-8 w-8 text-text-muted mb-3 opacity-50" />
+              <p className="text-sm font-bold text-text-primary font-heading">No modules match your filter</p>
+              <p className="mt-1 text-xs text-text-muted">Try adjusting your search query or selecting &quot;All&quot; categories.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {filteredModules.map((mod) => (
                 <ModuleCard
                   key={mod.id}
@@ -107,7 +111,7 @@ export const ModuleExplorer: React.FC = () => {
           {selectedModule ? (
             <ModuleDetailsPanel module={selectedModule} />
           ) : (
-            <div className="rounded-lg border border-border bg-surface p-6 text-center text-xs text-text-muted">
+            <div className="rounded-2xl border border-border-subtle bg-surface p-6 text-center text-xs text-text-muted shadow-xs">
               Select a module from the catalog to inspect details.
             </div>
           )}
@@ -116,5 +120,3 @@ export const ModuleExplorer: React.FC = () => {
     </div>
   );
 };
-
-

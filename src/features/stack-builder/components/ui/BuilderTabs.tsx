@@ -18,8 +18,8 @@ export function BuilderTabs<T extends string>({
   trailing?: ReactNode;
 }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border-subtle bg-base px-3 py-2">
-      <div className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto">
+    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border-subtle bg-surface-secondary px-3.5 py-2.5">
+      <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto">
         {tabs.map((tab) => {
           const selected = tab.id === active;
           return (
@@ -27,10 +27,10 @@ export function BuilderTabs<T extends string>({
               key={tab.id}
               type="button"
               onClick={() => onChange(tab.id)}
-              className={`flex shrink-0 items-center gap-1.5 rounded-[5px] px-2.5 py-1 font-mono text-xs transition-colors duration-150 cursor-pointer ${
+              className={`flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 font-mono text-xs transition-all duration-150 cursor-pointer ${
                 selected
-                  ? "bg-surface-raised text-white font-medium border border-border-subtle"
-                  : "text-text-muted hover:text-text-secondary"
+                  ? "bg-surface text-text-primary font-bold shadow-xs border border-border-subtle"
+                  : "text-text-muted hover:text-text-primary hover:bg-surface/50"
               }`}
             >
               {tab.icon}
@@ -43,4 +43,3 @@ export function BuilderTabs<T extends string>({
     </div>
   );
 }
-

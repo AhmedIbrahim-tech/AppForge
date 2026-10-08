@@ -1,6 +1,19 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ArrowUpRight, Terminal, Layers } from "lucide-react";
+import {
+  Menu,
+  X,
+  ArrowUpRight,
+  Terminal,
+  Layers,
+  Sun,
+  Moon,
+  Workflow,
+  Boxes,
+  Sliders,
+  HelpCircle,
+} from "lucide-react";
+import { useTheme } from "@/shared/hooks/useTheme";
 
 function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -25,146 +38,214 @@ function NpmIcon(props: React.SVGProps<SVGSVGElement>) {
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { isDark, toggleTheme } = useTheme();
 
   const isFeaturesActive = location.pathname.startsWith("/feature");
   const isModulesActive = location.pathname.startsWith("/modules");
 
+  const navItems = [
+    {
+      label: "Stack Builder",
+      href: "/#builder",
+      isLink: false,
+      active: location.pathname === "/" && location.hash === "#builder",
+      icon: <Sliders className="h-3.5 w-3.5" />,
+    },
+    {
+      label: "Feature Builder",
+      href: "/features",
+      isLink: true,
+      active: isFeaturesActive,
+      icon: <Workflow className="h-3.5 w-3.5" />,
+    },
+    {
+      label: "Modules",
+      href: "/modules",
+      isLink: true,
+      active: isModulesActive,
+      icon: <Boxes className="h-3.5 w-3.5" />,
+    },
+    {
+      label: "Why Flatron",
+      href: "/#comparison",
+      isLink: false,
+      active: false,
+      icon: <HelpCircle className="h-3.5 w-3.5" />,
+    },
+  ];
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border-line bg-base/95 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-border-subtle bg-surface/90 backdrop-blur-md transition-colors duration-150">
       <div className="app-container flex h-14 items-center justify-between">
-        {/* Brand */}
-        <div className="flex items-center gap-8">
+        {/* Brand & Desktop Navigation */}
+        <div className="flex items-center gap-6 lg:gap-8">
           <Link to="/" className="group flex items-center gap-2.5">
-            <div className="flex h-7 w-7 items-center justify-center rounded-[6px] bg-surface-raised border border-border-subtle text-accent group-hover:border-accent/60 transition-colors">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface-secondary border border-border-subtle text-accent shadow-xs group-hover:border-accent/50 group-hover:bg-accent/10 transition-all">
               <Layers className="h-4 w-4" />
             </div>
-            <span className="font-heading text-base font-semibold tracking-tight text-white">
-              Flatron
-            </span>
+            <div className="flex flex-col">
+              <span className="font-heading text-base font-bold tracking-tight text-text-primary">
+                Flatron
+              </span>
+              <span className="hidden sm:inline-block text-[10px] font-mono text-text-muted -mt-0.5 leading-none">
+                Platform
+              </span>
+            </div>
           </Link>
 
-          {/* Main Navigation */}
+          {/* Desktop Nav Items */}
           <nav className="hidden items-center gap-1 md:flex">
-            <a
-              href="/#builder"
-              className="rounded-[6px] px-3 py-1.5 text-xs font-medium text-zinc-400 hover:text-white hover:bg-surface-secondary transition-colors"
-            >
-              Stack Builder
-            </a>
-            <Link
-              to="/features"
-              className={`rounded-[6px] px-3 py-1.5 text-xs font-medium transition-colors ${
-                isFeaturesActive
-                  ? "bg-surface-secondary text-white font-semibold"
-                  : "text-zinc-400 hover:text-white hover:bg-surface-secondary"
-              }`}
-            >
-              Feature Builder
-            </Link>
-            <Link
-              to="/modules"
-              className={`rounded-[6px] px-3 py-1.5 text-xs font-medium transition-colors ${
-                isModulesActive
-                  ? "bg-surface-secondary text-white font-semibold"
-                  : "text-zinc-400 hover:text-white hover:bg-surface-secondary"
-              }`}
-            >
-              Modules
-            </Link>
-            <a
-              href="/#comparison"
-              className="rounded-[6px] px-3 py-1.5 text-xs font-medium text-zinc-500 hover:text-white hover:bg-surface-secondary transition-colors"
-            >
-              Why Flatron
-            </a>
+            {navItems.map((item) => {
+              const activeClass = item.active
+                ? "bg-accent/10 text-accent font-semibold shadow-xs border border-accent/25"
+                : "text-text-secondary hover:text-text-primary hover:bg-surface-secondary border border-transparent";
+
+              return item.isLink ? (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${activeClass}`}
+                >
+                  <span className={item.active ? "text-accent" : "text-text-muted"}>
+                    {item.icon}
+                  </span>
+                  <span>{item.label}</span>
+                </Link>
+              ) : (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${activeClass}`}
+                >
+                  <span className={item.active ? "text-accent" : "text-text-muted"}>
+                    {item.icon}
+                  </span>
+                  <span>{item.label}</span>
+                </a>
+              );
+            })}
           </nav>
         </div>
 
-        {/* Right actions: Quick CLI command & Repo links */}
-        <div className="hidden items-center gap-3 md:flex">
-          <div className="flex items-center gap-1.5 rounded-[6px] border border-border-subtle bg-surface px-2.5 py-1 font-mono text-xs text-zinc-400">
-            <Terminal className="h-3 w-3 text-accent" />
-            <span className="text-zinc-500">npx</span>
-            <span className="text-white font-medium">flatron</span>
+        {/* Right side tools: Quick CLI badge, Theme Toggle, External links */}
+        <div className="hidden items-center gap-2.5 md:flex">
+          {/* Quick CLI Pill */}
+          <div className="flex items-center gap-1.5 rounded-lg border border-border-subtle bg-surface-secondary px-2.5 py-1 font-mono text-xs text-text-secondary shadow-xs">
+            <Terminal className="h-3.5 w-3.5 text-accent" />
+            <span className="text-text-muted">npx</span>
+            <span className="text-text-primary font-semibold">flatron</span>
           </div>
 
-          <div className="h-4 w-px bg-border-subtle" />
+          <div className="h-4 w-px bg-border-subtle mx-1" />
 
+          {/* Theme Toggle Button */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border-subtle bg-surface-secondary text-text-secondary hover:bg-surface-hover hover:text-text-primary transition-all cursor-pointer shadow-xs"
+            title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            aria-label="Toggle Theme"
+          >
+            {isDark ? (
+              <Sun className="h-4 w-4 text-warning" />
+            ) : (
+              <Moon className="h-4 w-4 text-info" />
+            )}
+          </button>
+
+          {/* GitHub Repo Link */}
           <a
             href="https://github.com/AhmedIbrahim-tech/flatron"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-xs font-medium text-zinc-400 hover:text-white transition-colors"
+            className="flex items-center gap-1.5 rounded-lg border border-border-subtle bg-surface-secondary px-2.5 py-1.5 text-xs font-medium text-text-secondary hover:bg-surface-hover hover:text-text-primary transition-all shadow-xs"
+            aria-label="GitHub Repository"
           >
             <GithubIcon className="h-3.5 w-3.5" />
-            <span>GitHub</span>
-            <ArrowUpRight className="h-3 w-3 text-zinc-500" />
+            <span className="hidden lg:inline">GitHub</span>
+            <ArrowUpRight className="h-3 w-3 text-text-muted" />
           </a>
 
+          {/* npm Package Link */}
           <a
             href="https://www.npmjs.com/package/flatron"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-xs font-medium text-zinc-400 hover:text-white transition-colors"
+            className="flex items-center gap-1.5 rounded-lg border border-border-subtle bg-surface-secondary px-2.5 py-1.5 text-xs font-medium text-text-secondary hover:bg-surface-hover hover:text-accent transition-all shadow-xs"
+            aria-label="npm Package"
           >
-            <NpmIcon className="h-3 w-3 text-accent" />
-            <span>npm</span>
-            <ArrowUpRight className="h-3 w-3 text-zinc-500" />
+            <NpmIcon className="h-3.5 w-3.5 text-accent" />
+            <span className="hidden lg:inline">npm</span>
+            <ArrowUpRight className="h-3 w-3 text-text-muted" />
           </a>
         </div>
 
-        {/* Mobile menu trigger */}
-        <div className="flex md:hidden">
+        {/* Mobile menu and theme toggle */}
+        <div className="flex items-center gap-1.5 md:hidden">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border-subtle bg-surface-secondary text-text-secondary hover:text-text-primary"
+            aria-label="Toggle Theme"
+          >
+            {isDark ? (
+              <Sun className="h-4 w-4 text-warning" />
+            ) : (
+              <Moon className="h-4 w-4 text-info" />
+            )}
+          </button>
+
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             type="button"
-            className="rounded-[6px] p-1.5 text-zinc-400 hover:bg-surface-secondary hover:text-white"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border-subtle bg-surface-secondary text-text-secondary hover:text-text-primary"
             aria-label="Toggle navigation"
           >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile drawer */}
+      {/* Mobile dropdown drawer */}
       {mobileMenuOpen && (
-        <div className="border-b border-border-subtle bg-surface px-4 py-3 md:hidden">
+        <div className="border-b border-border-subtle bg-surface px-4 py-3 md:hidden shadow-lg animate-fade-in">
           <nav className="flex flex-col gap-1">
-            <a
-              href="/#builder"
-              onClick={() => setMobileMenuOpen(false)}
-              className="rounded-[6px] px-3 py-2 text-xs font-medium text-white hover:bg-surface-secondary"
-            >
-              Stack Builder
-            </a>
-            <Link
-              to="/features"
-              onClick={() => setMobileMenuOpen(false)}
-              className="rounded-[6px] px-3 py-2 text-xs font-medium text-white hover:bg-surface-secondary"
-            >
-              Feature Builder
-            </Link>
-            <Link
-              to="/modules"
-              onClick={() => setMobileMenuOpen(false)}
-              className="rounded-[6px] px-3 py-2 text-xs font-medium text-white hover:bg-surface-secondary"
-            >
-              Modules
-            </Link>
-            <a
-              href="/#comparison"
-              onClick={() => setMobileMenuOpen(false)}
-              className="rounded-[6px] px-3 py-2 text-xs font-medium text-zinc-500 hover:bg-surface-secondary"
-            >
-              Why Flatron
-            </a>
+            {navItems.map((item) =>
+              item.isLink ? (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition-colors ${
+                    item.active
+                      ? "bg-accent/10 text-accent font-semibold"
+                      : "text-text-secondary hover:bg-surface-secondary hover:text-text-primary"
+                  }`}
+                >
+                  <span className={item.active ? "text-accent" : "text-text-muted"}>
+                    {item.icon}
+                  </span>
+                  <span>{item.label}</span>
+                </Link>
+              ) : (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-text-secondary hover:bg-surface-secondary hover:text-text-primary"
+                >
+                  <span className="text-text-muted">{item.icon}</span>
+                  <span>{item.label}</span>
+                </a>
+              ),
+            )}
 
-            <div className="mt-2 flex items-center gap-4 border-t border-border-subtle pt-3 text-xs text-zinc-400">
+            <div className="mt-2 flex items-center justify-between border-t border-border-subtle pt-3 text-xs text-text-secondary">
               <a
                 href="https://github.com/AhmedIbrahim-tech/flatron"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 hover:text-white"
+                className="flex items-center gap-1.5 hover:text-text-primary"
               >
                 <GithubIcon className="h-4 w-4" />
                 <span>GitHub</span>
@@ -173,7 +254,7 @@ export const Navbar: React.FC = () => {
                 href="https://www.npmjs.com/package/flatron"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 hover:text-white"
+                className="flex items-center gap-1.5 hover:text-accent"
               >
                 <NpmIcon className="h-3.5 w-3.5 text-accent" />
                 <span>npm</span>

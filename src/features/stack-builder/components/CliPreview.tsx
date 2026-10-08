@@ -17,6 +17,7 @@ export const CliPreview: React.FC<CliPreviewProps> = ({ config }) => {
     try {
       await navigator.clipboard.writeText(command);
       setCopied(true);
+      toast.success("CLI command copied to clipboard");
       setTimeout(() => setCopied(false), 2000);
     } catch {
       toast.error("Failed to copy CLI command");
@@ -24,26 +25,26 @@ export const CliPreview: React.FC<CliPreviewProps> = ({ config }) => {
   };
 
   return (
-    <div className="space-y-3 p-3.5">
-      <div className="flex items-center justify-between text-xs text-[#A1AAB8]">
-        <span className="flex items-center gap-1.5 font-mono text-[11px] text-[#737D8C]">
-          <Terminal className="h-3.5 w-3.5 text-[#4F75FF]" />
+    <div className="space-y-3.5 p-4 bg-surface">
+      <div className="flex items-center justify-between text-xs text-text-secondary">
+        <span className="flex items-center gap-1.5 font-mono text-[11px] text-text-muted">
+          <Terminal className="h-3.5 w-3.5 text-accent" />
           Terminal Execution:
         </span>
         <button
           type="button"
           onClick={handleCopy}
-          className="flex items-center gap-1.5 rounded-[5px] border border-[#252C36] bg-[#0E1218] px-2.5 py-1 text-xs font-mono text-[#A1AAB8] hover:border-[#353E4D] hover:text-[#F3F6FA] transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 rounded-lg border border-border-subtle bg-surface-secondary px-2.5 py-1 text-xs font-mono text-text-secondary hover:bg-surface-hover hover:text-text-primary transition-all cursor-pointer shadow-xs"
         >
           {copied ? (
             <>
-              <Check className="h-3.5 w-3.5 text-[#25B77A]" />
-              <span className="text-[#25B77A]">Copied</span>
+              <Check className="h-3.5 w-3.5 text-success" />
+              <span className="text-success font-medium font-sans">Copied</span>
             </>
           ) : (
             <>
-              <Copy className="h-3.5 w-3.5 text-[#737D8C]" />
-              <span>Copy</span>
+              <Copy className="h-3.5 w-3.5 text-text-muted" />
+              <span className="font-sans">Copy</span>
             </>
           )}
         </button>
@@ -53,13 +54,13 @@ export const CliPreview: React.FC<CliPreviewProps> = ({ config }) => {
         code={command}
         language="bash"
         filename="terminal"
-        className="border border-[#252C36] bg-[#0A0D12]"
+        className="border border-border-subtle"
       />
 
-      <div className="flex items-start gap-2 rounded-[6px] border border-[#252C36] bg-[#0E1218] p-2.5 text-xs text-[#A1AAB8] font-sans">
-        <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#4F75FF]" />
-        <p className="text-[11px] text-[#A1AAB8] leading-relaxed">
-          Run this command to scaffold the solution non-interactively using Flatron&apos;s verified architectural generator.
+      <div className="flex items-start gap-2.5 rounded-xl border border-border-subtle bg-surface-secondary p-3 text-xs text-text-secondary font-sans">
+        <Info className="mt-0.5 h-4 w-4 shrink-0 text-info" />
+        <p className="text-xs text-text-secondary leading-relaxed">
+          Run this command in your terminal to scaffold the solution non-interactively using Flatron&apos;s verified architectural generator.
         </p>
       </div>
     </div>
