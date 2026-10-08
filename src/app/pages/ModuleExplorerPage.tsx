@@ -8,13 +8,19 @@ export const ModuleExplorerPage: React.FC = () => {
     <div className="relative min-h-screen py-8 animate-fade-in-up">
       <div className="app-container">
         {/* Navigation Breadcrumb */}
-        <div className="mb-6">
+        <div className="mb-6 flex items-center justify-between">
           <Link
-            to="/"
+            to="/builder"
             className="inline-flex items-center gap-1.5 text-xs font-medium text-text-muted hover:text-text-primary transition-colors"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             <span>Back to Visual Stack Builder</span>
+          </Link>
+          <Link
+            to="/docs/feature-vs-module"
+            className="inline-flex items-center gap-1 text-xs font-medium text-text-muted hover:text-accent transition-colors"
+          >
+            <span>Feature vs Module Guide &rarr;</span>
           </Link>
         </div>
 

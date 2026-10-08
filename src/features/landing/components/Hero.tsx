@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Check, Copy, ArrowRight, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { GeneratedProjectPreview } from "./GeneratedProjectPreview";
@@ -138,20 +139,20 @@ export const Hero: React.FC = () => {
 
             {/* Action CTAs */}
             <div className="flex flex-wrap items-center gap-3 pt-1">
-              <a
-                href="#builder"
+              <Link
+                to="/builder"
                 className="flex items-center gap-2 rounded-xl bg-accent px-5 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-accent-hover transition-all active:scale-[0.985] font-heading cursor-pointer"
               >
                 <span>Configure in Stack Builder</span>
                 <ArrowRight className="h-4 w-4" />
-              </a>
-              <a
-                href="#extend"
+              </Link>
+              <Link
+                to="/why-flatron"
                 className="flex items-center gap-2 rounded-xl border border-border-subtle bg-surface px-4 py-2.5 text-xs font-medium text-text-secondary hover:bg-surface-secondary hover:text-text-primary transition-all font-heading cursor-pointer shadow-xs"
               >
                 <Sparkles className="h-3.5 w-3.5 text-info" />
                 <span>Explore Workflow</span>
-              </a>
+              </Link>
             </div>
 
             {/* SWA-Inspired Stat Metric Cards */}

@@ -12,6 +12,7 @@ import {
   Boxes,
   Sliders,
   HelpCircle,
+  BookOpen,
 } from "lucide-react";
 import { useTheme } from "@/shared/hooks/useTheme";
 
@@ -40,37 +41,42 @@ export const Navbar: React.FC = () => {
   const location = useLocation();
   const { isDark, toggleTheme } = useTheme();
 
+  const isBuilderActive = location.pathname === "/builder";
   const isFeaturesActive = location.pathname.startsWith("/feature");
   const isModulesActive = location.pathname.startsWith("/modules");
+  const isWhyActive = location.pathname === "/why-flatron";
+  const isDocsActive = location.pathname.startsWith("/docs");
 
   const navItems = [
     {
       label: "Stack Builder",
-      href: "/#builder",
-      isLink: false,
-      active: location.pathname === "/" && location.hash === "#builder",
+      href: "/builder",
+      active: isBuilderActive,
       icon: <Sliders className="h-3.5 w-3.5" />,
     },
     {
       label: "Feature Builder",
       href: "/features",
-      isLink: true,
       active: isFeaturesActive,
       icon: <Workflow className="h-3.5 w-3.5" />,
     },
     {
       label: "Modules",
       href: "/modules",
-      isLink: true,
       active: isModulesActive,
       icon: <Boxes className="h-3.5 w-3.5" />,
     },
     {
       label: "Why Flatron",
-      href: "/#comparison",
-      isLink: false,
-      active: false,
+      href: "/why-flatron",
+      active: isWhyActive,
       icon: <HelpCircle className="h-3.5 w-3.5" />,
+    },
+    {
+      label: "Docs",
+      href: "/docs",
+      active: isDocsActive,
+      icon: <BookOpen className="h-3.5 w-3.5" />,
     },
   ];
 
@@ -100,7 +106,7 @@ export const Navbar: React.FC = () => {
                 ? "bg-accent/10 text-accent font-semibold shadow-xs border border-accent/25"
                 : "text-text-secondary hover:text-text-primary hover:bg-surface-secondary border border-transparent";
 
-              return item.isLink ? (
+              return (
                 <Link
                   key={item.label}
                   to={item.href}
@@ -111,17 +117,6 @@ export const Navbar: React.FC = () => {
                   </span>
                   <span>{item.label}</span>
                 </Link>
-              ) : (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${activeClass}`}
-                >
-                  <span className={item.active ? "text-accent" : "text-text-muted"}>
-                    {item.icon}
-                  </span>
-                  <span>{item.label}</span>
-                </a>
               );
             })}
           </nav>
@@ -210,35 +205,23 @@ export const Navbar: React.FC = () => {
       {mobileMenuOpen && (
         <div className="border-b border-border-subtle bg-surface px-4 py-3 md:hidden shadow-lg animate-fade-in">
           <nav className="flex flex-col gap-1">
-            {navItems.map((item) =>
-              item.isLink ? (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition-colors ${
-                    item.active
-                      ? "bg-accent/10 text-accent font-semibold"
-                      : "text-text-secondary hover:bg-surface-secondary hover:text-text-primary"
-                  }`}
-                >
-                  <span className={item.active ? "text-accent" : "text-text-muted"}>
-                    {item.icon}
-                  </span>
-                  <span>{item.label}</span>
-                </Link>
-              ) : (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-text-secondary hover:bg-surface-secondary hover:text-text-primary"
-                >
-                  <span className="text-text-muted">{item.icon}</span>
-                  <span>{item.label}</span>
-                </a>
-              ),
-            )}
+            {navItems.map((item) => (
+              <Link
+                key={item.label}
+                to={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium transition-colors ${
+                  item.active
+                    ? "bg-accent/10 text-accent font-semibold"
+                    : "text-text-secondary hover:bg-surface-secondary hover:text-text-primary"
+                }`}
+              >
+                <span className={item.active ? "text-accent" : "text-text-muted"}>
+                  {item.icon}
+                </span>
+                <span>{item.label}</span>
+              </Link>
+            ))}
 
             <div className="mt-2 flex items-center justify-between border-t border-border-subtle pt-3 text-xs text-text-secondary">
               <a

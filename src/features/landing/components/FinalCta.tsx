@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Terminal, Copy, Check, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
@@ -63,13 +64,13 @@ export const FinalCta: React.FC = () => {
           </div>
 
           {/* Builder Button */}
-          <a
-            href="#builder"
+          <Link
+            to="/builder"
             className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-md bg-accent px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-accent-hover transition-all active:scale-[0.985] cursor-pointer"
           >
             <span>Configure in Visual Builder</span>
             <ArrowRight className="h-3.5 w-3.5" />
-          </a>
+          </Link>
 
           {/* GitHub Link */}
           <a

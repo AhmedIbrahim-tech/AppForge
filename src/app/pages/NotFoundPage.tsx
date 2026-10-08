@@ -41,7 +41,7 @@ export const NotFoundPage: React.FC = () => {
               Back to Home
             </Button>
           </Link>
-          <a href="/#builder">
+          <Link to="/builder">
             <Button
               size="md"
               variant="secondary"
@@ -49,7 +49,7 @@ export const NotFoundPage: React.FC = () => {
             >
               Visual Builder
             </Button>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

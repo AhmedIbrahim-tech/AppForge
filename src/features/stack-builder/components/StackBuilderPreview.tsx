@@ -1,9 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   FolderTree,
   FileCode2,
   Terminal,
   AlertOctagon,
+  BookOpen,
 } from "lucide-react";
 import { useStackBuilderStore } from "@/features/stack-builder/store/stackBuilderStore";
 import { Badge } from "@/shared/components/ui/Badge";
@@ -63,17 +65,27 @@ export const StackBuilderPreview: React.FC = () => {
     >
       <div className="app-container">
         {/* Top Header */}
-        <div className="max-w-2xl mb-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border-subtle bg-surface px-3 py-1 font-mono text-xs font-medium text-text-secondary shadow-xs mb-2">
-            <span className="flex h-2 w-2 rounded-full bg-accent" />
-            <span>Interactive Configurator</span>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border-subtle bg-surface px-3 py-1 font-mono text-xs font-medium text-text-secondary shadow-xs mb-2">
+              <span className="flex h-2 w-2 rounded-full bg-accent" />
+              <span>Interactive Configurator</span>
+            </div>
+            <h2 className="text-2xl font-bold tracking-tight text-text-primary sm:text-3xl font-heading">
+              Visual Stack Builder
+            </h2>
+            <p className="mt-1.5 text-xs sm:text-sm text-text-secondary leading-relaxed font-sans">
+              Configure your application stack with verified architectural compatibility and export a reproducible CLI command.
+            </p>
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-text-primary sm:text-3xl font-heading">
-            Visual Stack Builder
-          </h2>
-          <p className="mt-1.5 text-xs sm:text-sm text-text-secondary leading-relaxed font-sans">
-            Configure your application stack with verified architectural compatibility and export a reproducible CLI command.
-          </p>
+
+          <Link
+            to="/docs/stack-builder"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-border-subtle bg-surface px-3 py-1.5 text-xs font-medium text-text-secondary hover:text-accent hover:border-accent/40 transition-colors shadow-xs shrink-0 self-start sm:self-end"
+          >
+            <BookOpen className="h-3.5 w-3.5 text-accent" />
+            <span>How Stack Builder works &rarr;</span>
+          </Link>
         </div>
 
         {/* Preset Selector */}
